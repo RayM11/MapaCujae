@@ -12,7 +12,6 @@ public class Universidad {
 	private LinkedGraph mapa;
 	private Visitante visitante;
 	private String rector;
-	private String atributoDePrueba;
 	
 	private Universidad(){
 		datFile = new File("grafo.dat");
@@ -34,9 +33,5 @@ public class Universidad {
 				lugaresEncontrados.add(lugarActual);
 		
 		return lugaresEncontrados;
-	}
-	
-	public boolean pruebaloca(){
-		return true;
 	}
 }
