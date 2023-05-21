@@ -35,4 +35,8 @@ public class Universidad {
 		
 		return lugaresEncontrados;
 	}
+	
+	public boolean pruebaloca(){
+		return true;
+	}
 }
