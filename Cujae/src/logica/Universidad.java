@@ -34,4 +34,9 @@ public class Universidad {
 		
 		return lugaresEncontrados;
 	}
+	
+	public void rar(){
+		
+	}
 }
+
