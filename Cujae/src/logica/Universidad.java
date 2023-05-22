@@ -12,6 +12,7 @@ public class Universidad {
 	private LinkedGraph mapa;
 	private Visitante visitante;
 	private String rector;
+	private String sexo;
 	
 	private Universidad(){
 		datFile = new File("grafo.dat");
