@@ -24,10 +24,13 @@ public class MapPanelFX extends Pane {
     private Canvas canvas;
     private ArrayList<LabelDeLugar> puntos;
     private LugarDeInteres lugarSeleccionado;
+    private boolean destinoDeRuta;
 
     public MapPanelFX(LinkedGraph mapa) {
     	
+    	destinoDeRuta = false;
     	lugarSeleccionado = null;
+    	
         // Crea un nuevo objeto Canvas, establece su tamaño y obtiene el ccontexto gráfico
         canvas = new Canvas(800, 600);
         canvas.setStyle("-fx-background-color: white;");
@@ -41,7 +44,7 @@ public class MapPanelFX extends Pane {
         while (iter.hasNext()){
         	
         	Vertex verticeActual = (Vertex) iter.next();
-        	dibujarArista(verticeActual);
+        	dibujarAristas(verticeActual);
         	
         	if (verticeActual.getInfo() instanceof LugarDeInteres){
         		
@@ -61,7 +64,26 @@ public class MapPanelFX extends Pane {
     	return lugarSeleccionado;
     }
     
-    public void dibujarArista(Vertex vertice) {
+    public void dibujarRuta(LinkedList<Vertex> vertices){
+    	
+    	GraphicsContext gc = canvas.getGraphicsContext2D();
+        gc.setLineWidth(2);
+        gc.setStroke(Color.RED);
+        
+    	Iterator<Vertex> iter = vertices.iterator();
+    	
+    	Coordenadas inicio = ((Lugar)iter.next().getInfo()).getCoordenadas();
+    	
+    	while (iter.hasNext()){
+    		
+    		Coordenadas fin = ((Lugar)iter.next().getInfo()).getCoordenadas();
+    		gc.strokeLine(inicio.getX(), inicio.getY(), fin.getX(), fin.getY());
+    		inicio = fin;
+    		
+    	}
+    }
+    
+    public void dibujarAristas(Vertex vertice) {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.setLineWidth(2);
         gc.setStroke(Color.WHITE);
@@ -76,6 +98,16 @@ public class MapPanelFX extends Pane {
         	
         	gc.strokeLine(inicio.getX(), inicio.getY(), fin.getX(), fin.getY());
         }   
+    }
+    
+    public void activarSeleccionDestino(){
+    	destinoDeRuta = true;
+    }
+    public void desactivarSeleccionDestino(){
+    	destinoDeRuta = false;
+    }
+    public boolean esperandoDestino(){
+    	return destinoDeRuta;
     }
 
     // Método para obtener el componente compatible con swing
