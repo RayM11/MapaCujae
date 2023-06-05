@@ -31,11 +31,11 @@ public class MapPanelFX extends Pane {
     	destinoDeRuta = false;
     	lugarSeleccionado = null;
     	
-        // Crea un nuevo objeto Canvas, establece su tamaño y obtiene el ccontexto gráfico
+        // Crea un nuevo objeto Canvas, establece su tamaño y obtiene el contexto gráfico
         canvas = new Canvas(800, 600);
         canvas.setStyle("-fx-background-color: white;");
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.setFill(Color.GREEN); //para q halla un fondo provisional
+        gc.setFill(Color.GREEN); //para q haya un fondo provisional
         
         // """""""Carga el mapa"""""""
         LinkedList<Vertex> lugares = mapa.getVerticesList();

@@ -31,7 +31,7 @@ public class LabelDeLugar extends Label {
 							((LabelDeLugar)node).deseleccionar();
 					}
 				else{
-					//--> 	Llama a la función del distra con el ((MapPanelFX) getParent()).getLugarSeleccionado y el lugar de este label
+					//--> 	Llama a la función del dijkstra con el ((MapPanelFX) getParent()).getLugarSeleccionado y el lugar de este label
 					//--> 	Le pasa el resultado a ((MapPanelFX) getParent()).dibujarRuta(listaDeVerticesDelCaminoMasCorto)
 					((MapPanelFX) getParent()).desactivarSeleccionDestino();
 				}
