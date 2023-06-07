@@ -3,23 +3,19 @@ package logica;
 public class LugarDeInteres extends Lugar{
 
 	private static final long serialVersionUID = 1L;
-	private String nombre;
-	private String descripcion;
-	private String anotaciones;
+	protected String nombre;
+	protected String descripcion;
+	protected String anotaciones;
+	protected String fotoPortada;
 	
-	public LugarDeInteres(String id, float x, float y, String foto, String nombre, String descripcion) {
-		super(id, x, y, foto);
-		this.nombre = nombre;
-		this.descripcion = descripcion;
-		this.anotaciones = "";
-	}
-/*	public LugarDeInteres(String id, float x, float y, String foto, String nombre, String descripcion, String anotaciones){
-		super(id, x, y, foto);
+	public LugarDeInteres(String id, float x, float y, String foto, String fotoReverso, String nombre, String descripcion, String anotaciones,String fotoPortada) {
+		super(id, x, y, foto, fotoReverso);
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.anotaciones = anotaciones;
+		this.fotoPortada = fotoPortada;
 	}
-	*/
+	
 	public String getAnotaciones() {
 		return anotaciones;
 	}
@@ -31,6 +27,15 @@ public class LugarDeInteres extends Lugar{
 	}
 	public String getDescripcion() {
 		return descripcion;
+	}
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+	public String getFotoPortada() {
+		return fotoPortada;
+	}
+	public void setFotoPortada(String fotoPortada) {
+		this.fotoPortada = fotoPortada;
 	}
 	
 	
