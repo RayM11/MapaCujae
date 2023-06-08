@@ -103,5 +103,19 @@ public class PantallaMapa extends JFrame {
 		botonAjustePantallaMapa.setIcon(new ImageIcon(PantallaMapa.class.getResource("/texturas/Ajustes.png")));
 		botonAjustePantallaMapa.setBounds(10, 11, 40, 31);
 		contentPane.add(botonAjustePantallaMapa);
+		
+		JButton button = new JButton("?");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				AcercaDe iS = new AcercaDe(PantallaMapa.this);
+				iS.setVisible(true);
+				setEnabled(false);
+				
+			}
+		});
+		button.setFont(new Font("Arial Black", Font.PLAIN, 12));
+		button.setBounds(60, 11, 40, 31);
+		contentPane.add(button);
 	}
 }

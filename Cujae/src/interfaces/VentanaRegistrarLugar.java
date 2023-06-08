@@ -1,26 +1,27 @@
 package interfaces;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+
 import java.awt.Font;
+
 import javax.swing.JCheckBox;
 import javax.swing.JTextField;
 import javax.swing.JSeparator;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextArea;
+
 import java.awt.FlowLayout;
+
 import javax.swing.JButton;
-import javax.swing.JScrollPane;
 
 public class VentanaRegistrarLugar extends JFrame {
 
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textField;
 	private JTextField textField_1;
@@ -126,8 +127,8 @@ public class VentanaRegistrarLugar extends JFrame {
 		lblAnotaciones.setBounds(430, 271, 126, 23);
 		contentPane.add(lblAnotaciones);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Universidad", "Facultad"}));
+		JComboBox<Object> comboBox = new JComboBox<Object>();
+		comboBox.setModel(new DefaultComboBoxModel<Object>(new String[] {"Universidad", "Facultad"}));
 		comboBox.setBounds(20, 272, 126, 23);
 		contentPane.add(comboBox);
 		

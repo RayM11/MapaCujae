@@ -4,10 +4,14 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import javax.swing.ImageIcon;
+
 import java.awt.Font;
+
 import javax.swing.JLabel;
 
 public class PantallaMenuEsqueleto extends JFrame {
@@ -79,6 +83,14 @@ public class PantallaMenuEsqueleto extends JFrame {
 		contentPane.add(botonSalirPantallaInicio);
 		
 		JButton buttonAcercaDe = new JButton("?");
+		buttonAcercaDe.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				AcercaDe iS = new AcercaDe(PantallaMenuEsqueleto.this);
+				iS.setVisible(true);
+				setEnabled(false);
+			}
+		});
 		buttonAcercaDe.setFont(new Font("Arial Black", Font.PLAIN, 18));
 		buttonAcercaDe.setBounds(324, 168, 65, 41);
 		contentPane.add(buttonAcercaDe);
