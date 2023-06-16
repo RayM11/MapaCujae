@@ -13,16 +13,17 @@ import java.awt.Font;
 
 import javax.swing.JTextArea;
 
+import auxiliar.Configuracion;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JLabel;
 
 public class AcercaDe extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 
-	public AcercaDe(final JFrame ventanaAnterior) {
+	public AcercaDe(final JFrame ventanaAnterior, Configuracion configActual) {
 		setResizable(false);
 		setTitle("Acerca de...");
 		setBounds(100, 100, 561, 420);

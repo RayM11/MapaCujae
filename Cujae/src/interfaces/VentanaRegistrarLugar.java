@@ -9,185 +9,292 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 
 import javax.swing.JCheckBox;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JSeparator;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextArea;
+import javax.swing.SwingUtilities;
 
 import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 
+import auxiliar.Configuracion;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
 public class VentanaRegistrarLugar extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
+	private JTextField textFieldID;
+	private JTextField textFieldFoto;
+	private JTextField textFieldFotoReversa;
+	private JTextField textFieldDecano;
+	private JTextField textFieldVicedecano;
+	private JTextField textFieldNombre;
+	private JLabel lblNewLabel;
+	private JCheckBox chckbxNewCheckBox;
+	private JLabel lblID;
+	private JPanel panelConfirmacion;
+	private JButton buttonConfirmacion;
+	private JButton buttonCancelar;
+	private JPanel panelLugarInteres;
+	private JTextArea textAreaDescripcion;
+	private JTextArea textAreaAnotaciones;
+	private JPanel panelCamposEspecificos;
+	private JPanel panelComboBox;
+	private JComboBox<Object> comboBox;
 
-	
-	public VentanaRegistrarLugar() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 698, 500);
+	public void configurarPanelLugarInteres(boolean check){
+		
+		panelLugarInteres.removeAll();
+		panelComboBox.removeAll();
+
+		if(check){
+			
+			comboBox = new JComboBox<Object>();
+			comboBox.setModel(new DefaultComboBoxModel<Object>(new String[] {"General", "Facultad", "Cafeter\u00EDa"}));
+			comboBox.setSelectedIndex(0);
+			comboBox.setBounds(0, 11, 126, 23);
+			comboBox.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					String tipo = comboBox.getSelectedItem().toString();
+					crearCamposEspecificos(tipo);
+					SwingUtilities.updateComponentTreeUI(panelCamposEspecificos);
+					textFieldDecano.setBorder(null);
+					textFieldVicedecano.setBorder(null);
+					textFieldNombre.setBorder(null);
+					
+				}
+			});
+			panelComboBox.add(comboBox);
+			
+			JSeparator separator_3 = new JSeparator();
+			separator_3.setBounds(10, 45, 242, 2);
+			panelLugarInteres.add(separator_3);
+
+			textFieldNombre = new JTextField();
+			textFieldNombre.setOpaque(false);
+			textFieldNombre.setFont(new Font("Tahoma", Font.PLAIN, 13));
+			textFieldNombre.setColumns(10);
+			textFieldNombre.setBorder(null);
+			textFieldNombre.setBounds(20, 27, 232, 20);
+			panelLugarInteres.add(textFieldNombre);
+
+			JLabel labelNombre = new JLabel("Nombre:");
+			labelNombre.setFont(new Font("Tahoma", Font.PLAIN, 13));
+			labelNombre.setBounds(10, 11, 126, 23);
+			panelLugarInteres.add(labelNombre);
+
+			textAreaDescripcion = new JTextArea();
+			textAreaDescripcion.setLineWrap(true);
+			textAreaDescripcion.setBounds(10, 110, 255, 177);
+			panelLugarInteres.add(textAreaDescripcion);
+
+			JLabel labelDescripcion = new JLabel("Descripci\u00F3n:");
+			labelDescripcion.setFont(new Font("Tahoma", Font.PLAIN, 13));
+			labelDescripcion.setBounds(10, 76, 126, 23);
+			panelLugarInteres.add(labelDescripcion);
+
+			textAreaAnotaciones = new JTextArea();
+			textAreaAnotaciones.setLineWrap(true);
+			textAreaAnotaciones.setBounds(10, 332, 255, 207);
+			panelLugarInteres.add(textAreaAnotaciones);
+
+			JLabel labelAnotaciones = new JLabel("Anotaciones:");
+			labelAnotaciones.setFont(new Font("Tahoma", Font.PLAIN, 13));
+			labelAnotaciones.setBounds(10, 298, 126, 23);
+			panelLugarInteres.add(labelAnotaciones);
+			
+		}
+		else
+			panelCamposEspecificos.removeAll();
+		
+		panelLugarInteres.revalidate();
+		contentPane.revalidate();
+
+	}
+
+	private void crearCamposEspecificos(String tipo){
+
+
+		panelCamposEspecificos.removeAll();
+
+		if(tipo.equalsIgnoreCase("Facultad")){
+			JLabel labelDecano = new JLabel("Decano:");
+			labelDecano.setFont(new Font("Tahoma", Font.PLAIN, 13));
+			labelDecano.setBounds(10, 49, 126, 23);
+			panelCamposEspecificos.add(labelDecano);
+
+			JSeparator separator_4 = new JSeparator();
+			separator_4.setBounds(10, 90, 242, 2);
+			panelCamposEspecificos.add(separator_4);
+
+			textFieldDecano = new JTextField();
+			textFieldDecano.setOpaque(false);
+			textFieldDecano.setFont(new Font("Tahoma", Font.PLAIN, 13));
+			textFieldDecano.setColumns(10);
+			textFieldDecano.setBorder(null);
+			textFieldDecano.setBounds(20, 72, 232, 20);
+			panelCamposEspecificos.add(textFieldDecano);
+
+			JSeparator separator_5 = new JSeparator();
+			separator_5.setBounds(10, 212, 242, 2);
+			panelCamposEspecificos.add(separator_5);
+
+			textFieldVicedecano = new JTextField();
+			textFieldVicedecano.setOpaque(false);
+			textFieldVicedecano.setFont(new Font("Tahoma", Font.PLAIN, 13));
+			textFieldVicedecano.setColumns(10);
+			textFieldVicedecano.setBorder(null);
+			textFieldVicedecano.setBounds(20, 194, 232, 20);
+			panelCamposEspecificos.add(textFieldVicedecano);
+
+			JLabel labelVicedecano = new JLabel("Vicedecano:");
+			labelVicedecano.setFont(new Font("Tahoma", Font.PLAIN, 13));
+			labelVicedecano.setBounds(10, 173, 126, 23);
+			panelCamposEspecificos.add(labelVicedecano);
+		}
+		
+		panelComboBox.revalidate();
+		panelCamposEspecificos.revalidate();
+
+
+	}
+
+	public VentanaRegistrarLugar(final JFrame ventanaAnterior , final Configuracion configActual) {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setBounds(100, 100, 698, 700);
+
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-		JLabel lblNewLabel = new JLabel("Nuevo Lugar");
+
+		lblNewLabel = new JLabel("Nuevo Lugar");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setBounds(10, 11, 177, 38);
 		contentPane.add(lblNewLabel);
 		
-		JCheckBox chckbxNewCheckBox = new JCheckBox("De inter\u00E9s");
+		panelComboBox = new JPanel();
+		panelComboBox.setBorder(null);
+		panelComboBox.setBounds(20, 251, 275, 44);
+		contentPane.add(panelComboBox);
+		panelComboBox.setLayout(null);
+
+		chckbxNewCheckBox = new JCheckBox("De inter\u00E9s");
+		chckbxNewCheckBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				boolean check = chckbxNewCheckBox.isSelected();
+				configurarPanelLugarInteres(check);
+				SwingUtilities.updateComponentTreeUI(panelLugarInteres);
+				SwingUtilities.updateComponentTreeUI(panelCamposEspecificos);
+				SwingUtilities.updateComponentTreeUI(panelComboBox);
+				textFieldNombre.setBorder(null);
+				
+			}
+		});
 		chckbxNewCheckBox.setBounds(165, 22, 97, 23);
 		contentPane.add(chckbxNewCheckBox);
-		
-		JLabel lblNewLabel_1 = new JLabel("ID:");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblNewLabel_1.setBounds(20, 78, 126, 23);
-		contentPane.add(lblNewLabel_1);
-		
-		textField = new JTextField();
-		textField.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		textField.setBorder(null);
-		textField.setOpaque(false);
-		textField.setBounds(30, 94, 232, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
-		
+
+		lblID = new JLabel("ID:");
+		lblID.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblID.setBounds(20, 78, 126, 23);
+		contentPane.add(lblID);
+
+		textFieldID = new JTextField();
+		textFieldID.setBorder(null);
+		textFieldID.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		textFieldID.setOpaque(false);
+		textFieldID.setBounds(30, 94, 232, 20);
+		contentPane.add(textFieldID);
+		textFieldID.setColumns(10);
+
 		JSeparator separator = new JSeparator();
 		separator.setBounds(20, 112, 242, 2);
 		contentPane.add(separator);
-		
+
 		JSeparator separator_1 = new JSeparator();
 		separator_1.setBounds(20, 177, 242, 2);
 		contentPane.add(separator_1);
-		
-		textField_1 = new JTextField();
-		textField_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		textField_1.setOpaque(false);
-		textField_1.setColumns(10);
-		textField_1.setBorder(null);
-		textField_1.setBounds(30, 159, 232, 20);
-		contentPane.add(textField_1);
-		
+
+		textFieldFoto = new JTextField();
+		textFieldFoto.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		textFieldFoto.setOpaque(false);
+		textFieldFoto.setColumns(10);
+		textFieldFoto.setBorder(null);
+		textFieldFoto.setBounds(30, 159, 232, 20);
+		contentPane.add(textFieldFoto);
+
 		JLabel lblUrlFoto = new JLabel("URL Foto:");
 		lblUrlFoto.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblUrlFoto.setBounds(20, 143, 126, 23);
 		contentPane.add(lblUrlFoto);
-		
+
 		JSeparator separator_2 = new JSeparator();
 		separator_2.setBounds(20, 242, 242, 2);
 		contentPane.add(separator_2);
-		
-		textField_2 = new JTextField();
-		textField_2.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		textField_2.setOpaque(false);
-		textField_2.setColumns(10);
-		textField_2.setBorder(null);
-		textField_2.setBounds(30, 224, 232, 20);
-		contentPane.add(textField_2);
-		
+
+		textFieldFotoReversa = new JTextField();
+		textFieldFotoReversa.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		textFieldFotoReversa.setOpaque(false);
+		textFieldFotoReversa.setColumns(10);
+		textFieldFotoReversa.setBorder(null);
+		textFieldFotoReversa.setBounds(30, 224, 232, 20);
+		contentPane.add(textFieldFotoReversa);
+
 		JLabel lblUrlFotoReversa = new JLabel("URL Foto Reversa:");
 		lblUrlFotoReversa.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblUrlFotoReversa.setBounds(20, 208, 126, 23);
 		contentPane.add(lblUrlFotoReversa);
 		
-		JLabel lblNombre = new JLabel("Nombre:");
-		lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblNombre.setBounds(430, 78, 126, 23);
-		contentPane.add(lblNombre);
-		
-		textField_3 = new JTextField();
-		textField_3.setOpaque(false);
-		textField_3.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		textField_3.setColumns(10);
-		textField_3.setBorder(null);
-		textField_3.setBounds(440, 94, 232, 20);
-		contentPane.add(textField_3);
-		
-		JSeparator separator_3 = new JSeparator();
-		separator_3.setBounds(430, 112, 242, 2);
-		contentPane.add(separator_3);
-		
-		JLabel lblDescripcin = new JLabel("Descripci\u00F3n:");
-		lblDescripcin.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblDescripcin.setBounds(430, 143, 126, 23);
-		contentPane.add(lblDescripcin);
-		
-		JLabel lblAnotaciones = new JLabel("Anotaciones:");
-		lblAnotaciones.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblAnotaciones.setBounds(430, 271, 126, 23);
-		contentPane.add(lblAnotaciones);
-		
-		JComboBox<Object> comboBox = new JComboBox<Object>();
-		comboBox.setModel(new DefaultComboBoxModel<Object>(new String[] {"Universidad", "Facultad"}));
-		comboBox.setBounds(20, 272, 126, 23);
-		contentPane.add(comboBox);
-		
-		JTextArea textArea_1 = new JTextArea();
-		textArea_1.setLineWrap(true);
-		textArea_1.setBounds(430, 305, 242, 87);
-		contentPane.add(textArea_1);
-		
-		JSeparator separator_4 = new JSeparator();
-		separator_4.setBounds(20, 340, 242, 2);
-		contentPane.add(separator_4);
-		
-		textField_4 = new JTextField();
-		textField_4.setOpaque(false);
-		textField_4.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		textField_4.setColumns(10);
-		textField_4.setBorder(null);
-		textField_4.setBounds(30, 322, 232, 20);
-		contentPane.add(textField_4);
-		
-		JLabel lblDeca = new JLabel("Decano:");
-		lblDeca.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblDeca.setBounds(20, 306, 126, 23);
-		contentPane.add(lblDeca);
-		
-		JSeparator separator_5 = new JSeparator();
-		separator_5.setBounds(20, 387, 242, 2);
-		contentPane.add(separator_5);
-		
-		textField_5 = new JTextField();
-		textField_5.setOpaque(false);
-		textField_5.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		textField_5.setColumns(10);
-		textField_5.setBorder(null);
-		textField_5.setBounds(30, 369, 232, 20);
-		contentPane.add(textField_5);
-		
-		JLabel lblVicedecano = new JLabel("Vicedecano:");
-		lblVicedecano.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblVicedecano.setBounds(20, 353, 126, 23);
-		contentPane.add(lblVicedecano);
-		
-		JPanel panel = new JPanel();
-		panel.setBounds(10, 417, 662, 33);
-		contentPane.add(panel);
-		panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		
-		JButton button = new JButton("OK");
-		button.setActionCommand("OK");
-		panel.add(button);
-		
-		JButton button_1 = new JButton("Cancel");
-		button_1.setActionCommand("Cancel");
-		panel.add(button_1);
-		
-		
-		JTextArea textArea = new JTextArea();
-		textArea.setLineWrap(true);
-		textArea.setBounds(430, 177, 242, 87);
-		contentPane.add(textArea);
+		panelLugarInteres = new JPanel();
+		panelLugarInteres.setVisible(true);
+		panelLugarInteres.setBorder(null);
+		panelLugarInteres.setBounds(397, 53, 275, 553);
+		contentPane.add(panelLugarInteres);
+		panelLugarInteres.setLayout(null);
+
+		panelCamposEspecificos = new JPanel();
+		panelCamposEspecificos.setBounds(10, 306, 377, 300);
+		panelCamposEspecificos.setLayout(null);
+		contentPane.add(panelCamposEspecificos);
+
+		panelConfirmacion = new JPanel();
+		panelConfirmacion.setBounds(10, 617, 662, 33);
+		contentPane.add(panelConfirmacion);
+		panelConfirmacion.setLayout(new FlowLayout(FlowLayout.RIGHT));
+
+		buttonConfirmacion = new JButton("Aceptar");
+		buttonConfirmacion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		panelConfirmacion.add(buttonConfirmacion);
+
+		buttonCancelar = new JButton("Cancelar");
+		buttonCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				int opcion = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea regresar? Los datos no se guardarán", "Aviso",0);
+				if(opcion == 0){
+					ventanaAnterior.setEnabled(true);
+					ventanaAnterior.setVisible(true);
+					dispose();
+				}
+				
+			}
+		});
+		panelConfirmacion.add(buttonCancelar);
+
 	}
 }

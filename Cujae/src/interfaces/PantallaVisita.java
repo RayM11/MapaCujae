@@ -4,8 +4,13 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
+
 import java.awt.Font;
+
 import javax.swing.ImageIcon;
+
+import auxiliar.Configuracion;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -14,7 +19,7 @@ public class PantallaVisita extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
-	public PantallaVisita(final JFrame pantallaAnterior) {
+	public PantallaVisita(final JFrame pantallaAnterior, Configuracion configActual) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 739, 523);
 		contentPane = new JPanel();

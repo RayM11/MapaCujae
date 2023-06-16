@@ -8,24 +8,29 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+import auxiliar.Configuracion;
+
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class InicioSesion extends JDialog {
+public class InicioSesion extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textField;
 	private JPasswordField passwordField;
 
-	
-	public InicioSesion(final JFrame pantallaMenuEsqueleto) {
+
+	public InicioSesion(final JFrame pantallaAnterior, final Configuracion configActual) {
+		setType(Type.POPUP);
+		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		setTitle("Login");
 		setBounds(100, 100, 371, 237);
 		getContentPane().setLayout(new BorderLayout());
@@ -38,23 +43,23 @@ public class InicioSesion extends JDialog {
 			contentPanel.add(textField);
 			textField.setColumns(10);
 		}
-		
+
 		passwordField = new JPasswordField();
 		passwordField.setBounds(136, 108, 166, 20);
 		contentPanel.add(passwordField);
-		
+
 		JLabel lblNewLabel = new JLabel("Introduzca sus credenciales");
 		lblNewLabel.setFont(new Font("Arial Black", Font.PLAIN, 14));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setBounds(56, 24, 246, 20);
 		contentPanel.add(lblNewLabel);
-		
+
 		JLabel lblNewLabel_1 = new JLabel("Nombre");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1.setBounds(56, 66, 80, 14);
 		contentPanel.add(lblNewLabel_1);
-		
+
 		JLabel lblContrasea = new JLabel("Contrase\u00F1a");
 		lblContrasea.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblContrasea.setHorizontalAlignment(SwingConstants.CENTER);
@@ -68,11 +73,19 @@ public class InicioSesion extends JDialog {
 				JButton okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						
-						pantallaMenuEsqueleto.setEnabled(true);
-						pantallaMenuEsqueleto.setVisible(true);
-						dispose();
-						
+
+						boolean credencialesOK = true;
+
+						if(credencialesOK){
+							configActual.setEsAdmin(true);
+							PantallaMapa pM = new PantallaMapa(InicioSesion.this, configActual);
+							pM.setVisible(true);
+							pantallaAnterior.dispose();
+							dispose();
+						}
+						else
+							JOptionPane.showMessageDialog(null, "Los credenciales no son correctos");
+
 					}
 				});
 				okButton.setActionCommand("OK");
@@ -83,11 +96,11 @@ public class InicioSesion extends JDialog {
 				JButton cancelButton = new JButton("Cancel");
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						
-						pantallaMenuEsqueleto.setEnabled(true);
-						pantallaMenuEsqueleto.setVisible(true);
+
+						pantallaAnterior.setEnabled(true);
+						pantallaAnterior.setVisible(true);
 						dispose();
-						
+
 					}
 				});
 				cancelButton.setActionCommand("Cancel");

@@ -8,7 +8,6 @@ import java.util.LinkedList;
 import auxiliar.Dijkstra;
 import auxiliar.MarcadorDijkstra;
 import cu.edu.cujae.ceis.graph.LinkedGraph;
-import cu.edu.cujae.ceis.graph.edge.Edge;
 import cu.edu.cujae.ceis.graph.vertex.Vertex;
 
 public class Universidad {

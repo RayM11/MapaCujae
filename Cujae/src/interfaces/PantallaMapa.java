@@ -15,107 +15,145 @@ import java.awt.Color;
 
 import javax.swing.ImageIcon;
 
+import auxiliar.Configuracion;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.TextArea;
+
+import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.SwingConstants;
 
 public class PantallaMapa extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
-	public PantallaMapa(final JFrame pantallaAnterior) {
+	public PantallaMapa(final JFrame pantallaAnterior, final Configuracion configActual) {
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 846, 569);
+		setBounds(100, 100, 900, 700);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		JPanel panelContenedorOpciones = new JPanel();
-		panelContenedorOpciones.setBounds(10, 63, 220, 436);
+		panelContenedorOpciones.setBounds(10, 63, 237, 597);
 		panelContenedorOpciones.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
 		contentPane.add(panelContenedorOpciones);
 		panelContenedorOpciones.setLayout(null);
-		
-		JPanel panel = new JPanel();
-		panel.setBounds(10, 177, 200, 230);
-		panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		panelContenedorOpciones.add(panel);
-		panel.setLayout(null);
-		
-		JButton botónVisitarPantallaMapa = new JButton("Visitar");
-		botónVisitarPantallaMapa.addActionListener(new ActionListener() {
+
+		JTextArea txtAreaDescripcion = new JTextArea();
+		txtAreaDescripcion.setText("Aqui va una breve descripci\u00F3n del lugar");
+		txtAreaDescripcion.setWrapStyleWord(true);
+		txtAreaDescripcion.setLineWrap(true);
+		txtAreaDescripcion.setFont(new Font("Tahoma", Font.PLAIN, configActual.getTamanoFuente()));
+		txtAreaDescripcion.setEditable(false);
+		txtAreaDescripcion.setBounds(10, 241, 217, 345);
+		panelContenedorOpciones.add(txtAreaDescripcion);
+
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setBounds(10, 11, 217, 181);
+		panelContenedorOpciones.add(lblNewLabel);
+
+		JLabel labelNombreLugar = new JLabel("Nombre de lugar");
+		labelNombreLugar.setFont(new Font("Tahoma", Font.PLAIN, configActual.getTamanoFuente()));
+		labelNombreLugar.setHorizontalAlignment(SwingConstants.CENTER);
+		labelNombreLugar.setBounds(10, 203, 217, 32);
+		panelContenedorOpciones.add(labelNombreLugar);
+
+		JPanel panelContenedorMapa = new JPanel();
+		panelContenedorMapa.setBounds(257, 63, 627, 597);
+		panelContenedorMapa.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
+		contentPane.add(panelContenedorMapa);
+		panelContenedorMapa.setLayout(null);
+
+		JMenuBar menuBar = new JMenuBar();
+		menuBar.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+		menuBar.setBounds(0, 0, 884, 21);
+		contentPane.add(menuBar);
+
+		JMenu mnMenu = new JMenu("Men\u00FA");
+		mnMenu.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+		menuBar.add(mnMenu);
+
+		JMenuItem mntmVolver = new JMenuItem("Volver");
+		mntmVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				PantallaVisita pV = new PantallaVisita(PantallaMapa.this);
-				pV.setVisible(true);
-				setEnabled(false);
-				
-			}
-		});
-		botónVisitarPantallaMapa.setFont(new Font("Tahoma", Font.BOLD, 13));
-		botónVisitarPantallaMapa.setBounds(25, 59, 153, 23);
-		panel.add(botónVisitarPantallaMapa);
-		
-		JButton botonInformaciónPantallaMpa = new JButton("M\u00E1s Informaci\u00F3n");
-		botonInformaciónPantallaMpa.setFont(new Font("Tahoma", Font.BOLD, 13));
-		botonInformaciónPantallaMpa.setBounds(25, 101, 153, 23);
-		panel.add(botonInformaciónPantallaMpa);
-		
-		JButton botonRutaViajePantallaMapa = new JButton("Ruta de Viaje");
-		botonRutaViajePantallaMapa.setFont(new Font("Tahoma", Font.BOLD, 13));
-		botonRutaViajePantallaMapa.setBounds(25, 138, 153, 23);
-		panel.add(botonRutaViajePantallaMapa);
-		
-		JButton botonMenúPantallaMapa = new JButton("Men\u00FA");
-		botonMenúPantallaMapa.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
+
 				pantallaAnterior.setEnabled(true);
 				pantallaAnterior.setVisible(true);
 				dispose();
-				
+
+
 			}
 		});
-		botonMenúPantallaMapa.setFont(new Font("Tahoma", Font.BOLD, 13));
-		botonMenúPantallaMapa.setBounds(25, 172, 153, 23);
-		panel.add(botonMenúPantallaMapa);
-		
-		JLabel lblNewLabel = new JLabel("aqu\u00ED sale una brebe descripci\u00F3n del lugar");
-		lblNewLabel.setBounds(10, 11, 200, 155);
-		panelContenedorOpciones.add(lblNewLabel);
-		
-		JPanel panelContenedorMapa = new JPanel();
-		panelContenedorMapa.setBounds(240, 63, 569, 436);
-		panelContenedorMapa.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
-		contentPane.add(panelContenedorMapa);
-		
-		JButton botonAjustePantallaMapa = new JButton("");
-		botonAjustePantallaMapa.addActionListener(new ActionListener() {
+		mnMenu.add(mntmVolver);
+
+		JMenu mnAcciones = new JMenu("Acciones");
+		menuBar.add(mnAcciones);
+
+		JMenuItem mntmCrere = new JMenuItem("Crear Nuevo Lugar");
+		mntmCrere.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				PantallaAjustes pA = new PantallaAjustes(PantallaMapa.this);
+
+				VentanaRegistrarLugar vRL = new VentanaRegistrarLugar(PantallaMapa.this, configActual);
+				vRL.setVisible(true);
+				setEnabled(false);
+
+			}
+		});
+		mnAcciones.add(mntmCrere);
+
+		JMenuItem mntmMostrarInformacion = new JMenuItem("Mostrar Informaci\u00F3n");
+		mnAcciones.add(mntmMostrarInformacion);
+
+		JMenuItem mntmVisitarLugar = new JMenuItem("Visitar Lugar");
+		mntmVisitarLugar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				PantallaVisita pV = new PantallaVisita(PantallaMapa.this, configActual);
+				pV.setVisible(true);
+				setEnabled(false);
+
+			}
+		});
+		mnAcciones.add(mntmVisitarLugar);
+
+		JMenuItem mntmRutaMsCorta = new JMenuItem("Ruta m\u00E1s corta");
+		mnAcciones.add(mntmRutaMsCorta);
+
+		JMenu mnMisc = new JMenu("Misc");
+		menuBar.add(mnMisc);
+
+		JMenuItem mntmAjustes = new JMenuItem("Ajustes");
+		mntmAjustes.setIcon(new ImageIcon(PantallaMapa.class.getResource("/texturas/Ajustes.png")));
+		mntmAjustes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				PantallaAjustes pA = new PantallaAjustes(PantallaMapa.this, configActual);
 				pA.setVisible(true);
 				setEnabled(false);
-				
+
 			}
 		});
-		botonAjustePantallaMapa.setIcon(new ImageIcon(PantallaMapa.class.getResource("/texturas/Ajustes.png")));
-		botonAjustePantallaMapa.setBounds(10, 11, 40, 31);
-		contentPane.add(botonAjustePantallaMapa);
-		
-		JButton button = new JButton("?");
-		button.addActionListener(new ActionListener() {
+		mnMisc.add(mntmAjustes);
+
+		JMenuItem mntmAyuda = new JMenuItem("Ayuda");
+		mntmAyuda.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				AcercaDe iS = new AcercaDe(PantallaMapa.this);
+
+				AcercaDe iS = new AcercaDe(PantallaMapa.this, configActual);
 				iS.setVisible(true);
 				setEnabled(false);
-				
+
 			}
 		});
-		button.setFont(new Font("Arial Black", Font.PLAIN, 12));
-		button.setBounds(60, 11, 40, 31);
-		contentPane.add(button);
+		mnMisc.add(mntmAyuda);
 	}
 }
