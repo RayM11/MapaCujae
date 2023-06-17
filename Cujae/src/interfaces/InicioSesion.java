@@ -15,10 +15,12 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 import auxiliar.Configuracion;
+import auxiliar.Usuario;
 
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 
 public class InicioSesion extends JFrame {
 
@@ -27,6 +29,26 @@ public class InicioSesion extends JFrame {
 	private JTextField textField;
 	private JPasswordField passwordField;
 
+	
+	private boolean credencialesOK(){
+		boolean ok = false;
+		Usuario usuario = new Usuario();
+		usuario.leerCredencialesEncriptados();
+
+		try {
+			String userNombre = usuario.getNombre();
+			String userPass = usuario.getPass();
+			
+			String contraIntroducida = new String(passwordField.getPassword());
+			
+			if(textField.getText().equals(userNombre) && contraIntroducida.equals(userPass))
+				ok = true;
+
+		} catch (ClassNotFoundException | IOException e) {
+			e.printStackTrace();
+		}
+		return ok;
+	}
 
 	public InicioSesion(final JFrame pantallaAnterior, final Configuracion configActual) {
 		setType(Type.POPUP);
@@ -39,31 +61,33 @@ public class InicioSesion extends JFrame {
 		contentPanel.setLayout(null);
 		{
 			textField = new JTextField();
-			textField.setBounds(136, 63, 166, 20);
+			textField.setFont(new Font("Tahoma", Font.PLAIN, configActual.getTamanoFuente()));
+			textField.setBounds(136, 63, 166, 34);
 			contentPanel.add(textField);
 			textField.setColumns(10);
 		}
 
 		passwordField = new JPasswordField();
-		passwordField.setBounds(136, 108, 166, 20);
+		passwordField.setFont(new Font("Tahoma", Font.PLAIN, configActual.getTamanoFuente()));
+		passwordField.setBounds(136, 108, 166, 30);
 		contentPanel.add(passwordField);
 
 		JLabel lblNewLabel = new JLabel("Introduzca sus credenciales");
-		lblNewLabel.setFont(new Font("Arial Black", Font.PLAIN, 14));
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, configActual.getTamanoFuente()));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(56, 24, 246, 20);
+		lblNewLabel.setBounds(10, 11, 335, 33);
 		contentPanel.add(lblNewLabel);
 
 		JLabel lblNewLabel_1 = new JLabel("Nombre");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, configActual.getTamanoFuente()));
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setBounds(56, 66, 80, 14);
+		lblNewLabel_1.setBounds(21, 66, 115, 27);
 		contentPanel.add(lblNewLabel_1);
 
 		JLabel lblContrasea = new JLabel("Contrase\u00F1a");
-		lblContrasea.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblContrasea.setFont(new Font("Tahoma", Font.PLAIN, configActual.getTamanoFuente()));
 		lblContrasea.setHorizontalAlignment(SwingConstants.CENTER);
-		lblContrasea.setBounds(56, 111, 80, 14);
+		lblContrasea.setBounds(21, 111, 115, 27);
 		contentPanel.add(lblContrasea);
 		{
 			JPanel buttonPane = new JPanel();
@@ -74,9 +98,9 @@ public class InicioSesion extends JFrame {
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 
-						boolean credencialesOK = true;
+						boolean ok = credencialesOK();
 
-						if(credencialesOK){
+						if(ok){
 							configActual.setEsAdmin(true);
 							PantallaMapa pM = new PantallaMapa(InicioSesion.this, configActual);
 							pM.setVisible(true);

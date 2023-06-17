@@ -55,8 +55,9 @@ public class PantallaAjustes extends JFrame {
 				if (opcion == 0){
 					configActual.guardarConfiguracion(tema, (String)comBoxTemaVisual.getSelectedItem(),
 							tamanoFuente, (String)comBoxTamanoFuente.getSelectedItem());
-
 					SwingUtilities.updateComponentTreeUI(pantallaAnterior);
+					if(pantallaAnterior instanceof PantallaMapa)
+						((PantallaMapa) pantallaAnterior).ajustarFuentes(configActual);
 					pantallaAnterior.setVisible(true);
 					pantallaAnterior.setEnabled(true);
 					dispose();
@@ -64,7 +65,7 @@ public class PantallaAjustes extends JFrame {
 			}
 		});
 		botonAceptarAjustes.setFont(new Font("Tahoma", Font.BOLD, 13));
-		botonAceptarAjustes.setBounds(195, 355, 140, 23);
+		botonAceptarAjustes.setBounds(125, 356, 140, 23);
 		contentPane.add(botonAceptarAjustes);
 
 		lblTamanoFuente = new JLabel("Tama\u00F1o de fuente");
@@ -112,6 +113,27 @@ public class PantallaAjustes extends JFrame {
 		labelConfiguracion.setFont(new Font("Tahoma", Font.PLAIN, configActual.getTamanoFuente()));
 		labelConfiguracion.setBounds(83, 11, 380, 50);
 		contentPane.add(labelConfiguracion);
+		
+		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int opcion = JOptionPane.showConfirmDialog(getContentPane(), "¿Está seguro que desea regresar?\nLos cambios realizados no serán guardados",
+						"Aviso",2, JOptionPane.WARNING_MESSAGE);
+				
+				if (opcion == 0){ 
+					try{
+					UIManager.setLookAndFeel(configActual.getTemaLAF());
+					}catch(Throwable e1){
+						e1.printStackTrace();
+					}
+					pantallaAnterior.setVisible(true);
+					dispose();
+				}
+			}
+		});
+		btnCancelar.setFont(new Font("Tahoma", Font.BOLD, 13));
+		btnCancelar.setBounds(333, 356, 140, 23);
+		contentPane.add(btnCancelar);
 	}
 
 	public void cambiarTema(int eleccion){
@@ -166,5 +188,4 @@ public class PantallaAjustes extends JFrame {
 		lblTamanoFuente.setFont(new Font("Tahoma", Font.PLAIN, tamanoFuente));
 		comBoxTamanoFuente.setFont(new Font("Tahoma", Font.PLAIN, tamanoFuente));
 	}
-
 }
