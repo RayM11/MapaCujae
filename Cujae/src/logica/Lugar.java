@@ -37,4 +37,10 @@ public class Lugar implements Serializable{
 		this.fotoReverso = fotoReverso;
 	}
 	
+	public double calcularDistanciaA(double x2, double y2){
+		
+		return Math.sqrt(Math.pow(coordenadas.getX()-x2, 2) + Math.pow(coordenadas.getY()-y2, 2));
+		
+	}
+	
 }
