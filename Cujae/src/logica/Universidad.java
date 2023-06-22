@@ -22,6 +22,8 @@ public class Universidad {
 	private ILinkedWeightedEdgeNotDirectedGraph mapa;
 	private Visitante visitante;
 
+	
+	// coñoooooooooooooo
 	private Universidad(String rector){
 
 		datGrafo = new File("Res/grafo.dat");
