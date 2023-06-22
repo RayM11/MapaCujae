@@ -8,25 +8,34 @@ import java.util.LinkedList;
 import auxiliar.Dijkstra;
 import auxiliar.MarcadorDijkstra;
 import cu.edu.cujae.ceis.graph.LinkedGraph;
+import cu.edu.cujae.ceis.graph.interfaces.ILinkedWeightedEdgeNotDirectedGraph;
 import cu.edu.cujae.ceis.graph.vertex.Vertex;
 
 public class Universidad {
 
 	private static Universidad cujae = null;
 	private File datFile;
-	private LinkedGraph mapa;
+	private ILinkedWeightedEdgeNotDirectedGraph mapa;
 	private Visitante visitante;
 	private String rector;
 
-	private Universidad(){
+	private Universidad(String rector){
+		this.rector = rector;
 		datFile = new File("grafo.dat");
+		mapa = new LinkedGraph();
 	}
 
-	public static Universidad getCujae(){
+	public static Universidad getCujae(String rector){
 
 		if(cujae == null)
-			cujae = new Universidad();
+			cujae = new Universidad(rector);
 		return cujae;
+	}
+	
+	
+
+	public String getRector() {
+		return rector;
 	}
 
 	public ArrayList<LugarDeInteres> busquedaLugares(ArrayList<LugarDeInteres> lugaresDI, String fragmento){

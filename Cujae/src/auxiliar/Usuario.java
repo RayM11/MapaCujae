@@ -16,7 +16,7 @@ public class Usuario {
 	public Usuario(){
 		nombre = new ArrayList<byte[]>();
 		pass = new ArrayList<byte[]>();
-		admin = new File("src/ficheros/admin.dat");
+		admin = new File("Res/admin.dat");
 	}
 
 	public void leerCredencialesEncriptados(){

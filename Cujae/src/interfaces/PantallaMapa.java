@@ -68,7 +68,7 @@ public class PantallaMapa extends JFrame {
 		panelContenedorOpciones.add(txtAreaDescripcion);
 
 		lblFotoLugar = new JLabel("");
-		lblFotoLugar.setBounds(10, 11, 217, 181);
+		lblFotoLugar.setBounds(10, 21, 217, 164);
 		panelContenedorOpciones.add(lblFotoLugar);
 
 		labelNombreLugar = new JLabel("Nombre de lugar");
@@ -161,6 +161,7 @@ public class PantallaMapa extends JFrame {
 		mnMisc.add(mntmAjustes);
 
 		mntmAyuda = new JMenuItem("Ayuda");
+		mntmAyuda.setIcon(new ImageIcon(PantallaMapa.class.getResource("/texturas/signo de pregunta")));
 		mntmAyuda.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 

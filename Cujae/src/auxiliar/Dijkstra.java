@@ -3,17 +3,17 @@ package auxiliar;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import cu.edu.cujae.ceis.graph.LinkedGraph;
 import cu.edu.cujae.ceis.graph.edge.Edge;
 import cu.edu.cujae.ceis.graph.edge.WeightedEdge;
+import cu.edu.cujae.ceis.graph.interfaces.ILinkedWeightedEdgeNotDirectedGraph;
 import cu.edu.cujae.ceis.graph.vertex.Vertex;
 
 public class Dijkstra {
 
-	public static LinkedList<MarcadorDijkstra> dijkstra(LinkedGraph grafo, Vertex partida) throws Exception{
+	public static LinkedList<MarcadorDijkstra> dijkstra(ILinkedWeightedEdgeNotDirectedGraph mapa, Vertex partida) throws Exception{
 
 		LinkedList<Vertex> verticesVisitados = new LinkedList<Vertex>();
-		LinkedList<Vertex> verticesNoVisitados = grafo.getVerticesList();
+		LinkedList<Vertex> verticesNoVisitados = mapa.getVerticesList();
 
 		LinkedList<MarcadorDijkstra> secuenciaDijkstra = new LinkedList<MarcadorDijkstra>();
 

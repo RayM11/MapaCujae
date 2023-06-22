@@ -90,7 +90,8 @@ public class PantallaMenuEsqueleto extends JFrame {
 		botonSalirPantallaInicio.setFont(new Font("Tahoma", Font.BOLD, 17));
 		contentPane.add(botonSalirPantallaInicio);
 
-		JButton buttonAcercaDe = new JButton("?");
+		JButton buttonAcercaDe = new JButton("");
+		buttonAcercaDe.setIcon(new ImageIcon(PantallaMenuEsqueleto.class.getResource("/texturas/signo de pregunta")));
 		buttonAcercaDe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 

@@ -127,6 +127,7 @@ public class PantallaAjustes extends JFrame {
 						e1.printStackTrace();
 					}
 					pantallaAnterior.setVisible(true);
+					pantallaAnterior.setEnabled(true);
 					dispose();
 				}
 			}
