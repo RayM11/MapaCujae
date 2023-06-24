@@ -3,8 +3,10 @@ package logica;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 import cu.edu.cujae.ceis.graph.LinkedGraph;
+import cu.edu.cujae.ceis.graph.interfaces.ILinkedWeightedEdgeNotDirectedGraph;
 import cu.edu.cujae.ceis.graph.vertex.Vertex;
 import auxiliar.Direccion;
 import auxiliar.Movimiento;
@@ -13,14 +15,14 @@ public class Visitante {
 
 	private Vertex verticeActual;
 	private ArrayList<Movimiento> movimientos;
-	private LinkedGraph mapa;
+	private ILinkedWeightedEdgeNotDirectedGraph mapa;
 
 
-	Visitante(Vertex verticeActual, LinkedGraph mapa){
+	Visitante(Vertex verticeActual, ILinkedWeightedEdgeNotDirectedGraph mapa){
 
 		this.verticeActual = verticeActual;
 		this.mapa = mapa;
-		movimientos = new ArrayList<Movimiento>(4);
+		movimientos = new ArrayList<Movimiento>();
 
 		actualizarMovimientos();
 	}
@@ -59,7 +61,7 @@ public class Visitante {
 	public void invertirMovimientos(){
 
 		for (Movimiento mov : movimientos){
-			
+
 			switch (mov.getDireccion().ordinal()){
 
 			case 0:
@@ -82,16 +84,30 @@ public class Visitante {
 
 		movimientos.clear();
 
-		LinkedList<Vertex> adyacentes = mapa.adjacentsG(mapa.getVertexIndex(verticeActual));
+		LinkedList<Vertex> adyacentes = mapa.adjacentsG(((LinkedGraph) mapa).getVertexIndex(verticeActual));
 		Iterator<Vertex> iter = adyacentes.iterator();	
 
 		while (iter.hasNext()){
 
 			Vertex vAnalizado = (Vertex) iter.next();
-			Direccion dir = ((Lugar)verticeActual.getInfo()).getCoordenadas().direccionHacia(((Lugar)vAnalizado.getInfo()).getCoordenadas());
-			movimientos.add(new Movimiento(dir, vAnalizado));
+			List<Direccion> dirs = ((Lugar)verticeActual.getInfo()).getCoordenadas().direccionHacia(((Lugar)vAnalizado.getInfo()).getCoordenadas());
+
+			int movAct = 0;
+			while (hayMovConDir(dirs.get(movAct)))
+				movAct++;
+
+			movimientos.add(new Movimiento(dirs.get(movAct), vAnalizado));
 
 		}
+	}
+	private boolean hayMovConDir(Direccion dir){
+		boolean hay = false;
+
+		for (int i = 0; i < movimientos.size() && !hay; i++){
+			if (movimientos.get(i).getDireccion().equals(dir))
+				hay = true;
+		}
+		return hay;
 	}
 
 }
