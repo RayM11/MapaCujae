@@ -22,16 +22,16 @@ public class Universidad {
 	private ILinkedWeightedEdgeNotDirectedGraph mapa;
 	private Visitante visitante;
 
-	private Universidad(String rector){
+	private Universidad(){
 
 		datGrafo = new File("Res/grafo.dat");
 		mapa = new LinkedGraph();
 	}
 
-	public static Universidad getCujae(String rector){
+	public static Universidad getCujae(){
 
 		if(cujae == null)
-			cujae = new Universidad(rector);
+			cujae = new Universidad();
 		return cujae;
 	}
 
