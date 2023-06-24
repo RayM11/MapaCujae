@@ -48,6 +48,8 @@ public class VentanaRegistrarLugar extends JFrame {
 	private JPanel panelCamposEspecificos;
 	private JPanel panelComboBox;
 	private JComboBox<Object> comboBox;
+	private JTextField textField;
+	private JTextField textField_1;
 
 	public void configurarPanelLugarInteres(boolean check){
 		
@@ -170,7 +172,7 @@ public class VentanaRegistrarLugar extends JFrame {
 	public VentanaRegistrarLugar(final JFrame ventanaAnterior , final Configuracion configActual) {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		setBounds(100, 100, 698, 700);
+		setBounds(100, 100, 900, 700);
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -180,12 +182,12 @@ public class VentanaRegistrarLugar extends JFrame {
 		lblNewLabel = new JLabel("Nuevo Lugar");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(10, 11, 177, 38);
+		lblNewLabel.setBounds(264, 11, 177, 38);
 		contentPane.add(lblNewLabel);
 		
 		panelComboBox = new JPanel();
 		panelComboBox.setBorder(null);
-		panelComboBox.setBounds(20, 251, 275, 44);
+		panelComboBox.setBounds(166, 251, 275, 44);
 		contentPane.add(panelComboBox);
 		panelComboBox.setLayout(null);
 
@@ -202,24 +204,24 @@ public class VentanaRegistrarLugar extends JFrame {
 				
 			}
 		});
-		chckbxNewCheckBox.setBounds(165, 22, 97, 23);
+		chckbxNewCheckBox.setBounds(699, 22, 97, 23);
 		contentPane.add(chckbxNewCheckBox);
 
 		lblID = new JLabel("ID:");
 		lblID.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblID.setBounds(20, 78, 126, 23);
+		lblID.setBounds(166, 78, 126, 23);
 		contentPane.add(lblID);
 
 		textFieldID = new JTextField();
 		textFieldID.setBorder(null);
 		textFieldID.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		textFieldID.setOpaque(false);
-		textFieldID.setBounds(30, 94, 232, 20);
+		textFieldID.setBounds(176, 94, 232, 20);
 		contentPane.add(textFieldID);
 		textFieldID.setColumns(10);
 
 		JSeparator separator = new JSeparator();
-		separator.setBounds(20, 112, 242, 2);
+		separator.setBounds(166, 112, 242, 2);
 		contentPane.add(separator);
 
 		JSeparator separator_1 = new JSeparator();
@@ -234,7 +236,7 @@ public class VentanaRegistrarLugar extends JFrame {
 		textFieldFoto.setBounds(30, 159, 232, 20);
 		contentPane.add(textFieldFoto);
 
-		JLabel lblUrlFoto = new JLabel("URL Foto:");
+		JLabel lblUrlFoto = new JLabel("URL Foto Norte:");
 		lblUrlFoto.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblUrlFoto.setBounds(20, 143, 126, 23);
 		contentPane.add(lblUrlFoto);
@@ -251,7 +253,7 @@ public class VentanaRegistrarLugar extends JFrame {
 		textFieldFotoReversa.setBounds(30, 224, 232, 20);
 		contentPane.add(textFieldFotoReversa);
 
-		JLabel lblUrlFotoReversa = new JLabel("URL Foto Reversa:");
+		JLabel lblUrlFotoReversa = new JLabel("URL Foto Sur:");
 		lblUrlFotoReversa.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblUrlFotoReversa.setBounds(20, 208, 126, 23);
 		contentPane.add(lblUrlFotoReversa);
@@ -259,17 +261,17 @@ public class VentanaRegistrarLugar extends JFrame {
 		panelLugarInteres = new JPanel();
 		panelLugarInteres.setVisible(true);
 		panelLugarInteres.setBorder(null);
-		panelLugarInteres.setBounds(397, 53, 275, 553);
+		panelLugarInteres.setBounds(609, 63, 275, 553);
 		contentPane.add(panelLugarInteres);
 		panelLugarInteres.setLayout(null);
 
 		panelCamposEspecificos = new JPanel();
-		panelCamposEspecificos.setBounds(10, 306, 377, 300);
+		panelCamposEspecificos.setBounds(111, 306, 377, 300);
 		panelCamposEspecificos.setLayout(null);
 		contentPane.add(panelCamposEspecificos);
 
 		panelConfirmacion = new JPanel();
-		panelConfirmacion.setBounds(10, 617, 662, 33);
+		panelConfirmacion.setBounds(10, 627, 874, 33);
 		contentPane.add(panelConfirmacion);
 		panelConfirmacion.setLayout(new FlowLayout(FlowLayout.RIGHT));
 
@@ -295,6 +297,40 @@ public class VentanaRegistrarLugar extends JFrame {
 			}
 		});
 		panelConfirmacion.add(buttonCancelar);
+		
+		textField = new JTextField();
+		textField.setOpaque(false);
+		textField.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		textField.setColumns(10);
+		textField.setBorder(null);
+		textField.setBounds(330, 155, 232, 20);
+		contentPane.add(textField);
+		
+		textField_1 = new JTextField();
+		textField_1.setOpaque(false);
+		textField_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		textField_1.setColumns(10);
+		textField_1.setBorder(null);
+		textField_1.setBounds(330, 220, 232, 20);
+		contentPane.add(textField_1);
+		
+		JSeparator separator_3 = new JSeparator();
+		separator_3.setBounds(320, 177, 242, 2);
+		contentPane.add(separator_3);
+		
+		JSeparator separator_4 = new JSeparator();
+		separator_4.setBounds(320, 242, 242, 2);
+		contentPane.add(separator_4);
+		
+		JLabel lblUrlFotoEste = new JLabel("URL Foto Este:");
+		lblUrlFotoEste.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblUrlFotoEste.setBounds(320, 143, 126, 23);
+		contentPane.add(lblUrlFotoEste);
+		
+		JLabel lblUrlFotoOeste = new JLabel("URL Foto Oeste:");
+		lblUrlFotoOeste.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblUrlFotoOeste.setBounds(320, 208, 126, 23);
+		contentPane.add(lblUrlFotoOeste);
 
 	}
 }
