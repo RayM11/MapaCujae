@@ -10,18 +10,18 @@ import auxiliar.Direccion;
 
 public class Coordenadas {
 
-	private float x;
-	private float y;
+	private double x;
+	private double y;
 
-	public Coordenadas(float x, float y){
+	public Coordenadas(double x, double y){
 		this.x = x;
 		this.y = y;
 	}
 
-	public float getX() {
+	public double getX() {
 		return x;
 	}
-	public float getY() {
+	public double getY() {
 		return y;
 	}
 
@@ -34,19 +34,19 @@ public class Coordenadas {
 		
 		// Direccion dir;
 		
-		float movY = cor2.getY() - y;
-		float movX = cor2.getX() - x; 
+		double movY = cor2.getY() - y;
+		double movX = cor2.getX() - x; 
 		
-		float movNorte = movY;
-		float movSur = -1*movY;
-		float movEste = movX;
-		float movOeste = -1*movX;
+		double movNorte = movY;
+		double movSur = -1*movY;
+		double movEste = movX;
+		double movOeste = -1*movX;
 		
 		final Map<Direccion, Double> desplazamientos = new HashMap<>();
-	    desplazamientos.put(Direccion.N, (double)movNorte);
-	    desplazamientos.put(Direccion.S, (double)movSur);
-	    desplazamientos.put(Direccion.E, (double)movEste);
-	    desplazamientos.put(Direccion.O, (double)movOeste);
+	    desplazamientos.put(Direccion.N, movNorte);
+	    desplazamientos.put(Direccion.S, movSur);
+	    desplazamientos.put(Direccion.E, movEste);
+	    desplazamientos.put(Direccion.O, movOeste);
 		
 	    ArrayList<Direccion> direcciones = new ArrayList<>(desplazamientos.keySet());
 	    Collections.sort(direcciones, new Comparator<Direccion>(){
