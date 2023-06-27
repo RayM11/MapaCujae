@@ -202,4 +202,44 @@ public class Universidad {
 
 		return camino;
 	}
+
+	public boolean agregarCamino(Lugar lu1, Lugar lu2){
+
+		boolean exito = false;
+
+		int indice1 = indiceDeLugar(lu1);
+		int indice2 = indiceDeLugar(lu2);
+
+		if (indice1 != -1 && indice2 != -1){
+			mapa.insertWEdgeNDG(indice1, indice2, lu1.calcularDistanciaA(lu2));
+			exito = true;
+		}
+		
+		return exito;
+	}
+
+	public int indiceDeLugar(Lugar lu){
+
+		int index = -1;
+		int cont = 0;
+		Iterator<Vertex> iter = mapa.getVerticesList().iterator();
+
+		while (iter.hasNext()){
+
+			Lugar luActual = (Lugar) iter.next().getInfo();
+			if (luActual.equals(lu))
+				index = cont;
+			else
+				cont++;
+		}
+
+		return index;
+
+
+	}
+
+
+
+
+
 }
