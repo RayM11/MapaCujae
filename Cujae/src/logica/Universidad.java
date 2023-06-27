@@ -14,6 +14,8 @@ import auxiliar.MarcadorDijkstra;
 import cu.edu.cujae.ceis.graph.LinkedGraph;
 import cu.edu.cujae.ceis.graph.interfaces.ILinkedWeightedEdgeNotDirectedGraph;
 import cu.edu.cujae.ceis.graph.vertex.Vertex;
+import cu.edu.cujae.ceis.tree.binary.BinaryTreeNode;
+import cu.edu.cujae.ceis.tree.general.GeneralTree;
 
 public class Universidad {
 
@@ -21,17 +23,110 @@ public class Universidad {
 	private File datGrafo;
 	private ILinkedWeightedEdgeNotDirectedGraph mapa;
 	private Visitante visitante;
+	private GeneralTree<Object> arbolDecision;
 
-	private Universidad(){
-
+	private Universidad(String rector){
 		datGrafo = new File("Res/grafo.dat");
 		mapa = new LinkedGraph();
+		arbolDecision = new GeneralTree<Object>();
 	}
 
-	public static Universidad getCujae(){
+	public void inicializarArbol() {
+
+		((BinaryTreeNode<Object>)arbolDecision.getRoot()).getLeft().setInfo("Facultad");
+		((BinaryTreeNode<Object>)arbolDecision.getRoot()).getLeft().getRight().setInfo("Cafeteria");;
+
+		agregarFacultadesAlArbol(((BinaryTreeNode<Object>)arbolDecision.getRoot()).getLeft());
+		agregarCafeteriasAlArbol(((BinaryTreeNode<Object>)arbolDecision.getRoot()).getLeft().getRight());
+	}
+
+	@SuppressWarnings("null")
+	public ArrayList<Facultad> listaFacultades(){
+		ArrayList<Facultad> facultades = new ArrayList<Facultad>() ;
+
+		Iterator<Vertex> iterador = mapa.getVerticesList().iterator();
+
+		while(iterador.hasNext()) {
+			if(iterador.next().getInfo() instanceof Facultad) {
+				facultades.add((Facultad)iterador.next().getInfo());
+			}
+		}
+
+		return facultades;
+	}
+
+	public ArrayList<Cafeteria> listaCafeterias(){
+		ArrayList<Cafeteria> cafeterias = new ArrayList<Cafeteria>() ;
+
+		Iterator<Vertex> iterador = mapa.getVerticesList().iterator();
+
+		while(iterador.hasNext()) {
+			if(iterador.next().getInfo() instanceof Cafeteria) {
+				cafeterias.add((Cafeteria)iterador.next().getInfo());
+			}
+		}
+
+		return cafeterias;
+	}
+
+	@SuppressWarnings({ "null", "unused" })
+	private void agregarFacultadesAlArbol(BinaryTreeNode<Object> nodoPadre ) {
+		ArrayList<Facultad> facultades = listaFacultades();
+		if(!facultades.isEmpty()) {
+			BinaryTreeNode<Object> nodoActual = null ;
+
+			for(int i = 0; i < facultades.size(); i ++) {
+				nodoActual.setInfo(facultades.get(i));
+				arbolDecision.insertNode(nodoActual, nodoPadre);
+			}
+		}
+
+	}
+
+
+	@SuppressWarnings({ "unused", "null" })
+	private void agregarCafeteriasAlArbol(BinaryTreeNode<Object> nodoPadre ) {
+		ArrayList<Cafeteria> cafeterias = listaCafeterias();
+		if(!cafeterias.isEmpty()) {
+			BinaryTreeNode<Object> nodoActual = null ;
+
+			for(int i = 0; i < cafeterias.size(); i ++) {
+				nodoActual.setInfo(cafeterias.get(i));
+				arbolDecision.insertNode(nodoActual, nodoPadre);
+			}
+		}
+
+	}
+
+	public ArrayList<String> listaProductosExistentes(){
+		ArrayList<String> listaProductos = new ArrayList<String>();
+
+		Iterator<Vertex> iterador = mapa.getVerticesList().iterator();
+
+		while(iterador.hasNext()) {
+			if(iterador.next().getInfo() instanceof Cafeteria) {
+				transferirProductos(listaProductos,((Cafeteria)iterador.next().getInfo()).getProductos());		
+			}
+		}
+		
+		return listaProductos;
+	}
+	
+	@SuppressWarnings("unused")
+	private void transferirProductos(ArrayList<String> listaA, ArrayList<String> listaB) { // este metodo pasa para listaA 
+		                                                                                   // lo que esta en listaB y no en listaA
+		for(int i = 0; i < listaB.size(); i ++) {
+			if(!listaA.contains(listaB.get(i))) {
+				listaA.add(listaB.get(i));
+			}
+		}
+	}
+
+
+	public static Universidad getCujae(String rector){
 
 		if(cujae == null)
-			cujae = new Universidad();
+			cujae = new Universidad(rector);
 		return cujae;
 	}
 
