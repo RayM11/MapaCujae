@@ -4,18 +4,18 @@ import auxiliar.Direccion;
 
 public class Coordenadas {
 
-	private float x;
-	private float y;
+	private double x;
+	private double y;
 
-	public Coordenadas(float x, float y){
+	public Coordenadas(double x, double y){
 		this.x = x;
 		this.y = y;
 	}
 
-	public float getX() {
+	public double getX() {
 		return x;
 	}
-	public float getY() {
+	public double getY() {
 		return y;
 	}
 
@@ -24,8 +24,8 @@ public class Coordenadas {
 		
 		Direccion dir;
 		
-		float difY = y - cor2.getY();
-		float difX = x - cor2.getX();
+		double difY = y - cor2.getY();
+		double difX = x - cor2.getX();
 		
 		if (abs(difY) > abs(difX))
 		
@@ -40,12 +40,12 @@ public class Coordenadas {
 			else
 				dir = Direccion.E;
 		else
-			throw new IllegalArgumentException("Movimiento diagonal intentado, situación no contemplada todavía");
+			throw new IllegalArgumentException("Movimiento diagonal intentado, situaciï¿½n no contemplada todavï¿½a");
 				
 		return dir;
 	}
 	
-	private float abs(float num){
+	private double abs(double num){
 		
 		if (num < 0)
 			num *= -1;

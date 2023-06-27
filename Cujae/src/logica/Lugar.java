@@ -16,7 +16,7 @@ public class Lugar implements Serializable{
 	
 
 
-	public Lugar(String id, float x, float y, String fotoNorte , String fotoSur ,String fotoEste , String fotoOeste) {
+	public Lugar(String id, double x, double y, String fotoNorte , String fotoSur ,String fotoEste , String fotoOeste) {
 		setId(id);
 		setFotoNorte(fotoNorte);
 		setFotoSur(fotoSur);
@@ -41,7 +41,7 @@ public class Lugar implements Serializable{
 			this.fotoNorte = fotoNorte;
 		}
 		else{
-			throw new IllegalArgumentException ("La URL de la foto Norte está vacía");
+			throw new IllegalArgumentException ("La URL de la foto Norte estï¿½ vacï¿½a");
 		}
 	}
 	public void setFotoEste(String fotoEste) {
@@ -51,7 +51,7 @@ public class Lugar implements Serializable{
 			this.fotoEste = fotoEste;
 		}
 		else{
-			throw new IllegalArgumentException ("La URL de la foto este está vacía");
+			throw new IllegalArgumentException ("La URL de la foto este estï¿½ vacï¿½a");
 		}
 	}
 	public String getFotoSur() {
@@ -63,7 +63,7 @@ public class Lugar implements Serializable{
 			this.fotoSur = fotoSur;
 		}
 		else{
-			throw new IllegalArgumentException ("La URL de la foto sur  está vacía");
+			throw new IllegalArgumentException ("La URL de la foto sur  estï¿½ vacï¿½a");
 		}
 	}
 	
@@ -73,7 +73,7 @@ public void setFotoOeste(String fotoOeste) {
 			this.fotoOeste = fotoOeste;
 		}
 		else{
-			throw new IllegalArgumentException ("La URL de la foto oeste   está vacía");
+			throw new IllegalArgumentException ("La URL de la foto oeste   estï¿½ vacï¿½a");
 		}
 	}
 
@@ -91,7 +91,7 @@ public String getFotoOeste() {
 			this.id = id;
 		}
 		else{
-			throw new IllegalArgumentException ("La cadena del id está vacía");
+			throw new IllegalArgumentException ("La cadena del id estï¿½ vacï¿½a");
 		}
 	}
 

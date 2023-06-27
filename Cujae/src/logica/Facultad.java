@@ -15,7 +15,7 @@ public class Facultad extends LugarDeInteres{
 
 
 
-	public Facultad(String id, float x, float y, String fotoNorte,
+	public Facultad(String id, double x, double y, String fotoNorte,
 			String fotoSur, String fotoEste, String fotoOeste, String nombre,
 			String descripcion, String anotaciones, String fotoPortada,
 			String decano, String vicedecano) {
@@ -32,7 +32,7 @@ public class Facultad extends LugarDeInteres{
 			this.decano = decano;
 		}
 		else{
-			throw new IllegalArgumentException ("La cadena de decano está vacía");
+			throw new IllegalArgumentException ("La cadena de decano estï¿½ vacï¿½a");
 		}
 	}
 	public String getVicedecano() {
@@ -43,7 +43,7 @@ public class Facultad extends LugarDeInteres{
 			this.vicedecano = vicedecano;
 		}
 		else{
-			throw new IllegalArgumentException ("La cadena de vicedecano está vacía");
+			throw new IllegalArgumentException ("La cadena de vicedecano estï¿½ vacï¿½a");
 		}
 	}
 

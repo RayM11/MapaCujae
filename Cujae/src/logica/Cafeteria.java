@@ -9,7 +9,7 @@ public class Cafeteria extends Lugar {
 
 
 
-	public Cafeteria(String id, float x, float y, String fotoNorte,
+	public Cafeteria(String id, double x, double y, String fotoNorte,
 			String fotoSur, String fotoEste, String fotoOeste,
 			ArrayList<String> productos) {
 		super(id, x, y, fotoNorte, fotoSur, fotoEste, fotoOeste);

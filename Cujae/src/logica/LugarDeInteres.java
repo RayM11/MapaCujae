@@ -11,7 +11,7 @@ public class LugarDeInteres extends Lugar{
 	protected String fotoPortada;
 	
 	
-	public LugarDeInteres(String id, float x, float y, String fotoNorte,
+	public LugarDeInteres(String id, double x, double y, String fotoNorte,
 			String fotoSur, String fotoEste, String fotoOeste, String nombre,
 			String descripcion, String anotaciones, String fotoPortada) {
 		super(id, x, y, fotoNorte, fotoSur, fotoEste, fotoOeste);
@@ -29,7 +29,7 @@ public class LugarDeInteres extends Lugar{
 		this.anotaciones = anotaciones;
 		}
 		else{
-			throw new IllegalArgumentException ("La cadena de anotaciones está vacía");
+			throw new IllegalArgumentException ("La cadena de anotaciones estï¿½ vacï¿½a");
 		}
 	}
 	public String getNombre() {
@@ -44,7 +44,7 @@ public class LugarDeInteres extends Lugar{
 		this.descripcion = descripcion;
 		}
 		else{
-			throw new IllegalArgumentException ("La cadena de descripcion está vacía");
+			throw new IllegalArgumentException ("La cadena de descripcion estï¿½ vacï¿½a");
 		}
 	}
 	public String getFotoPortada() {
@@ -56,7 +56,7 @@ public class LugarDeInteres extends Lugar{
 		this.nombre = nombre;
 		}
 		else{
-			throw new IllegalArgumentException ("La cadena de anotaciones está vacía");
+			throw new IllegalArgumentException ("La cadena de anotaciones estï¿½ vacï¿½a");
 		}
 	}
 
@@ -66,7 +66,7 @@ public class LugarDeInteres extends Lugar{
 		this.fotoPortada = fotoPortada;
 		}
 		else{
-			throw new IllegalArgumentException ("La cadena de fotoPortada está vacía");
+			throw new IllegalArgumentException ("La cadena de fotoPortada estï¿½ vacï¿½a");
 		}
 	}
 	
