@@ -16,6 +16,7 @@ import javax.swing.SwingConstants;
 
 import auxiliar.Configuracion;
 import auxiliar.Usuario;
+import auxiliar.Validacion;
 
 import java.awt.Font;
 import java.awt.event.ActionListener;
@@ -29,7 +30,7 @@ public class InicioSesion extends JFrame {
 	private JTextField textField;
 	private JPasswordField passwordField;
 
-	
+
 	private boolean credencialesOK(){
 		boolean ok = false;
 		Usuario usuario = new Usuario();
@@ -38,9 +39,9 @@ public class InicioSesion extends JFrame {
 		try {
 			String userNombre = usuario.getNombre();
 			String userPass = usuario.getPass();
-			
+
 			String contraIntroducida = new String(passwordField.getPassword());
-			
+
 			if(textField.getText().equals(userNombre) && contraIntroducida.equals(userPass))
 				ok = true;
 
@@ -96,20 +97,28 @@ public class InicioSesion extends JFrame {
 			{
 				JButton okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
+					@SuppressWarnings("deprecation")
 					public void actionPerformed(ActionEvent e) {
 
-						boolean ok = credencialesOK();
-
-						if(ok){
-							configActual.setEsAdmin(true);
-							PantallaMapa pM = new PantallaMapa(InicioSesion.this, configActual);
-							pM.setVisible(true);
-							pantallaAnterior.dispose();
-							dispose();
+						if(!Validacion.cadenaNoVacia(textField.getText()) ||! Validacion.cadenaNoVacia(passwordField.getText())){
+							JOptionPane.showMessageDialog(null, "LLene los campos vacíos");
 						}
-						else
-							JOptionPane.showMessageDialog(null, "Los credenciales no son correctos");
 
+						else{
+
+							boolean ok = credencialesOK();
+
+							if(ok){
+								configActual.setEsAdmin(true);
+								PantallaMapa pM = new PantallaMapa(InicioSesion.this, configActual);
+								pM.setVisible(true);
+								pantallaAnterior.dispose();
+								dispose();
+							}
+							else
+								JOptionPane.showMessageDialog(null, "Los credenciales no son correctos");
+
+						}
 					}
 				});
 				okButton.setActionCommand("OK");
@@ -133,3 +142,5 @@ public class InicioSesion extends JFrame {
 		}
 	}
 }
+
+
