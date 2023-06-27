@@ -8,7 +8,7 @@ public class LugarDeInteres extends Lugar{
 	protected String anotaciones;
 	protected String fotoPortada;
 	
-	public LugarDeInteres(String id, float x, float y, String foto, String fotoReverso, String nombre, String descripcion, String anotaciones,String fotoPortada) {
+	public LugarDeInteres(String id, double x, double y, String foto, String fotoReverso, String nombre, String descripcion, String anotaciones,String fotoPortada) {
 		super(id, x, y, foto, fotoReverso);
 		this.nombre = nombre;
 		this.descripcion = descripcion;
