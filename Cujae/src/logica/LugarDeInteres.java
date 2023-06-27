@@ -6,14 +6,12 @@ public class LugarDeInteres extends Lugar{
 	protected String nombre;
 	protected String descripcion;
 	protected String anotaciones;
-	protected String fotoPortada;
 	
-	public LugarDeInteres(String id, double x, double y, String foto, String fotoReverso, String nombre, String descripcion, String anotaciones,String fotoPortada) {
-		super(id, x, y, foto, fotoReverso);
+	public LugarDeInteres(String id, double x, double y, String nombre, String descripcion, String anotaciones) {
+		super(id, x, y);
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.anotaciones = anotaciones;
-		this.fotoPortada = fotoPortada;
 	}
 	
 	public String getAnotaciones() {
@@ -31,13 +29,4 @@ public class LugarDeInteres extends Lugar{
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-	public String getFotoPortada() {
-		return fotoPortada;
-	}
-	public void setFotoPortada(String fotoPortada) {
-		this.fotoPortada = fotoPortada;
-	}
-	
-	
-	
 }
