@@ -13,6 +13,7 @@ import auxiliar.Movimiento;
 
 public class Visitante {
 
+	private Direccion pov;
 	private Vertex verticeActual;
 	private ArrayList<Movimiento> movimientos;
 	private ILinkedWeightedEdgeNotDirectedGraph mapa;
@@ -20,11 +21,20 @@ public class Visitante {
 
 	Visitante(Vertex verticeActual, ILinkedWeightedEdgeNotDirectedGraph mapa){
 
+		this.pov = Direccion.N;
 		this.verticeActual = verticeActual;
 		this.mapa = mapa;
 		movimientos = new ArrayList<Movimiento>();
 
 		actualizarMovimientos();
+	}
+
+	public Direccion getPov() {
+		return pov;
+	}
+
+	public void setPov(Direccion pov) {
+		this.pov = pov;
 	}
 
 	public Vertex getVerticeActual() {
@@ -58,25 +68,61 @@ public class Visitante {
 		return movidoConExito;
 	}
 
-	public void invertirMovimientos(){
+	public void rotarPOVSentidoHorario(){
 
 		for (Movimiento mov : movimientos){
 
-			switch (mov.getDireccion().ordinal()){
+			rotarDirSentidoHorario(mov.getDireccion());		
+		}
 
-			case 0:
-				mov.setDireccion(Direccion.S);
-				break;
-			case 1:
-				mov.setDireccion(Direccion.N);
-				break;
-			case 2:
-				mov.setDireccion(Direccion.O);
-				break;
-			case 3:
-				mov.setDireccion(Direccion.E);
-				break;		
-			}
+		rotarDirSentidoHorario(pov);
+	}
+
+	public void rotarPOVSentidoAntiHorario(){
+
+		for (Movimiento mov : movimientos){
+
+			rotarDirSentidoAntiHorario(mov.getDireccion());		
+		}
+
+		rotarDirSentidoAntiHorario(pov);
+	}
+
+	private void rotarDirSentidoHorario(Direccion dir){
+
+		switch (dir.ordinal()){
+
+		case 0:
+			dir = Direccion.E;
+			break;
+		case 1:
+			dir = Direccion.O;
+			break;
+		case 2:
+			dir = Direccion.S;
+			break;
+		case 3:
+			dir = Direccion.N;
+			break;		
+		}
+	}
+
+	private void rotarDirSentidoAntiHorario(Direccion dir){
+
+		switch (dir.ordinal()){
+
+		case 0:
+			dir = Direccion.O;
+			break;
+		case 1:
+			dir = Direccion.E;
+			break;
+		case 2:
+			dir = Direccion.N;
+			break;
+		case 3:
+			dir = Direccion.S;
+			break;		
 		}
 	}
 
@@ -99,7 +145,10 @@ public class Visitante {
 			movimientos.add(new Movimiento(dirs.get(movAct), vAnalizado));
 
 		}
+		
+		adaptarAlPOV();
 	}
+
 	private boolean hayMovConDir(Direccion dir){
 		boolean hay = false;
 
@@ -110,4 +159,29 @@ public class Visitante {
 		return hay;
 	}
 
+	private void adaptarAlPOV(){
+
+		if (pov != Direccion.N){
+
+			int cantRotaciones = 0;
+
+			switch (pov.ordinal()){
+			case 1:
+				cantRotaciones = 2;
+				break;
+			case 2:
+				cantRotaciones = 1;
+				break;
+			case 3:
+				cantRotaciones = 3;
+			}
+			for (Movimiento mov : movimientos){
+
+				for (int i = 0; i < cantRotaciones; i++)
+					rotarDirSentidoHorario(mov.getDireccion());
+			}
+		}
+	}
+	
 }
+
