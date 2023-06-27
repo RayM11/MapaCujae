@@ -14,7 +14,7 @@ public class Configuracion {
 	
 	// Configuracion por defecto del programa
 	public Configuracion(){
-		setEsAdmin(false);
+		setEsAdmin(true);
 		setTemaLAF("com.jtattoo.plaf.acryl.AcrylLookAndFeel");
 		setTemaLAFnombre("Acryl");
 		setTamanoFuente(15);

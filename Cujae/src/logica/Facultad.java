@@ -1,36 +1,54 @@
 package logica;
 
+import auxiliar.Validacion;
+
 public class Facultad extends LugarDeInteres{
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	private String decano;
 	private String vicedecano;
-	
-	
-	
-	public Facultad(String id, float x, float y, String foto, String fotoReverso,String nombre, String descripcion, String anotaciones,String fotoPortada, String decano, String vicedecano) {
-		super(id, x, y, foto, fotoReverso, nombre, descripcion, anotaciones, fotoPortada);
-		
-		this.decano = decano;
-		this.vicedecano = vicedecano;
+
+
+
+
+
+
+
+	public Facultad(String id, float x, float y, String fotoNorte,
+			String fotoSur, String fotoEste, String fotoOeste, String nombre,
+			String descripcion, String anotaciones, String fotoPortada,
+			String decano, String vicedecano) {
+		super(id, x, y, fotoNorte, fotoSur, fotoEste, fotoOeste, nombre,
+				descripcion, anotaciones, fotoPortada);
+		setDecano(decano);
+		setVicedecano(vicedecano);
 	}
-	
-	
-	
 	public String getDecano() {
 		return decano;
 	}
 	public void setDecano(String decano) {
-		this.decano = decano;
+		if(Validacion.cadenaNoVacia(decano)){  
+			this.decano = decano;
+		}
+		else{
+			throw new IllegalArgumentException ("La cadena de decano está vacía");
+		}
 	}
 	public String getVicedecano() {
 		return vicedecano;
 	}
 	public void setVicedecano(String vicedecano) {
-		this.vicedecano = vicedecano;
+		if(Validacion.cadenaNoVacia(vicedecano)){  
+			this.vicedecano = vicedecano;
+		}
+		else{
+			throw new IllegalArgumentException ("La cadena de vicedecano está vacía");
+		}
 	}
-	
-	
+
+
 
 }
+
+
