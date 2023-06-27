@@ -6,6 +6,7 @@ import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 import auxiliar.ConexionesVertex;
 import auxiliar.Convert;
@@ -16,6 +17,8 @@ import cu.edu.cujae.ceis.graph.interfaces.ILinkedWeightedEdgeNotDirectedGraph;
 import cu.edu.cujae.ceis.graph.vertex.Vertex;
 import cu.edu.cujae.ceis.tree.binary.BinaryTreeNode;
 import cu.edu.cujae.ceis.tree.general.GeneralTree;
+import cu.edu.cujae.ceis.tree.iterators.general.InBreadthIterator;
+import cu.edu.cujae.ceis.tree.iterators.general.InDepthIterator;
 
 public class Universidad {
 
@@ -31,13 +34,21 @@ public class Universidad {
 		arbolDecision = new GeneralTree<Object>();
 	}
 
-	public void inicializarArbol() {
+	public void inicializarArbol(Lugar lugar) {
 
-		((BinaryTreeNode<Object>)arbolDecision.getRoot()).getLeft().setInfo("Facultad");
-		((BinaryTreeNode<Object>)arbolDecision.getRoot()).getLeft().getRight().setInfo("Cafeteria");;
+		if(!(lugar instanceof Facultad) && !(lugar instanceof Cafeteria)) {
 
-		agregarFacultadesAlArbol(((BinaryTreeNode<Object>)arbolDecision.getRoot()).getLeft());
-		agregarCafeteriasAlArbol(((BinaryTreeNode<Object>)arbolDecision.getRoot()).getLeft().getRight());
+			((BinaryTreeNode<Object>) arbolDecision.getRoot()).setInfo(lugar);
+			((BinaryTreeNode<Object>)arbolDecision.getRoot()).getLeft().setInfo("Facultad");
+			((BinaryTreeNode<Object>)arbolDecision.getRoot()).getLeft().getRight().setInfo("Cafeteria");;
+
+			agregarFacultadesAlArbol(((BinaryTreeNode<Object>)arbolDecision.getRoot()).getLeft());
+			agregarCafeteriasAlArbol(((BinaryTreeNode<Object>)arbolDecision.getRoot()).getLeft().getRight());
+
+		}
+		else {
+			throw new IllegalArgumentException("El lugar no debe ser una facultad ni una cafeteria");
+		}
 	}
 
 	@SuppressWarnings("null")
@@ -98,23 +109,84 @@ public class Universidad {
 
 	}
 
-	public ArrayList<String> listaProductosExistentes(){
+	@SuppressWarnings("unchecked")
+	public ArrayList<Object> tomaDecision(String lugar) {
+		ArrayList<Object> listaADevolver = new ArrayList<Object>();
 		ArrayList<String> listaProductos = new ArrayList<String>();
 
-		Iterator<Vertex> iterador = mapa.getVerticesList().iterator();
+		InBreadthIterator<Object> iterador = arbolDecision.inBreadthIterator();
 
-		while(iterador.hasNext()) {
-			if(iterador.next().getInfo() instanceof Cafeteria) {
-				transferirProductos(listaProductos,((Cafeteria)iterador.next().getInfo()).getProductos());		
+		boolean encontrado = false;
+
+		while(iterador.hasNext() && !encontrado ) {
+
+			BinaryTreeNode<Object> nodoActual = (BinaryTreeNode<Object>) iterador.next();
+
+			if(lugar.equalsIgnoreCase("Facultad")) {
+				if(((String)nodoActual.getInfo()).equalsIgnoreCase(lugar)) {
+					listaADevolver = (ArrayList<Object>)arbolDecision.getSonsInfo(nodoActual);
+					encontrado = true;
+				}
+			}
+			else if(lugar.equalsIgnoreCase("Cafeteria")) {
+				if(((String)nodoActual.getInfo()).equalsIgnoreCase(lugar)) {
+					listaProductos = listaProductosExistentes((ArrayList<Object>)(arbolDecision.getSonsInfo(nodoActual))) ;
+					listaADevolver.addAll(listaProductos);
+					encontrado = true;
+				}	
+				
+			}
+
+		}
+
+		return  listaADevolver;
+
+	}
+	
+	@SuppressWarnings("unchecked")
+	public ArrayList<Cafeteria> cafeteriasConProductoEspecificado(String producto){
+		ArrayList<Cafeteria> listaCafeteriasADevolver = new ArrayList<Cafeteria>();
+		
+		ArrayList<Object> cafeteriasExistentes = 
+				(ArrayList<Object>) arbolDecision.getSonsInfo(((BinaryTreeNode<Object>)arbolDecision.getRoot()).getLeft().getRight());
+		
+		for(int i = 0; i < cafeteriasExistentes.size(); i ++) {
+			if(((Cafeteria) cafeteriasExistentes.get(i)).getProductos().contains(producto)) {
+				listaCafeteriasADevolver.add((Cafeteria) cafeteriasExistentes.get(i));
 			}
 		}
 		
-		return listaProductos;
+		
+		return listaCafeteriasADevolver;
 	}
 	
+	public ArrayList<String> listaProductosExistentes(ArrayList<Object> cafeterias){
+		ArrayList<String> listaProductos = new ArrayList<String>();
+		
+		for(int i = 0; i < cafeterias.size(); i ++) {
+			transferirProductos(listaProductos, ((Cafeteria)cafeterias.get(i)).getProductos());
+		}
+
+		return listaProductos;
+	}
+
+//	public ArrayList<String> listaProductosExistentes(){    // esto era para pbtenerlo desde el grafo 
+//		ArrayList<String> listaProductos = new ArrayList<String>();
+//
+//		Iterator<Vertex> iterador = mapa.getVerticesList().iterator();
+//
+//		while(iterador.hasNext()) {
+//			if(iterador.next().getInfo() instanceof Cafeteria) {
+//				transferirProductos(listaProductos,((Cafeteria)iterador.next().getInfo()).getProductos());		
+//			}
+//		}
+//
+//		return listaProductos;
+//	}
+
 	@SuppressWarnings("unused")
 	private void transferirProductos(ArrayList<String> listaA, ArrayList<String> listaB) { // este metodo pasa para listaA 
-		                                                                                   // lo que esta en listaB y no en listaA
+		                                                                                  // lo que esta en listaB y no en listaA
 		for(int i = 0; i < listaB.size(); i ++) {
 			if(!listaA.contains(listaB.get(i))) {
 				listaA.add(listaB.get(i));
