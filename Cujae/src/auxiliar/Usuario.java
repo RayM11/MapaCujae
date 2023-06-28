@@ -1,8 +1,11 @@
 package auxiliar;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -10,23 +13,21 @@ public class Usuario {
 
 	private ArrayList<byte[]> nombre;
 	private ArrayList<byte[]> pass;
-	private String filePath;
+	private File admin;
 
 
 	public Usuario(){
 		nombre = new ArrayList<byte[]>();
 		pass = new ArrayList<byte[]>();
-		filePath = "admin.dat";
+		admin = new File("data/admin.dat");
 	}
 
 	public void leerCredencialesEncriptados(){
 
 		try {
-			
 
-			FileInputStream in = new FileInputStream("Res/admin.dat");
-			
-			in.getChannel().position(0);
+
+			InputStream in = new FileInputStream(admin);
 
 			byte[] arrTamNombre = new byte[4];
 			in.read(arrTamNombre);
@@ -113,21 +114,20 @@ public class Usuario {
 
 	public void crearAdmin(String nombre, String pass){
 
+		File carpetaData = new File("data");
+		carpetaData.mkdirs();
+
 		ArrayList<FragmentoCredencial> n = new ArrayList<FragmentoCredencial>();
 		ArrayList<FragmentoCredencial> p = new ArrayList<FragmentoCredencial>();
 		String subString = null;
 
 		try {
 
-			FileOutputStream out = new FileOutputStream("Res/admin.dat");
+			OutputStream out = new FileOutputStream(admin);
 
 			int contNombre = 0;
 			int contPass = 0;
 
-			byte[] arrAux = Convert.intToBytes(0);
-
-			out.write(arrAux);
-			out.write(arrAux);
 
 			for(int i = 0; i < nombre.length(); i += 2){
 
@@ -136,7 +136,20 @@ public class Usuario {
 				contNombre++;
 			}
 			Collections.shuffle(n);
+			
+			for(int i = 0; i < pass.length(); i += 2){
 
+				subString = pass.substring(i, Math.min(i+2,pass.length()));
+				p.add(new FragmentoCredencial(Convert.toBytes(subString), contPass));
+				contPass++;
+			}
+			Collections.shuffle(p);
+			
+			byte[] arrAux = Convert.intToBytes(contNombre);
+			out.write(arrAux);
+			arrAux = Convert.intToBytes(contPass);
+			out.write(arrAux);
+			
 			for(FragmentoCredencial fragmentoCredencial:n){
 
 				byte[] arr = Convert.toBytes(fragmentoCredencial);
@@ -146,14 +159,6 @@ public class Usuario {
 
 			}
 
-			for(int i = 0; i < pass.length(); i += 2){
-
-				subString = pass.substring(i, Math.min(i+2,pass.length()));
-				p.add(new FragmentoCredencial(Convert.toBytes(subString), contPass));
-				contPass++;
-			}
-			Collections.shuffle(p);
-
 			for(FragmentoCredencial fragmentoCredencial:p){
 
 				byte[] arr = Convert.toBytes(fragmentoCredencial);
@@ -162,14 +167,9 @@ public class Usuario {
 				out.write(arr);
 
 			}
-
-			out.getChannel().position(0);
-			byte[] arrContNombre = Convert.intToBytes(contNombre);
-			out.write(arrContNombre);
-			byte[] arrContPass = Convert.intToBytes(contPass);
-			out.write(arrContPass);
-
+			
 			out.close();
+			
 
 		} catch (IOException e) {
 			e.printStackTrace();
