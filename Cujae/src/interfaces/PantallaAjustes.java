@@ -50,7 +50,7 @@ public class PantallaAjustes extends JFrame {
 		botonAceptarAjustes = new JButton("Aceptar");
 		botonAceptarAjustes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int opcion = JOptionPane.showConfirmDialog(getContentPane(), "¿Está seguro que desea mantener esta configuración?",
+				int opcion = JOptionPane.showConfirmDialog(getContentPane(), "Â¿EstÃ¡ seguro que desea mantener esta configuraciÃ³n?",
 						"Aviso",2, JOptionPane.WARNING_MESSAGE);
 				if (opcion == 0){
 					configActual.guardarConfiguracion(tema, (String)comBoxTemaVisual.getSelectedItem(),
@@ -117,7 +117,7 @@ public class PantallaAjustes extends JFrame {
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int opcion = JOptionPane.showConfirmDialog(getContentPane(), "¿Está seguro que desea regresar?\nLos cambios realizados no serán guardados",
+				int opcion = JOptionPane.showConfirmDialog(getContentPane(), "Â¿EstÃ¡ seguro que desea regresar?\nLos cambios realizados no serÃ¡n guardados",
 						"Aviso",2, JOptionPane.WARNING_MESSAGE);
 				
 				if (opcion == 0){ 

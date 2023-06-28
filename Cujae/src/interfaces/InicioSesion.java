@@ -101,7 +101,7 @@ public class InicioSesion extends JFrame {
 					public void actionPerformed(ActionEvent e) {
 
 						if(!Validacion.cadenaNoVacia(textField.getText()) ||! Validacion.cadenaNoVacia(passwordField.getText())){
-							JOptionPane.showMessageDialog(null, "LLene los campos vacíos");
+							JOptionPane.showMessageDialog(null, "LLene los campos vacÃ­os");
 						}
 
 						else{

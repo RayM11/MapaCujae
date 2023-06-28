@@ -22,6 +22,7 @@ import java.awt.FlowLayout;
 import javax.swing.JButton;
 
 import auxiliar.Configuracion;
+import auxiliar.Validacion;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -49,33 +50,7 @@ public class VentanaRegistrarLugar extends JFrame {
 	private JTextField textField;
 	private JTextField textField_1;
 
-	//	private ArrayList<String> listaLugar = new ArrayList<String>(); // estas listas son para validar que no hayan campos vacios
-	//    private ArrayList<String> listaLugarInteres = new ArrayList<String>();
-	//    private ArrayList<String> listaLugarInteresFacultad = new ArrayList<String>();
-	//	@SuppressWarnings("unused")
-	//	private void inicializarListaLugar(){
-	//		listaLugar.add(textFieldID.getText());
-	//		listaLugar.add(textFieldFoto.getText());
-	//		listaLugar.add(textFieldFotoReversa.getText());
-	//		listaLugar.add(textField.getText());
-	//		listaLugar.add(textField_1.getText());
-	//		listaLugar.add(textField_2.getText());
-	//		listaLugar.add(textField_3.getText());
-	//	//	lista.add();
-	//		
-	//	}
-	//	@SuppressWarnings("unused")
-	//	private void inicializarListaLugarInteres(){
-	//		 listaLugarInteres.add(textFieldNombre.getText());
-	//		 listaLugarInteres.add(textAreaDescripcion.getText());
-	//		 listaLugarInteres.add(textAreaAnotaciones.getText());	
-	//	}
-	//	
-	//	@SuppressWarnings("unused")
-	//	private void inicializarListaLugarInteresFacultad(){
-	//		listaLugarInteresFacultad.add(textFieldDecano.getText());
-	//		listaLugarInteresFacultad.add(textFieldVicedecano.getText());
-	//	}
+
 
 	public void configurarPanelLugarInteres(boolean check){
 
@@ -96,7 +71,7 @@ public class VentanaRegistrarLugar extends JFrame {
 					String tipo = comboBox.getSelectedItem().toString();
 					crearCamposEspecificos(tipo);
 					SwingUtilities.updateComponentTreeUI(panelCamposEspecificos);
-					
+
 					if(tipo.equalsIgnoreCase("Facultad")){
 						textFieldDecano.setBorder(null);
 						textFieldVicedecano.setBorder(null);
@@ -199,14 +174,15 @@ public class VentanaRegistrarLugar extends JFrame {
 			JCheckBox chkPizza = new JCheckBox("Pizza");
 			chkPizza.setBounds(6, 29, 109, 23);
 			panelCamposEspecificos.add(chkPizza);
+			chkPizza.setSelected(true); // Es buena practica inicializar alguno(s) seleccionado(s)
 
 			JCheckBox chkHamburguesa = new JCheckBox("Hamburguesa");
 			chkHamburguesa.setBounds(6, 67, 109, 23);
 			panelCamposEspecificos.add(chkHamburguesa);
 
-			JCheckBox chkPanconjamón = new JCheckBox("Pan con jam\u00F3n");
-			chkPanconjamón.setBounds(6, 110, 117, 23);
-			panelCamposEspecificos.add(chkPanconjamón);
+			JCheckBox chkPanconjamon = new JCheckBox("Pan con jam\u00F3n");
+			chkPanconjamon.setBounds(6, 110, 117, 23);
+			panelCamposEspecificos.add(chkPanconjamon);
 
 			JCheckBox chkPanConQueso = new JCheckBox("Pan con queso");
 			chkPanConQueso.setBounds(6, 162, 117, 23);
@@ -251,6 +227,7 @@ public class VentanaRegistrarLugar extends JFrame {
 	}
 
 	public VentanaRegistrarLugar(final JFrame ventanaAnterior , final Configuracion configActual) {
+		
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 900, 700);
@@ -273,6 +250,7 @@ public class VentanaRegistrarLugar extends JFrame {
 		panelComboBox.setLayout(null);
 
 		chckbxNewCheckBox = new JCheckBox("De inter\u00E9s");
+		
 		chckbxNewCheckBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -344,6 +322,26 @@ public class VentanaRegistrarLugar extends JFrame {
 		buttonConfirmacion = new JButton("Aceptar");
 		buttonConfirmacion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if((!Validacion.cadenaNoVacia(textFieldFoto.getText()) ||! Validacion.cadenaNoVacia(textFieldFotoReversa.getText()) || !Validacion.cadenaNoVacia(textField.getText()) ||
+						!Validacion.cadenaNoVacia(textField_1.getText())) ){
+					
+					JOptionPane.showMessageDialog(null, "LLene los campos vacÃ­os");
+					
+
+				}
+				
+				else if(((chckbxNewCheckBox.isSelected() && !Validacion.cadenaNoVacia(textFieldNombre.getText()) )
+						|| (chckbxNewCheckBox.isSelected() && !Validacion.cadenaNoVacia(textAreaDescripcion.getText()) )
+						|| (chckbxNewCheckBox.isSelected() && !Validacion.cadenaNoVacia(textAreaAnotaciones.getText()) ))
+						|| ((chckbxNewCheckBox.isSelected() && comboBox.getSelectedItem().toString().equalsIgnoreCase("Facultad") && !Validacion.cadenaNoVacia(textFieldDecano.getText())
+						||chckbxNewCheckBox.isSelected() && comboBox.getSelectedItem().toString().equalsIgnoreCase("Facultad") && !Validacion.cadenaNoVacia(textFieldVicedecano.getText())))) {
+					
+					JOptionPane.showMessageDialog(null, "LLene los campos vacÃ­os");
+					
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Campos llenos"); //Para probar
+				}
 
 
 
@@ -355,7 +353,7 @@ public class VentanaRegistrarLugar extends JFrame {
 		buttonCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				int opcion = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea regresar? Los datos no se guardarán", "Aviso",0);
+				int opcion = JOptionPane.showConfirmDialog(null, "Â¿EstÃ¡ seguro que desea regresar? Los datos no se guardarÃ¡n", "Aviso",0);
 				if(opcion == 0){
 					ventanaAnterior.setEnabled(true);
 					ventanaAnterior.setVisible(true);

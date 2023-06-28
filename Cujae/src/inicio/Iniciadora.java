@@ -1,6 +1,6 @@
 package inicio;
 
-import interfaces.PantallaPresentación;
+import interfaces.PantallaPresentaciÃ³n;
 
 import java.awt.EventQueue;
 
@@ -22,7 +22,7 @@ public class Iniciadora {
 			public void run() {
 				try {
 					Configuracion configActual = new Configuracion();
-					PantallaPresentación frame = new PantallaPresentación(configActual);
+					PantallaPresentaciÃ³n frame = new PantallaPresentaciÃ³n(configActual);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
