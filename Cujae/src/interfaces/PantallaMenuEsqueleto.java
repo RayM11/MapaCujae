@@ -81,7 +81,7 @@ public class PantallaMenuEsqueleto extends JFrame {
 		botonSalirPantallaInicio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				int seleccion = JOptionPane.showConfirmDialog(null, "¿Está seguro de que quiere salir de la aplicación?", "Advertencia", 0);
+				int seleccion = JOptionPane.showConfirmDialog(null, "Â¿EstÃ¡ seguro de que quiere salir de la aplicaciÃ³n?", "Advertencia", 0);
 				if(seleccion == 0)
 					dispose();
 			}

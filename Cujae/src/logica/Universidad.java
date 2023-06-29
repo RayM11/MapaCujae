@@ -26,7 +26,6 @@ public class Universidad {
 	private static Universidad cujae = null;
 	private File datGrafo;
 	private ILinkedWeightedEdgeNotDirectedGraph mapa;
-	private Visitante visitante;
 	private GeneralTree<Object> arbolDecision;
 
 	private Universidad(){

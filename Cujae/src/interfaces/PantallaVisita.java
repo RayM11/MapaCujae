@@ -13,6 +13,7 @@ import auxiliar.Configuracion;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
 
 public class PantallaVisita extends JFrame {
 
@@ -27,12 +28,21 @@ public class PantallaVisita extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		JPanel panelBotones = new JPanel();
+		panelBotones.setOpaque(false);
+		panelBotones.setBorder(null);
+		panelBotones.setBounds(10, 297, 152, 176);
+		contentPane.add(panelBotones);
+		panelBotones.setLayout(null);
+		
 		JButton botonDireccionGirar = new JButton("");
+		botonDireccionGirar.setBounds(120, 0, 33, 33);
+		panelBotones.add(botonDireccionGirar);
 		botonDireccionGirar.setIcon(new ImageIcon(PantallaVisita.class.getResource("/texturas/giro.png")));
-		botonDireccionGirar.setBounds(73, 368, 26, 23);
-		contentPane.add(botonDireccionGirar);
 		
 		JButton salirBotonPantallaVisita = new JButton("Salir");
+		salirBotonPantallaVisita.setBounds(31, 153, 89, 23);
+		panelBotones.add(salirBotonPantallaVisita);
 		salirBotonPantallaVisita.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -43,28 +53,35 @@ public class PantallaVisita extends JFrame {
 			}
 		});
 		salirBotonPantallaVisita.setFont(new Font("Tahoma", Font.BOLD, 13));
-		salirBotonPantallaVisita.setBounds(10, 11, 89, 23);
-		contentPane.add(salirBotonPantallaVisita);
 		
 		JButton botonDirecionAdelante = new JButton("");
-		botonDirecionAdelante.setBounds(73, 312, 26, 47);
-		contentPane.add(botonDirecionAdelante);
+		botonDirecionAdelante.setBounds(63, 11, 26, 47);
+		panelBotones.add(botonDirecionAdelante);
 		botonDirecionAdelante.setIcon(new ImageIcon(PantallaVisita.class.getResource("/texturas/arriba.png")));
 		
 		JButton botonDireccionIzquierda = new JButton("");
-		botonDireccionIzquierda.setBounds(10, 368, 53, 23);
-		contentPane.add(botonDireccionIzquierda);
+		botonDireccionIzquierda.setBounds(10, 55, 53, 23);
+		panelBotones.add(botonDireccionIzquierda);
 		botonDireccionIzquierda.setIcon(new ImageIcon(PantallaVisita.class.getResource("/texturas/izquierda.png")));
 		
 		JButton botonDirecionDerecha = new JButton("");
-		botonDirecionDerecha.setBounds(109, 368, 53, 23);
-		contentPane.add(botonDirecionDerecha);
+		botonDirecionDerecha.setBounds(89, 55, 53, 23);
+		panelBotones.add(botonDirecionDerecha);
 		botonDirecionDerecha.setIcon(new ImageIcon(PantallaVisita.class.getResource("/texturas/derecha.png")));
 		
 		JButton botonDireccionAtras = new JButton("");
+		botonDireccionAtras.setBounds(63, 77, 26, 45);
+		panelBotones.add(botonDireccionAtras);
 		botonDireccionAtras.setIcon(new ImageIcon(PantallaVisita.class.getResource("/texturas/abajo.png")));
-		botonDireccionAtras.setBounds(73, 409, 26, 45);
-		contentPane.add(botonDireccionAtras);
+		
+		JButton button = new JButton("");
+		button.setBounds(0, 0, 33, 33);
+		panelBotones.add(button);
+		
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setIcon(null);
+		lblNewLabel.setBounds(0, 0, 723, 484);
+		contentPane.add(lblNewLabel);
 		botonDireccionAtras.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}

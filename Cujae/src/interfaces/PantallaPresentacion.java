@@ -18,12 +18,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 
-public class PantallaPresentación extends JFrame {
+public class PantallaPresentacion extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JButton btnNewButton;
-	private JProgressBar barraCargaPantallaPresentación;
+	private JProgressBar barraCargaPantallaPresentacion;
 
 
 	private void cargarBarra(){
@@ -38,7 +38,7 @@ public class PantallaPresentación extends JFrame {
 					} catch (InterruptedException e1) {
 						e1.printStackTrace();
 					}
-					barraCargaPantallaPresentación.setValue(i);
+					barraCargaPantallaPresentacion.setValue(i);
 				}
 				btnNewButton.setEnabled(true);
 				btnNewButton.setText("Continuar");
@@ -49,7 +49,7 @@ public class PantallaPresentación extends JFrame {
 		x.start();
 	}
 
-	public PantallaPresentación(final Configuracion configActual) {
+	public PantallaPresentacion(final Configuracion configActual) {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 550, 454);
@@ -80,15 +80,15 @@ public class PantallaPresentación extends JFrame {
 		btnNewButton.setBounds(212, 350, 139, 33);
 		contentPane.add(btnNewButton);
 
-		barraCargaPantallaPresentación = new JProgressBar();
-		barraCargaPantallaPresentación.setFont(new Font("Tahoma", Font.BOLD, 13));
-		barraCargaPantallaPresentación.setForeground(Color.GREEN);
-		barraCargaPantallaPresentación.setStringPainted(true);
-		barraCargaPantallaPresentación.setBounds(169, 294, 216, 25);
-		contentPane.add(barraCargaPantallaPresentación);
+		barraCargaPantallaPresentacion = new JProgressBar();
+		barraCargaPantallaPresentacion.setFont(new Font("Tahoma", Font.BOLD, 13));
+		barraCargaPantallaPresentacion.setForeground(Color.GREEN);
+		barraCargaPantallaPresentacion.setStringPainted(true);
+		barraCargaPantallaPresentacion.setBounds(169, 294, 216, 25);
+		contentPane.add(barraCargaPantallaPresentacion);
 
 		JLabel papelTapuis = new JLabel("");
-		papelTapuis.setIcon(new ImageIcon(PantallaPresentación.class.getResource("/texturas/tapiz.jpg")));
+		papelTapuis.setIcon(new ImageIcon(PantallaPresentacion.class.getResource("/texturas/tapiz.jpg")));
 		papelTapuis.setBounds(0, 55, 544, 221);
 		contentPane.add(papelTapuis);
 		

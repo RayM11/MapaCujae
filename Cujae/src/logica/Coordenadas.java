@@ -1,5 +1,6 @@
 package logica;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -8,8 +9,12 @@ import java.util.Map;
 
 import auxiliar.Direccion;
 
-public class Coordenadas {
+public class Coordenadas implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5L;
 	private double x;
 	private double y;
 
