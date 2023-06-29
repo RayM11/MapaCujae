@@ -2,6 +2,8 @@ package logica;
 
 import java.io.Serializable;
 
+import auxiliar.Direccion;
+
 public class Lugar implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -19,6 +21,16 @@ public class Lugar implements Serializable{
 	
 	public Coordenadas getCoordenadas() {
 		return coordenadas;
+	}
+	
+	public String getFoto(){
+		
+		return id + "D";
+	}
+	
+	public String getFotoDir(Direccion dir){
+		
+		return id + dir.toString();
 	}
 
 	public double calcularDistanciaA(double x2, double y2){
