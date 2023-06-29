@@ -1,26 +1,25 @@
 package logica;
 
+import java.util.ArrayList;
+
 public class Cafeteria extends LugarDeInteres {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private String ofertas;
+	private static final long serialVersionUID = 4L;
+	private ArrayList<String> productos;
 	
 	public Cafeteria(String id, double x, double y, String nombre, String descripcion,
-			String anotaciones, String ofertas) {
+			String anotaciones, ArrayList<String> productos) {
 		
 		super(id, x, y, nombre, descripcion, anotaciones);
-		this.ofertas = ofertas;
+		this.productos = productos;
 	}
 
-	public String getOfertas() {
-		return ofertas;
+	public ArrayList<String> getProductos() {
+		return productos;
 	}
 
-	public void setOfertas(String ofertas) {
-		this.ofertas = ofertas;
+	public void setProductos(ArrayList<String> productos) {
+		this.productos = productos;
 	}
 	
 	

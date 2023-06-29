@@ -1,36 +1,34 @@
 package logica;
 
+import auxiliar.Validacion;
+
 public class Facultad extends LugarDeInteres{
-	
-	private static final long serialVersionUID = 1L;
-	
+
+	private static final long serialVersionUID = 3L;
+
 	private String decano;
-	private String vicedecano;
-	
-	
-	
-	public Facultad(String id, double x, double y,String nombre, String descripcion, String anotaciones, String decano, String vicedecano) {
+
+
+
+	public Facultad(String id, double x, double y, String nombre, String descripcion, String anotaciones, String decano) {
+
 		super(id, x, y, nombre, descripcion, anotaciones);
+		setDecano(decano);
 		
-		this.decano = decano;
-		this.vicedecano = vicedecano;
 	}
-	
-	
-	
+
 	public String getDecano() {
 		return decano;
 	}
+
 	public void setDecano(String decano) {
-		this.decano = decano;
+		if(Validacion.cadenaNoVacia(decano)){  
+			this.decano = decano;
+		}
+		else{
+			throw new IllegalArgumentException ("La cadena de decano está vacía");
+		}
 	}
-	public String getVicedecano() {
-		return vicedecano;
-	}
-	public void setVicedecano(String vicedecano) {
-		this.vicedecano = vicedecano;
-	}
-	
-	
+
 
 }

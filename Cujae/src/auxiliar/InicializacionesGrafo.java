@@ -1,5 +1,6 @@
 package auxiliar;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import logica.Cafeteria;
@@ -189,8 +190,7 @@ public class InicializacionesGrafo {
 				"Facultad de Telecomunicaciones", 
 				"Descripción",
 				"",
-				"Decano",
-				"Vicedecano");
+				"Decano");
 		grafo.insertVertex(luIF0314A);
 
 		//29
@@ -198,8 +198,7 @@ public class InicializacionesGrafo {
 				"Facultad de Automática y Biomédica", 
 				"Descripción",
 				"",
-				"Decano",
-				"Vicedecano");
+				"Decano");
 		grafo.insertVertex(luIF0415C);
 
 		//30
@@ -229,7 +228,7 @@ public class InicializacionesGrafo {
 				"Cafetería \"El Hueco\"", 
 				"Descripción",
 				"",
-				"Ofertas");
+				new ArrayList<String>());
 		grafo.insertVertex(luIC0416C);
 
 		//35
@@ -260,8 +259,7 @@ public class InicializacionesGrafo {
 				"Facultad de Arquitectura", 
 				"Descripción",
 				"",
-				"Decano",
-				"Vicedecano");
+				"Decano");
 		grafo.insertVertex(luIF0317A);
 
 		//41
@@ -269,8 +267,7 @@ public class InicializacionesGrafo {
 				"Facultad de Química", 
 				"Descripción",
 				"",
-				"Decano",
-				"Vicedecano");
+				"Decano");
 		grafo.insertVertex(luIF0316C);
 
 		//42
@@ -278,8 +275,7 @@ public class InicializacionesGrafo {
 				"Facultad de Industrial", 
 				"Descripción",
 				"",
-				"Decano",
-				"Vicedecano");
+				"Decano");
 		grafo.insertVertex(luIF0315B);
 
 		//43
@@ -322,8 +318,7 @@ public class InicializacionesGrafo {
 				"Facultad de Mecánica", 
 				"Descripción",
 				"",
-				"Decano",
-				"Vicedecano");
+				"Decano");
 		grafo.insertVertex(luIF0816C);
 
 		//52
@@ -343,7 +338,7 @@ public class InicializacionesGrafo {
 				"Cafetería de Mecánica", 
 				"Descripción",
 				"",
-				"Ofertas");
+				new ArrayList<String>());
 		grafo.insertVertex(luIC0817A);
 
 		//56
@@ -351,8 +346,7 @@ public class InicializacionesGrafo {
 				"Facultad de Informática (CEIS)", 
 				"Descripción",
 				"",
-				"Decano",
-				"Vicedecano");
+				"Decano");
 		grafo.insertVertex(luIF0715A);
 
 		//57
@@ -497,7 +491,7 @@ public class InicializacionesGrafo {
 				"Cafetería \"Beca Cujae\"", 
 				"Descripción",
 				"",
-				"Ofertas");
+				new ArrayList<String>());
 		grafo.insertVertex(luIC1006B);
 
 		//81
