@@ -695,16 +695,16 @@ public class InicializacionesGrafo {
 		agregarCamino(grafo, lu0610A, luI0609A);
 		
 		// 13 y 31
-		agregarCamino(grafo, luI0415B, luI0609A);
+		agregarCamino(grafo, luI0415B, lu0415A);
 		
 		// 31 y 32
-		agregarCamino(grafo, luI0609A, lu0416B);
+		agregarCamino(grafo, lu0415A, lu0416B);
 		
 		// 32 y 33
 		agregarCamino(grafo, lu0416B, luI0416A);
 		
 		// 32 y 34
-		agregarCamino(grafo, lu0416B, luI0416A);
+		agregarCamino(grafo, lu0416B, luIC0416C);
 		
 		// 1 y 35
 		agregarCamino(grafo, luI0116A, lu0216A);
@@ -740,7 +740,7 @@ public class InicializacionesGrafo {
 		agregarCamino(grafo, luI0416A, luIF0316C);
 		
 		// 31 y 42
-		agregarCamino(grafo, luI0609A, luIF0315B);
+		agregarCamino(grafo, lu0415A, luIF0315B);
 		
 		// 3 y 43
 		agregarCamino(grafo, lu0619A, lu0616A);
@@ -749,16 +749,16 @@ public class InicializacionesGrafo {
 		agregarCamino(grafo, lu0616A, lu0616B);
 		
 		// 34 y 44
-		agregarCamino(grafo, luI0416A, lu0616B);
+		agregarCamino(grafo, luIC0416C, lu0616B);
 		
 		// 44 y 45
-		agregarCamino(grafo, lu0616B, lu0616B);
+		agregarCamino(grafo, lu0616B, lu0615A);
 		
 		// 13 y 45
-		agregarCamino(grafo, luI0415B, lu0616B);
+		agregarCamino(grafo, luI0415B, lu0615A);
 		
 		// 45 y 46
-		agregarCamino(grafo, lu0616B, lu0614A);
+		agregarCamino(grafo, lu0615A, lu0614A);
 		
 		// 12 y 46
 		agregarCamino(grafo, lu0314C, lu0614A);
@@ -785,7 +785,7 @@ public class InicializacionesGrafo {
 		agregarCamino(grafo, lu0816A, luIC0817A);
 		
 		// 45 y 56
-		agregarCamino(grafo, lu0616B, luIF0715A);
+		agregarCamino(grafo, lu0615A, luIF0715A);
 		
 		// 56 y 57
 		agregarCamino(grafo, luIF0715A, luI0815A);
