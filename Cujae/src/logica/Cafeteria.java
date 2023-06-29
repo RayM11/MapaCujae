@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Cafeteria extends Lugar {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 4L;
 	private ArrayList<String> productos;
 
 
