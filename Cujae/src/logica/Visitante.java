@@ -55,7 +55,7 @@ public class Visitante {
 	
 	public String getFotoPOV(){
 		
-		return((Lugar) verticeActual.getInfo()).getId() + pov.toString().substring(0,1);
+		return((Lugar) verticeActual.getInfo()).getId() + pov.toString();
 		
 	}
 
