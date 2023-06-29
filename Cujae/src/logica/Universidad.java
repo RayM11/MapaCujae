@@ -6,8 +6,6 @@ import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
-
 import auxiliar.ConexionesVertex;
 import auxiliar.Convert;
 import auxiliar.Dijkstra;
@@ -18,7 +16,6 @@ import cu.edu.cujae.ceis.graph.vertex.Vertex;
 import cu.edu.cujae.ceis.tree.binary.BinaryTreeNode;
 import cu.edu.cujae.ceis.tree.general.GeneralTree;
 import cu.edu.cujae.ceis.tree.iterators.general.InBreadthIterator;
-import cu.edu.cujae.ceis.tree.iterators.general.InDepthIterator;
 
 public class Universidad {
 
@@ -28,8 +25,8 @@ public class Universidad {
 	private Visitante visitante;
 	private GeneralTree<Object> arbolDecision;
 
-	private Universidad(String rector){
-		datGrafo = new File("Res/grafo.dat");
+	private Universidad(){
+		datGrafo = new File("data/grafo.dat");
 		mapa = new LinkedGraph();
 		arbolDecision = new GeneralTree<Object>();
 	}
@@ -95,7 +92,6 @@ public class Universidad {
 	}
 
 
-	@SuppressWarnings({ "unused", "null" })
 	private void agregarCafeteriasAlArbol(BinaryTreeNode<Object> nodoPadre ) {
 		ArrayList<Cafeteria> cafeterias = listaCafeterias();
 		if(!cafeterias.isEmpty()) {
@@ -195,10 +191,10 @@ public class Universidad {
 	}
 
 
-	public static Universidad getCujae(String rector){
+	public static Universidad getCujae(){
 
 		if(cujae == null)
-			cujae = new Universidad(rector);
+			cujae = new Universidad();
 		return cujae;
 	}
 
@@ -212,6 +208,8 @@ public class Universidad {
 
 		return lugaresEncontrados;
 	}
+	
+	
 
 	public boolean guardarGrafo(){
 

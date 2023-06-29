@@ -1,6 +1,6 @@
 package inicio;
 
-import interfaces.PantallaPresentación;
+import interfaces.PantallaPresentacion;
 
 import java.awt.EventQueue;
 import java.io.File;
@@ -38,7 +38,7 @@ public class Iniciadora {
 					Iniciadora.establecerAdmin();
 					
 					Configuracion configActual = new Configuracion();
-					PantallaPresentación frame = new PantallaPresentación(configActual);
+					PantallaPresentacion frame = new PantallaPresentacion(configActual);
 					frame.setVisible(true);
 
 				} catch (Exception e) {
