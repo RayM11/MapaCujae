@@ -2,15 +2,13 @@ package logica;
 
 import java.util.ArrayList;
 
-import auxiliar.OfertaCafeteria;
-
 public class Cafeteria extends LugarDeInteres {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-	private ArrayList<OfertaCafeteria> ofertas;
+	private static final long serialVersionUID = 4L;;
+	private ArrayList<String> productos;
 	
 	public Cafeteria(String id, double x, double y, String nombre, String descripcion,
 			String anotaciones) {
@@ -18,20 +16,20 @@ public class Cafeteria extends LugarDeInteres {
 		super(id, x, y, nombre, descripcion, anotaciones);
 	}
 
-	public ArrayList<OfertaCafeteria> getOfertas() {
-		return ofertas;
+	public ArrayList<String> getProductos() {
+		return productos;
 	}
 
-	public void setOfertas(ArrayList<OfertaCafeteria> ofertas) {
-		this.ofertas = ofertas;
+	public void setProductos(ArrayList<String> ofertas) {
+		this.productos = ofertas;
 	}
 	
-	public void anadirOferta(OfertaCafeteria oferta){
-		ofertas.add(oferta);
+	public void anadirProducto(String oferta){
+		productos.add(oferta);
 	}
 	
-	public void limpiarOfertas(){
-		ofertas.clear();
+	public void limpiarProductos(){
+		productos.clear();
 	}
 
 }
