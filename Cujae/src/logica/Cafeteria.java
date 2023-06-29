@@ -15,6 +15,7 @@ public class Cafeteria extends LugarDeInteres implements Serializable{
 			String anotaciones) {
 		
 		super(id, x, y, nombre, descripcion, anotaciones);
+		productos = new ArrayList<String>();
 	}
 
 	public ArrayList<String> getProductos() {

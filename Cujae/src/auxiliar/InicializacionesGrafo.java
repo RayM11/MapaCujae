@@ -26,7 +26,7 @@ public class InicializacionesGrafo {
 	 * */
 
 
-	public ILinkedWeightedEdgeNotDirectedGraph inicializarLugares(){
+	public static ILinkedWeightedEdgeNotDirectedGraph inicializarLugares(){
 
 		ILinkedWeightedEdgeNotDirectedGraph grafo = new LinkedGraph();
 

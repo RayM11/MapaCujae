@@ -13,6 +13,7 @@ import java.util.LinkedList;
 import auxiliar.ConexionesVertex;
 import auxiliar.Convert;
 import auxiliar.Dijkstra;
+import auxiliar.InicializacionesGrafo;
 import auxiliar.MarcadorDijkstra;
 import cu.edu.cujae.ceis.graph.LinkedGraph;
 import cu.edu.cujae.ceis.graph.interfaces.ILinkedWeightedEdgeNotDirectedGraph;
@@ -26,14 +27,14 @@ public class Universidad {
 	private static Universidad cujae = null;
 	private File datGrafo;
 	private ILinkedWeightedEdgeNotDirectedGraph mapa;
-	private Visitante visitante;
 	private GeneralTree<Object> arbolDecision;
 
 	private Universidad(){
 
 		datGrafo = new File("data/grafo.dat");
-		mapa = new LinkedGraph();
+		mapa = InicializacionesGrafo.inicializarLugares();
 		arbolDecision = new GeneralTree<Object>();
+		guardarGrafo();
 
 	}
 
@@ -346,6 +347,8 @@ public class Universidad {
 					int[] conexiones = devolverConexiones(v);
 					ConexionesVertex aux = new ConexionesVertex(v.getInfo(), conexiones);
 
+					System.out.println(((Lugar) v.getInfo()).getId()+"  "+conexiones.length);
+					
 					byte[] arr = Convert.toBytes(aux);
 					out.write(Convert.intToBytes(arr.length));
 					out.write(arr);

@@ -23,12 +23,9 @@ public class LugarDeInteres extends Lugar implements Serializable{
 	}
 	public void setAnotaciones(String anotaciones) {
 		
-		if(Validacion.cadenaNoVacia(anotaciones)){  
 		this.anotaciones = anotaciones;
-		}
-		else{
-			throw new IllegalArgumentException ("La cadena de descripcion está vacía");
-		}
+		
+		
 	}
 	public String getNombre() {
 		return nombre;
