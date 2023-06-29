@@ -4,22 +4,18 @@ import auxiliar.Validacion;
 
 public class LugarDeInteres extends Lugar{
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2L;
 	protected String nombre;
 	protected String descripcion;
 	protected String anotaciones;
-	protected String fotoPortada;
 	
-	
-	public LugarDeInteres(String id, float x, float y, String fotoNorte,
-			String fotoSur, String fotoEste, String fotoOeste, String nombre,
-			String descripcion, String anotaciones, String fotoPortada) {
-		super(id, x, y, fotoNorte, fotoSur, fotoEste, fotoOeste);
+	public LugarDeInteres(String id, double x, double y, String nombre, String descripcion, String anotaciones) {
+		super(id, x, y);
 		setAnotaciones(anotaciones);
 		setDescripcion(descripcion);
-		setFotoPortada(fotoPortada);
 		setNombre(nombre);
 	}
+	
 	public String getAnotaciones() {
 		return anotaciones;
 	}
@@ -29,7 +25,7 @@ public class LugarDeInteres extends Lugar{
 		this.anotaciones = anotaciones;
 		}
 		else{
-			throw new IllegalArgumentException ("La cadena de anotaciones está vacía");
+			throw new IllegalArgumentException ("La cadena de descripcion está vacía");
 		}
 	}
 	public String getNombre() {
@@ -47,9 +43,6 @@ public class LugarDeInteres extends Lugar{
 			throw new IllegalArgumentException ("La cadena de descripcion está vacía");
 		}
 	}
-	public String getFotoPortada() {
-		return fotoPortada;
-	}
 	public void setNombre(String nombre) {
 		
 		if(Validacion.cadenaNoVacia(nombre)){  
@@ -59,17 +52,4 @@ public class LugarDeInteres extends Lugar{
 			throw new IllegalArgumentException ("La cadena de anotaciones está vacía");
 		}
 	}
-
-	public void setFotoPortada(String fotoPortada) {
-	
-		if(Validacion.cadenaNoVacia(fotoPortada)){ 
-		this.fotoPortada = fotoPortada;
-		}
-		else{
-			throw new IllegalArgumentException ("La cadena de fotoPortada está vacía");
-		}
-	}
-	
-	
-	
 }

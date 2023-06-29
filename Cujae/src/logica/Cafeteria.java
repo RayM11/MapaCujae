@@ -2,18 +2,16 @@ package logica;
 
 import java.util.ArrayList;
 
-public class Cafeteria extends Lugar {
+public class Cafeteria extends LugarDeInteres {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 4L;
 	private ArrayList<String> productos;
-
-
-
-	public Cafeteria(String id, float x, float y, String fotoNorte,
-			String fotoSur, String fotoEste, String fotoOeste,
-			ArrayList<String> productos) {
-		super(id, x, y, fotoNorte, fotoSur, fotoEste, fotoOeste);
-		this.productos = new ArrayList<String>() ;
+	
+	public Cafeteria(String id, double x, double y, String nombre, String descripcion,
+			String anotaciones, ArrayList<String> productos) {
+		
+		super(id, x, y, nombre, descripcion, anotaciones);
+		this.productos = productos;
 	}
 
 	public ArrayList<String> getProductos() {
@@ -23,9 +21,7 @@ public class Cafeteria extends Lugar {
 	public void setProductos(ArrayList<String> productos) {
 		this.productos = productos;
 	}
-
-
-
-
+	
+	
 
 }

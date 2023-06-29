@@ -1,56 +1,79 @@
 package logica;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+
 import auxiliar.Direccion;
 
 public class Coordenadas {
 
-	private float x;
-	private float y;
+	private double x;
+	private double y;
 
-	public Coordenadas(float x, float y){
+	public Coordenadas(double x, double y){
 		this.x = x;
 		this.y = y;
 	}
 
-	public float getX() {
+	public double getX() {
 		return x;
 	}
-	public float getY() {
+	public double getY() {
 		return y;
 	}
 
-	
-	public Direccion direccionHacia(Coordenadas cor2) throws IllegalArgumentException{
+	/**
+	 *	Recibe una coordenada destino y devuelve una lista de direcciones ordenada según el mayor movimiento 
+	 * 	en cada dirección. Es para tener un orden de prioridad al elegir en qué dirección colocar el movimiento
+	 * 	a la coordenada objetivo
+	 */
+	public ArrayList<Direccion> direccionHacia(Coordenadas cor2){
 		
-		Direccion dir;
+		// Direccion dir;
 		
-		float difY = y - cor2.getY();
-		float difX = x - cor2.getX();
+		double movY = cor2.getY() - y;
+		double movX = cor2.getX() - x; 
 		
-		if (abs(difY) > abs(difX))
+		double movNorte = movY;
+		double movSur = -1*movY;
+		double movEste = movX;
+		double movOeste = -1*movX;
 		
-			if (difY > 0)
-				dir = Direccion.S;
-			else
+		final Map<Direccion, Double> desplazamientos = new HashMap<>();
+	    desplazamientos.put(Direccion.N, movNorte);
+	    desplazamientos.put(Direccion.S, movSur);
+	    desplazamientos.put(Direccion.E, movEste);
+	    desplazamientos.put(Direccion.O, movOeste);
+		
+	    ArrayList<Direccion> direcciones = new ArrayList<>(desplazamientos.keySet());
+	    Collections.sort(direcciones, new Comparator<Direccion>(){
+
+			@Override
+			public int compare(Direccion d1, Direccion d2) {
+				
+				return Double.compare(desplazamientos.get(d1), desplazamientos.get(d2));
+			}
+	    });
+	    
+	/*	if (abs(movY) > abs(movX))
+		
+			if (movY > 0)
 				dir = Direccion.N;
-			
-		else if (abs(difY) < abs(difX))
-			if (difX > 0)
-				dir = Direccion.O;
 			else
+				dir = Direccion.S;
+			
+		else if (abs(movY) < abs(movX))
+			if (movX > 0)
 				dir = Direccion.E;
+			else
+				dir = Direccion.O;
 		else
 			throw new IllegalArgumentException("Movimiento diagonal intentado, situación no contemplada todavía");
-				
-		return dir;
+		*/		
+		return direcciones;
 	}
 	
-	private float abs(float num){
-		
-		if (num < 0)
-			num *= -1;
-		
-		return num;
-	}
-
 }
