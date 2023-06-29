@@ -52,7 +52,7 @@ public class Universidad {
 	}
 
 	@SuppressWarnings("null")
-	public ArrayList<Facultad> listaFacultades(){
+	private ArrayList<Facultad> listaFacultades(){
 		ArrayList<Facultad> facultades = new ArrayList<Facultad>() ;
 
 		Iterator<Vertex> iterador = mapa.getVerticesList().iterator();
@@ -208,7 +208,7 @@ public class Universidad {
 	}
 
 	@SuppressWarnings("unused")
-	private void insertarFacultadEnArbol(Facultad facultad) {
+	public void insertarFacultadEnArbol(Facultad facultad) {
 
 		BinaryTreeNode<Object> nodo = new BinaryTreeNode<Object>(facultad);
 
@@ -217,7 +217,7 @@ public class Universidad {
 	}
 
 	@SuppressWarnings("unused")
-	private void insertarCafeteriaEnElArbol(Cafeteria cafeteria) {
+	public void insertarCafeteriaEnElArbol(Cafeteria cafeteria) {
          agregarProductosNuevos(cafeteria,(ArrayList<Object>)arbolDecision.getSonsInfo(((BinaryTreeNode<Object>)arbolDecision.getRoot()).getLeft().getRight()));
          agregarCafeteriaNueva(cafeteria, (ArrayList<BinaryTreeNode<Object>>) arbolDecision.getSons(((BinaryTreeNode<Object>)arbolDecision.getRoot()).getLeft().getRight()));
 
