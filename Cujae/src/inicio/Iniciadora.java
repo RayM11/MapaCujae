@@ -4,15 +4,22 @@ import interfaces.PantallaPresentacion;
 
 import java.awt.EventQueue;
 import java.io.File;
-
 import javax.swing.UIManager;
 
+import logica.Universidad;
 import auxiliar.Configuracion;
 import auxiliar.Usuario;
 
 public class Iniciadora {
 
-	public static void establecerAdmin(){
+	
+
+	public static void establecerDirectorios(){
+
+
+		File data = new File("data");
+
+		data.mkdir();
 
 		File admin = new File("data/admin.dat");
 
@@ -35,8 +42,9 @@ public class Iniciadora {
 			public void run() {
 				try {
 
-					Iniciadora.establecerAdmin();
-					
+					Universidad.getCujae();
+					Iniciadora.establecerDirectorios();
+
 					Configuracion configActual = new Configuracion();
 					PantallaPresentacion frame = new PantallaPresentacion(configActual);
 					frame.setVisible(true);
