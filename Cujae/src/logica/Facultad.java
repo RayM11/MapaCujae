@@ -1,8 +1,10 @@
 package logica;
 
+import java.io.Serializable;
+
 import auxiliar.Validacion;
 
-public class Facultad extends LugarDeInteres{
+public class Facultad extends LugarDeInteres implements Serializable{
 
 	private static final long serialVersionUID = 3L;
 

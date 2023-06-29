@@ -1,8 +1,10 @@
 package logica;
 
+import java.io.Serializable;
+
 import auxiliar.Validacion;
 
-public class LugarDeInteres extends Lugar{
+public class LugarDeInteres extends Lugar implements Serializable{
 
 	private static final long serialVersionUID = 2L;
 	protected String nombre;
