@@ -29,5 +29,9 @@ public class Cafeteria extends LugarDeInteres {
 	public void anadirOferta(OfertaCafeteria oferta){
 		ofertas.add(oferta);
 	}
+	
+	public void limpiarOfertas(){
+		ofertas.clear();
+	}
 
 }
