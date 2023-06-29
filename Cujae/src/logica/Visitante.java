@@ -52,7 +52,12 @@ public class Visitante {
 	public Lugar getLugarActual (){
 		return (Lugar)verticeActual.getInfo();
 	}
-
+	
+	public String getFotoPOV(){
+		
+		return((Lugar) verticeActual.getInfo()).getId() + pov.toString();
+		
+	}
 
 	public boolean moverse(Direccion direccion){
 
