@@ -26,13 +26,14 @@ public class MapPanelFX extends Pane {
     private LugarDeInteres lugarSeleccionado;
     private boolean destinoDeRuta;
 
-    public MapPanelFX(LinkedGraph mapa) {
+    public MapPanelFX(LinkedGraph mapa, int x, int y) {
     	
     	destinoDeRuta = false;
     	lugarSeleccionado = null;
     	
+    	
         // Crea un nuevo objeto Canvas, establece su tamaño y obtiene el contexto gráfico
-        canvas = new Canvas(800, 600);
+        canvas = new Canvas(x, y);
         canvas.setStyle("-fx-background-color: white;");
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.setFill(Color.GREEN); //para q haya un fondo provisional
@@ -121,7 +122,7 @@ public class MapPanelFX extends Pane {
     /*		COMO AÑADIR ESTE PANEL A UN PANEL DE SWING
      * 
      * 		JPanel panelMapa = new JPanel();
-     *		MapPanel mapPanel = new MapPanel(¨el grafo del mapa¨);
+     *		MapPanel mapPanel = new MapPanel(¨el grafo del mapa¨, tamaño x, tamaño y);
 	 *		swingPanel.add(mapPanel.getComponenteDeSwing());
 	 *		
      * 		
