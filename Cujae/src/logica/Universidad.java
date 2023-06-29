@@ -1,8 +1,11 @@
 package logica;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.RandomAccessFile;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -28,7 +31,7 @@ public class Universidad {
 
 	private Universidad(){
 
-		datGrafo = new File("Res/grafo.dat");
+		datGrafo = new File("data/grafo.dat");
 		mapa = new LinkedGraph();
 		arbolDecision = new GeneralTree<Object>();
 
@@ -51,7 +54,7 @@ public class Universidad {
 		}
 	}
 
-	public ArrayList<Facultad> listaFacultades(){
+	private ArrayList<Facultad> listaFacultades(){
 		ArrayList<Facultad> facultades = new ArrayList<Facultad>() ;
 
 		Iterator<Vertex> iterador = mapa.getVerticesList().iterator();
@@ -203,8 +206,7 @@ public class Universidad {
 		return listaProductos;
 	}
 
-	@SuppressWarnings("unused")
-	private void insertarFacultadEnArbol(Facultad facultad) {
+	public void insertarFacultadEnArbol(Facultad facultad) {
 
 		BinaryTreeNode<Object> nodo = new BinaryTreeNode<Object>(facultad);
 
@@ -212,8 +214,7 @@ public class Universidad {
 
 	}
 
-	@SuppressWarnings("unused")
-	private void insertarCafeteriaEnElArbol(Cafeteria cafeteria) {
+	public void insertarCafeteriaEnElArbol(Cafeteria cafeteria) {
 		agregarProductosNuevos(cafeteria,(ArrayList<Object>)arbolDecision.getSonsInfo(((BinaryTreeNode<Object>)arbolDecision.getRoot()).getLeft().getRight()));
 		agregarCafeteriaNueva(cafeteria, (ArrayList<BinaryTreeNode<Object>>) arbolDecision.getSons(((BinaryTreeNode<Object>)arbolDecision.getRoot()).getLeft().getRight()));
 
@@ -333,10 +334,8 @@ public class Universidad {
 		boolean ok = false;
 
 		try {
-			RandomAccessFile raf = new RandomAccessFile(datGrafo, "rw");
-			raf.setLength(0);
+			OutputStream out = new FileOutputStream(datGrafo);
 
-			raf.writeInt(mapa.getVerticesList().size());
 			if(!mapa.isEmpty()){
 
 				Iterator<Vertex> iter = mapa.getVerticesList().iterator();
@@ -348,14 +347,14 @@ public class Universidad {
 					ConexionesVertex aux = new ConexionesVertex(v.getInfo(), conexiones);
 
 					byte[] arr = Convert.toBytes(aux);
-					raf.writeInt(arr.length);
-					raf.write(arr);
+					out.write(Convert.intToBytes(arr.length));
+					out.write(arr);
 
 				}
 			}
 
 			ok = true;
-			raf.close();
+			out.close();
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -369,48 +368,36 @@ public class Universidad {
 		boolean ok = false;
 
 		try {
-			RandomAccessFile raf = new RandomAccessFile(datGrafo, "r");
+			InputStream in = new FileInputStream(datGrafo);
 
-			if(raf.length()>0){
+			if(in.available() > 0){
 
-				int total = raf.readInt();
-				int cont = 0;
+				ArrayList<int[]> conexionesList = new ArrayList<int[]>();
 
-				while(cont < total){
+				while(in.available() > 0){
 
-					byte[] arrCV = new byte[raf.readInt()];
-					raf.read(arrCV);
+					byte[] arrTam = new byte[4];
+					int tam = Convert.toInt(arrTam);
+
+					byte[] arrCV = new byte[tam];
+					in.read(arrCV);
 					ConexionesVertex cv = (ConexionesVertex) Convert.toObject(arrCV);
 					mapa.insertVertex(cv.getInfo());
-					cont++;
+					conexionesList.add(cv.getIndexConecciones());
 				}
 
-				cont = 0;
-				raf.seek(4);
+				for(int i = 0; i < conexionesList.size(); i++){
 
-				while(cont < total){
+					int[] conexiones = conexionesList.get(i);
+					conectarVertice(i, conexiones);
 
-					byte[] arrCV = new byte[raf.readInt()];
-					raf.read(arrCV);
-					ConexionesVertex cv = (ConexionesVertex) Convert.toObject(arrCV);
-
-					int[] conexiones = cv.getIndexConecciones();
-					Lugar l1 = (Lugar) cv.getInfo();
-
-					for(int i = 0; i < conexiones.length; i++){
-
-						if(!contieneEdge(cont, mapa.getVerticesList().get(conexiones[i]))){
-							Coordenadas l2 = ((Lugar) mapa.getVerticesList().get(conexiones[i]).getInfo()).getCoordenadas();
-							mapa.insertWEdgeNDG(cont, conexiones[i], l1.calcularDistanciaA(l2.getX(), l2.getY()));
-						}
-					}
-					cont++;
 				}
 
 				ok = true;
-				raf.close();
-
 			}
+			in.close();
+
+
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -418,6 +405,18 @@ public class Universidad {
 
 		return ok;
 	}
+
+	private void conectarVertice(int indexVertex, int[] conexiones){
+
+		for(int i = 0; i < conexiones.length; i++){
+
+			if(!contieneEdge(indexVertex, conexiones[i]))
+				agregarCamino(indexVertex, conexiones[i], distanciaPorIndices(indexVertex, conexiones[i]));
+
+		}
+
+	}
+
 
 	private int[] devolverConexiones(Vertex vertex){
 
@@ -443,7 +442,16 @@ public class Universidad {
 
 	}
 
-	private boolean contieneEdge(int posVertex, Object info){
+	private double distanciaPorIndices(int index1, int index2){
+
+		Lugar l1 = (Lugar) mapa.getVerticesList().get(index1).getInfo();
+		Lugar l2 = (Lugar) mapa.getVerticesList().get(index2).getInfo();
+
+		return l1.calcularDistanciaA(l2);
+
+	}
+
+	private boolean contieneEdge(int posVertex, int posAdy){
 
 		boolean contiene = false;
 
@@ -452,9 +460,12 @@ public class Universidad {
 			Iterator<Vertex> iter = adyacentes.iterator();
 
 			while(iter.hasNext() && !contiene){
-				Object obj = iter.next().getInfo();
-				if(obj.equals(info))
+
+				Vertex v = iter.next();
+				int indexV = ((LinkedGraph)mapa).getVertexIndex(v);
+				if(posAdy == indexV)
 					contiene = true;
+
 			}
 		}
 
@@ -487,17 +498,25 @@ public class Universidad {
 
 	public boolean agregarCamino(Lugar lu1, Lugar lu2){
 
-		boolean exito = false;
-
 		int indice1 = indiceDeLugar(lu1);
 		int indice2 = indiceDeLugar(lu2);
 
+		return agregarCamino(indice1, indice2, lu1.calcularDistanciaA(lu2));
+	}
+
+	public boolean agregarCamino(int indice1, int indice2, double distancia){
+
+		boolean exito = false;
+
 		if (indice1 != -1 && indice2 != -1){
-			mapa.insertWEdgeNDG(indice1, indice2, lu1.calcularDistanciaA(lu2));
+
+			mapa.insertWEdgeNDG(indice1, indice2, distancia);
 			exito = true;
+
 		}
 
 		return exito;
+
 	}
 
 	public int indiceDeLugar(Lugar lu){
