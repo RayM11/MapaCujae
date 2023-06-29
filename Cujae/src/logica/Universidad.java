@@ -1,12 +1,14 @@
 package logica;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.RandomAccessFile;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 
 import auxiliar.ConexionesVertex;
 import auxiliar.Convert;
@@ -18,7 +20,6 @@ import cu.edu.cujae.ceis.graph.vertex.Vertex;
 import cu.edu.cujae.ceis.tree.binary.BinaryTreeNode;
 import cu.edu.cujae.ceis.tree.general.GeneralTree;
 import cu.edu.cujae.ceis.tree.iterators.general.InBreadthIterator;
-import cu.edu.cujae.ceis.tree.iterators.general.InDepthIterator;
 
 public class Universidad {
 
@@ -29,9 +30,11 @@ public class Universidad {
 	private GeneralTree<Object> arbolDecision;
 
 	private Universidad(){
-		datGrafo = new File("Res/grafo.dat");
+
+		datGrafo = new File("data/grafo.dat");
 		mapa = new LinkedGraph();
 		arbolDecision = new GeneralTree<Object>();
+
 	}
 
 	public void inicializarArbol(Lugar lugar) {
@@ -51,7 +54,6 @@ public class Universidad {
 		}
 	}
 
-	@SuppressWarnings("null")
 	private ArrayList<Facultad> listaFacultades(){
 		ArrayList<Facultad> facultades = new ArrayList<Facultad>() ;
 
@@ -67,7 +69,6 @@ public class Universidad {
 	}
 
 
-	@SuppressWarnings({ "null", "unused" })
 	private void agregarFacultadesAlArbol(BinaryTreeNode<Object> nodoPadre ) {
 		ArrayList<Object> facultades = new ArrayList<Object>();
 
@@ -80,7 +81,6 @@ public class Universidad {
 
 
 
-	@SuppressWarnings({ "unused", "null" })
 	private void agregarCafeteriasAlArbol(BinaryTreeNode<Object> nodoPadre ) {
 		ArrayList<Object> productosExistentes =  new ArrayList<Object>();
 		productosExistentes.addAll(listaProductosExistentes());
@@ -160,7 +160,6 @@ public class Universidad {
 		return cafeteriasADevolver;
 	}
 
-	@SuppressWarnings("unused")
 	private void insertarHijosAUnNodo(BinaryTreeNode<Object> nodo, ArrayList<Object> hijos) {
 
 		for(int i = 0; i < hijos.size(); i ++) {
@@ -170,7 +169,7 @@ public class Universidad {
 
 	}
 
-	@SuppressWarnings({ "unused" })
+	@SuppressWarnings({ })
 	private ArrayList<Cafeteria> cafeteriasConProductoEspecificado(String producto){
 		ArrayList<Cafeteria> listaCafeteriasADevolver = new ArrayList<Cafeteria>();
 
@@ -207,7 +206,6 @@ public class Universidad {
 		return listaProductos;
 	}
 
-	@SuppressWarnings("unused")
 	public void insertarFacultadEnArbol(Facultad facultad) {
 
 		BinaryTreeNode<Object> nodo = new BinaryTreeNode<Object>(facultad);
@@ -216,14 +214,12 @@ public class Universidad {
 
 	}
 
-	@SuppressWarnings("unused")
 	public void insertarCafeteriaEnElArbol(Cafeteria cafeteria) {
-         agregarProductosNuevos(cafeteria,(ArrayList<Object>)arbolDecision.getSonsInfo(((BinaryTreeNode<Object>)arbolDecision.getRoot()).getLeft().getRight()));
-         agregarCafeteriaNueva(cafeteria, (ArrayList<BinaryTreeNode<Object>>) arbolDecision.getSons(((BinaryTreeNode<Object>)arbolDecision.getRoot()).getLeft().getRight()));
+		agregarProductosNuevos(cafeteria,(ArrayList<Object>)arbolDecision.getSonsInfo(((BinaryTreeNode<Object>)arbolDecision.getRoot()).getLeft().getRight()));
+		agregarCafeteriaNueva(cafeteria, (ArrayList<BinaryTreeNode<Object>>) arbolDecision.getSons(((BinaryTreeNode<Object>)arbolDecision.getRoot()).getLeft().getRight()));
 
 	}
 
-	@SuppressWarnings("unused")
 	private void agregarProductosNuevos(Cafeteria cafeteria,ArrayList<Object> productos){
 
 
@@ -237,10 +233,9 @@ public class Universidad {
 
 	}
 
-	@SuppressWarnings("unused")
 	private void agregarCafeteriaNueva(Cafeteria cafeteria, ArrayList<BinaryTreeNode<Object>> productos) {
 
-		
+
 		for(int i = 0; i < productos.size(); i ++) {
 			BinaryTreeNode<Object> nodoActual = productos.get(i);
 
@@ -252,7 +247,6 @@ public class Universidad {
 
 	}
 
-	@SuppressWarnings("unused")
 	private void transferirProductos(ArrayList<String> listaA, ArrayList<String> listaB) { // este metodo pasa para listaA 
 		// lo que esta en listaB y no en listaA
 		for(int i = 0; i < listaB.size(); i ++) {
@@ -317,9 +311,6 @@ public class Universidad {
 	//		return listaProductos;
 	//	}
 
-
-
-
 	public static Universidad getCujae(){
 
 		if(cujae == null)
@@ -343,10 +334,8 @@ public class Universidad {
 		boolean ok = false;
 
 		try {
-			RandomAccessFile raf = new RandomAccessFile(datGrafo, "rw");
-			raf.setLength(0);
+			OutputStream out = new FileOutputStream(datGrafo);
 
-			raf.writeInt(mapa.getVerticesList().size());
 			if(!mapa.isEmpty()){
 
 				Iterator<Vertex> iter = mapa.getVerticesList().iterator();
@@ -358,14 +347,14 @@ public class Universidad {
 					ConexionesVertex aux = new ConexionesVertex(v.getInfo(), conexiones);
 
 					byte[] arr = Convert.toBytes(aux);
-					raf.writeInt(arr.length);
-					raf.write(arr);
+					out.write(Convert.intToBytes(arr.length));
+					out.write(arr);
 
 				}
 			}
 
 			ok = true;
-			raf.close();
+			out.close();
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -379,48 +368,36 @@ public class Universidad {
 		boolean ok = false;
 
 		try {
-			RandomAccessFile raf = new RandomAccessFile(datGrafo, "r");
+			InputStream in = new FileInputStream(datGrafo);
 
-			if(raf.length()>0){
+			if(in.available() > 0){
 
-				int total = raf.readInt();
-				int cont = 0;
+				ArrayList<int[]> conexionesList = new ArrayList<int[]>();
 
-				while(cont < total){
+				while(in.available() > 0){
 
-					byte[] arrCV = new byte[raf.readInt()];
-					raf.read(arrCV);
+					byte[] arrTam = new byte[4];
+					int tam = Convert.toInt(arrTam);
+
+					byte[] arrCV = new byte[tam];
+					in.read(arrCV);
 					ConexionesVertex cv = (ConexionesVertex) Convert.toObject(arrCV);
 					mapa.insertVertex(cv.getInfo());
-					cont++;
+					conexionesList.add(cv.getIndexConecciones());
 				}
 
-				cont = 0;
-				raf.seek(4);
+				for(int i = 0; i < conexionesList.size(); i++){
 
-				while(cont < total){
+					int[] conexiones = conexionesList.get(i);
+					conectarVertice(i, conexiones);
 
-					byte[] arrCV = new byte[raf.readInt()];
-					raf.read(arrCV);
-					ConexionesVertex cv = (ConexionesVertex) Convert.toObject(arrCV);
-
-					int[] conexiones = cv.getIndexConecciones();
-					Lugar l1 = (Lugar) cv.getInfo();
-
-					for(int i = 0; i < conexiones.length; i++){
-
-						if(!contieneEdge(cont, mapa.getVerticesList().get(conexiones[i]))){
-							Coordenadas l2 = ((Lugar) mapa.getVerticesList().get(conexiones[i]).getInfo()).getCoordenadas();
-							mapa.insertWEdgeNDG(cont, conexiones[i], l1.calcularDistanciaA(l2.getX(), l2.getY()));
-						}
-					}
-					cont++;
 				}
 
 				ok = true;
-				raf.close();
-
 			}
+			in.close();
+
+
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -428,6 +405,18 @@ public class Universidad {
 
 		return ok;
 	}
+
+	private void conectarVertice(int indexVertex, int[] conexiones){
+
+		for(int i = 0; i < conexiones.length; i++){
+
+			if(!contieneEdge(indexVertex, conexiones[i]))
+				agregarCamino(indexVertex, conexiones[i], distanciaPorIndices(indexVertex, conexiones[i]));
+
+		}
+
+	}
+
 
 	private int[] devolverConexiones(Vertex vertex){
 
@@ -453,7 +442,16 @@ public class Universidad {
 
 	}
 
-	private boolean contieneEdge(int posVertex, Object info){
+	private double distanciaPorIndices(int index1, int index2){
+
+		Lugar l1 = (Lugar) mapa.getVerticesList().get(index1).getInfo();
+		Lugar l2 = (Lugar) mapa.getVerticesList().get(index2).getInfo();
+
+		return l1.calcularDistanciaA(l2);
+
+	}
+
+	private boolean contieneEdge(int posVertex, int posAdy){
 
 		boolean contiene = false;
 
@@ -462,9 +460,12 @@ public class Universidad {
 			Iterator<Vertex> iter = adyacentes.iterator();
 
 			while(iter.hasNext() && !contiene){
-				Object obj = iter.next().getInfo();
-				if(obj.equals(info))
+
+				Vertex v = iter.next();
+				int indexV = ((LinkedGraph)mapa).getVertexIndex(v);
+				if(posAdy == indexV)
 					contiene = true;
+
 			}
 		}
 
@@ -494,4 +495,52 @@ public class Universidad {
 
 		return camino;
 	}
+
+	public boolean agregarCamino(Lugar lu1, Lugar lu2){
+
+		int indice1 = indiceDeLugar(lu1);
+		int indice2 = indiceDeLugar(lu2);
+
+		return agregarCamino(indice1, indice2, lu1.calcularDistanciaA(lu2));
+	}
+
+	public boolean agregarCamino(int indice1, int indice2, double distancia){
+
+		boolean exito = false;
+
+		if (indice1 != -1 && indice2 != -1){
+
+			mapa.insertWEdgeNDG(indice1, indice2, distancia);
+			exito = true;
+
+		}
+
+		return exito;
+
+	}
+
+	public int indiceDeLugar(Lugar lu){
+
+		int index = -1;
+		int cont = 0;
+		Iterator<Vertex> iter = mapa.getVerticesList().iterator();
+
+		while (iter.hasNext()){
+
+			Lugar luActual = (Lugar) iter.next().getInfo();
+			if (luActual.equals(lu))
+				index = cont;
+			else
+				cont++;
+		}
+
+		return index;
+
+
+	}
+
+
+
+
+
 }
