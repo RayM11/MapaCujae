@@ -4,7 +4,7 @@ import auxiliar.Validacion;
 
 public class LugarDeInteres extends Lugar{
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2L;
 	protected String nombre;
 	protected String descripcion;
 	protected String anotaciones;
