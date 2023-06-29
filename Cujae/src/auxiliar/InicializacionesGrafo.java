@@ -40,9 +40,7 @@ public class InicializacionesGrafo {
 		grafo.insertVertex(luI0116A);
 
 		//2
-		LugarDeInteres luI0119A = new LugarDeInteres(
-				"luI0119A",				
-				0.40, 18.10,					
+		LugarDeInteres luI0119A = new LugarDeInteres("luI0119A", 0.40, 18.10,					
 				"Entrada ciclovía",		
 				"Descripción",			
 				"");					
@@ -57,21 +55,18 @@ public class InicializacionesGrafo {
 		grafo.insertVertex(lu0114A);
 
 		//5
-		LugarDeInteres luI0113A = new LugarDeInteres("lu0113A", 0.78, 12.50,
+		LugarDeInteres luI0113A = new LugarDeInteres("luI0113A", 0.78, 12.50,
 				"Parada", 
 				"Descripción",
 				"");
 		grafo.insertVertex(luI0113A);
 
 		//6
-		LugarDeInteres luI0111A = new LugarDeInteres("lu0113A", 1.00, 10.60,
-				"Entrada Parqueo", 
-				"Descripción",
-				"");
-		grafo.insertVertex(luI0111A);
+		Lugar lu0111A = new Lugar("lu0111A", 1.00, 10.60);
+		grafo.insertVertex(lu0111A);
 
 		//7
-		LugarDeInteres luI0214A = new LugarDeInteres("lu0214A", 1.20, 13.60,
+		LugarDeInteres luI0214A = new LugarDeInteres("luI0214A", 1.20, 13.60,
 				"Entrada caseta", 
 				"Descripción",
 				"");
@@ -86,8 +81,11 @@ public class InicializacionesGrafo {
 		grafo.insertVertex(lu0214C);
 
 		//10
-		Lugar lu0311A = new Lugar("lu0311A", 2.10, 10.58);
-		grafo.insertVertex(lu0311A);
+		LugarDeInteres luI0311A = new LugarDeInteres("luI0311A",  2.10, 10.58,
+				"Entrada Parqueo", 
+				"Descripción",
+				"");
+		grafo.insertVertex(luI0311A);
 
 		//11
 		Lugar lu0314B = new Lugar("lu0314B", 3.00, 13.63);
@@ -153,7 +151,7 @@ public class InicializacionesGrafo {
 
 		//22
 		LugarDeInteres luI0309A = new LugarDeInteres("luI0309A", 2.35, 8.33,
-				"DEDER", 
+				"Ajedrez", 
 				"Descripción",
 				"");
 		grafo.insertVertex(luI0309A);
@@ -186,7 +184,7 @@ public class InicializacionesGrafo {
 
 		//28
 		Facultad luIF0314A = new Facultad("luIF0314A", 2.18, 13.615,
-				"Facultad de Telecomunicaciones", 
+				"Facultade de Telecomunicaciones y Facultad de Automática y Biomédica", 
 				"Descripción",
 				"",
 				"Decano",
@@ -195,7 +193,7 @@ public class InicializacionesGrafo {
 
 		//29
 		Facultad luIF0415C = new Facultad("luIF0415C", 3.23, 14.10,
-				"Facultad de Automática y Biomédica", 
+				"Facultad de Civil", 
 				"Descripción",
 				"",
 				"Decano",
@@ -533,8 +531,336 @@ public class InicializacionesGrafo {
 
 
 
+		
+		//---------------------------------- ARISTAS --------------------------------
 
-
+		// 1 y 2
+		agregarCamino(grafo, luI0119A, luI0116A);
+		
+		// 2 y 3
+		agregarCamino(grafo, luI0119A, lu0619A);
+		
+		// 1 y 4
+		agregarCamino(grafo, luI0116A, lu0114A);
+		
+		// 4 y 5
+		agregarCamino(grafo, lu0114A, luI0113A);
+		
+		// 4 y 7
+		agregarCamino(grafo, lu0114A, luI0214A);
+		
+		// 5 y 7
+		agregarCamino(grafo, luI0113A, luI0214A);
+		
+		// 5 y 6
+		agregarCamino(grafo, luI0113A, lu0111A);
+		
+		// 7 y 8
+		agregarCamino(grafo, luI0214A, lu0214B);
+		
+		// 8 y 9
+		agregarCamino(grafo, lu0214B, lu0214C);
+		
+		// 9 y 10
+		agregarCamino(grafo, lu0214C, luI0311A);
+		
+		// 10 y 6
+		agregarCamino(grafo, luI0311A, lu0111A);
+		
+		// 8 y 28
+		agregarCamino(grafo, lu0214B, luIF0314A);
+		
+		// 28 y 11
+		agregarCamino(grafo, luIF0314A, lu0314B);
+		
+		// 9 y 12
+		agregarCamino(grafo, lu0214C, lu0314C);
+		
+		// 11 y 12
+		agregarCamino(grafo, lu0314B, lu0314C);
+		
+		// 11 y 14
+		agregarCamino(grafo, lu0314B, lu0415D);
+		
+		// 14 y 29
+		agregarCamino(grafo, lu0415D, luIF0415C);
+		
+		// 29 y 30
+		agregarCamino(grafo, luIF0415C, luI0315C);
+		
+		// 13 y 14
+		agregarCamino(grafo, luI0415B, lu0415D);
+		
+		// 10 Y 15
+		agregarCamino(grafo, luI0311A, lu0311B);
+		
+		// 15 y 16
+		agregarCamino(grafo, lu0311B, luI0310A);
+		
+		// 16 y 17
+		agregarCamino(grafo, luI0310A, luI0310B);
+		
+		// 17 y 18
+		agregarCamino(grafo, luI0310B, luI0210A);
+		
+		// 15 y 19
+		agregarCamino(grafo, lu0311B, lu0411A);
+		
+		// 19 y 20
+		agregarCamino(grafo, lu0411A, luI0410A);
+		
+		// 17 y 20
+		agregarCamino(grafo, luI0310B, luI0410A);
+		
+		// 20 y 21
+		agregarCamino(grafo, luI0410A, luI0409A);
+		
+		// 21 y 22
+		agregarCamino(grafo, luI0409A, luI0309A);
+		
+		// 21 y 23
+		agregarCamino(grafo, luI0409A, lu0409B);
+		
+		// 23 y 24
+		agregarCamino(grafo, lu0409B, luI0408A);
+		
+		// 19 y 25
+		agregarCamino(grafo, lu0411A, lu0511A);
+		
+		// 25 y 26 
+		agregarCamino(grafo, lu0511A, luI0510A);
+		
+		// 20 y 26
+		agregarCamino(grafo, luI0410A, luI0510A);
+		
+		// 26 y 27
+		agregarCamino(grafo, luI0510A, lu0509A);
+		
+		// 23 y 27 
+		agregarCamino(grafo, lu0409B, lu0509A);
+		
+		// 25 y 48
+		agregarCamino(grafo, lu0511A, lu0611A);
+		
+		// 26 y 49
+		agregarCamino(grafo, luI0510A, lu0610A);
+		
+		// 27 y 50
+		agregarCamino(grafo, lu0509A, luI0609A);
+		
+		// 48 y 49
+		agregarCamino(grafo, lu0611A, lu0610A);
+		
+		// 49 y 50
+		agregarCamino(grafo, lu0610A, luI0609A);
+		
+		// 13 y 31
+		agregarCamino(grafo, luI0415B, luI0609A);
+		
+		// 31 y 32
+		agregarCamino(grafo, luI0609A, lu0416B);
+		
+		// 32 y 33
+		agregarCamino(grafo, lu0416B, luI0416A);
+		
+		// 32 y 34
+		agregarCamino(grafo, lu0416B, luI0416A);
+		
+		// 1 y 35
+		agregarCamino(grafo, luI0116A, lu0216A);
+		
+		// 35 y 36
+		agregarCamino(grafo, lu0216A, lu0215A);
+		
+		// 35 y 37
+		agregarCamino(grafo, lu0216A, lu0316B);
+		
+		// 8 y 37
+		agregarCamino(grafo, lu0214B, lu0316B);
+		
+		// 36 y 38
+		agregarCamino(grafo, lu0215A, lu0315A);
+		
+		// 37 y 38
+		agregarCamino(grafo, lu0316B, lu0315A);
+		
+		// 37 y 39
+		agregarCamino(grafo, lu0316B, luI0316A);
+		
+		// 39 y 40
+		agregarCamino(grafo, luI0316A, luIF0317A);
+		
+		// 37 y 41
+		agregarCamino(grafo, lu0316B, luIF0316C);
+		
+		// 38 y 42
+		agregarCamino(grafo, lu0315A, luIF0315B);
+		
+		// 33 y 41 
+		agregarCamino(grafo, luI0416A, luIF0316C);
+		
+		// 31 y 42
+		agregarCamino(grafo, luI0609A, luIF0315B);
+		
+		// 3 y 43
+		agregarCamino(grafo, lu0619A, lu0616A);
+		
+		// 43 y 44
+		agregarCamino(grafo, lu0616A, lu0616B);
+		
+		// 34 y 44
+		agregarCamino(grafo, luI0416A, lu0616B);
+		
+		// 44 y 45
+		agregarCamino(grafo, lu0616B, lu0616B);
+		
+		// 13 y 45
+		agregarCamino(grafo, luI0415B, lu0616B);
+		
+		// 45 y 46
+		agregarCamino(grafo, lu0616B, lu0614A);
+		
+		// 12 y 46
+		agregarCamino(grafo, lu0314C, lu0614A);
+		
+		// 46 y 47
+		agregarCamino(grafo, lu0614A, lu0612B);
+		
+		// 47 y 48
+		agregarCamino(grafo, lu0612B, lu0611A);
+		
+		// 43 y 51
+		agregarCamino(grafo, lu0616A, luIF0816C);
+		
+		// 51 y 52
+		agregarCamino(grafo, luIF0816C, lu0816D);
+		
+		// 52 y 53
+		agregarCamino(grafo, lu0816D, lu0816B);
+		
+		// 53 y 54
+		agregarCamino(grafo, lu0816B, lu0816A);
+		
+		// 54 y 55
+		agregarCamino(grafo, lu0816A, luIC0817A);
+		
+		// 45 y 56
+		agregarCamino(grafo, lu0616B, luIF0715A);
+		
+		// 56 y 57
+		agregarCamino(grafo, luIF0715A, luI0815A);
+		
+		// 57 y 58
+		agregarCamino(grafo, luI0815A, lu0915C);
+		
+		// 58 y 59
+		agregarCamino(grafo, lu0915C, luI0915B);
+		
+		// 59 y 60
+		agregarCamino(grafo, luI0915B, luI0915A);
+		
+		// 60 y 61
+		agregarCamino(grafo, luI0915A, luI0916B);
+		
+		// 61 y 62
+		agregarCamino(grafo, luI0916B, lu0916A);
+		
+		// 52 y 62
+		agregarCamino(grafo, lu0816D, lu0916A);
+		
+		// 62 y 63
+		agregarCamino(grafo, lu0916A, lu1016A);
+		
+		// 63 y 64
+		agregarCamino(grafo, lu1016A, luI1016B);
+		
+		// 63 y 65
+		agregarCamino(grafo, lu1016A, luI1017A);
+		
+		// 47 y 66
+		agregarCamino(grafo, lu0612B, luI0612A);
+		
+		// 66 y 67
+		agregarCamino(grafo, luI0612A, luI0712A);
+		
+		// 67 y 68
+		agregarCamino(grafo, luI0712A, luI0712B);
+		
+		// 68 y 69
+		agregarCamino(grafo, luI0712B, luI0711A);
+		
+		// 48 y 69
+		agregarCamino(grafo, lu0611A, luI0711A);
+		
+		// 69 y 70
+		agregarCamino(grafo, luI0711A, lu0811A);
+		
+		// 70 y 71 
+		agregarCamino(grafo, lu0811A, lu0809A);
+		
+		// 71 y 72
+		agregarCamino(grafo, lu0809A, luI0708A);
+		
+		// 50 y 71
+		agregarCamino(grafo, luI0609A, lu0809A);
+		
+		// 70 y 73
+		agregarCamino(grafo, lu0811A, luI0911A);
+		
+		// 73 y 74 
+		agregarCamino(grafo, luI0911A, luI1111A);
+		
+		// 73 y 75
+		agregarCamino(grafo, luI0911A, luI0911B);
+		
+		// 75 y 76
+		agregarCamino(grafo, luI0911B, lu0909B);
+		
+		// 71 y 77
+		agregarCamino(grafo, lu0809A, luI0909A);
+		
+		// 76 y 77
+		agregarCamino(grafo, lu0909B, luI0909A);
+		
+		// 77 y 78
+		agregarCamino(grafo, luI0909A, lu0906A);
+		
+		// 78 y 79
+		agregarCamino(grafo, lu0906A, lu1006A);
+		
+		// 79 y 80
+		agregarCamino(grafo, lu0906A, luIC1006B);
+		
+		// 80 y 81
+		agregarCamino(grafo, luIC1006B, luI1105A);
+		
+		// 79 y 82
+		agregarCamino(grafo, lu0906A, lu1001A);
+		
+		// 82 y 83
+		agregarCamino(grafo, lu1001A, lu1101A);
+		
+		// 83 y 84
+		agregarCamino(grafo, lu1101A, lu1104A);
+		
+		// 81 y 84
+		agregarCamino(grafo, luI1105A, lu1104A);
+		
+		// 84 y 85
+		agregarCamino(grafo, lu1104A, lu1204A);
+		
+		// 85 y 86
+		agregarCamino(grafo, lu1204A, lu1207A);
+		
+		// 86 y 87
+		agregarCamino(grafo, lu1207A, lu1108A);
+		
+		// 74 y 87 
+		agregarCamino(grafo, luI1111A, lu1108A);
+		
+		// 80 y 87
+		agregarCamino(grafo, luIC1006B, lu1108A);
+		
 		return grafo;
 
 	}
