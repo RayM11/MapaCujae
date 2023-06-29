@@ -13,6 +13,10 @@ public class Lugar implements Serializable{
 		this.id = id;
 		coordenadas = new Coordenadas(x, y);
 	}
+	public String getId(){
+		return id;
+	}
+	
 	public Coordenadas getCoordenadas() {
 		return coordenadas;
 	}

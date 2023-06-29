@@ -239,11 +239,11 @@ public class InicializacionesGrafo {
 				"Recientemente remodelada y dirigidapor personal ajeno a la universidad que consta con una gran variedad"
 				+ " de ofertas muy buenas para los universitarios",
 				"");
-		luIC0416C.anadirOferta(OfertaCafeteria.CAFE);
-		luIC0416C.anadirOferta(OfertaCafeteria.PIZZA);
-		luIC0416C.anadirOferta(OfertaCafeteria.SANDWICH);
-		luIC0416C.anadirOferta(OfertaCafeteria.BISUTERIA);
-		luIC0416C.anadirOferta(OfertaCafeteria.REFRESCO);
+		luIC0416C.anadirProducto("Cafe");
+		luIC0416C.anadirProducto("Pizza");
+		luIC0416C.anadirProducto("Sandiwch");
+		luIC0416C.anadirProducto("Bisutería");
+		luIC0416C.anadirProducto("Refresco");
 		grafo.insertVertex(luIC0416C);
 
 		//35
@@ -530,12 +530,12 @@ public class InicializacionesGrafo {
 				"Cafetería \"La Juguera\"", 
 				"Cafetería cercana a las becas donde trabaja personal particular y sus ofertas son orientadas a los universitarios",
 				"");
-		luIC1006B.anadirOferta(OfertaCafeteria.HELADO);
-		luIC1006B.anadirOferta(OfertaCafeteria.CHUCHERÍAS);
-		luIC1006B.anadirOferta(OfertaCafeteria.GALLETAS);
-		luIC1006B.anadirOferta(OfertaCafeteria.MANÍ);
-		luIC1006B.anadirOferta(OfertaCafeteria.REFRESCO);
-		luIC1006B.anadirOferta(OfertaCafeteria.JUGO);
+		luIC1006B.anadirProducto("Helado");
+		luIC1006B.anadirProducto("Chucherías");
+		luIC1006B.anadirProducto("Galletas");
+		luIC1006B.anadirProducto("Maní");
+		luIC1006B.anadirProducto("Refresco");
+		luIC1006B.anadirProducto("Jugo");
 		grafo.insertVertex(luIC1006B);
 
 		//81
