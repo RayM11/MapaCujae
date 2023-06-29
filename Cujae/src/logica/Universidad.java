@@ -13,6 +13,7 @@ import java.util.LinkedList;
 import auxiliar.ConexionesVertex;
 import auxiliar.Convert;
 import auxiliar.Dijkstra;
+import auxiliar.InicializacionesGrafo;
 import auxiliar.MarcadorDijkstra;
 import cu.edu.cujae.ceis.graph.LinkedGraph;
 import cu.edu.cujae.ceis.graph.interfaces.ILinkedWeightedEdgeNotDirectedGraph;
@@ -31,8 +32,15 @@ public class Universidad {
 	private Universidad(){
 
 		datGrafo = new File("data/grafo.dat");
-		mapa = new LinkedGraph();
 		arbolDecision = new GeneralTree<Object>();
+		
+		//Esto va a ser lo que se ponga al final, pero por ahora se trabajara con las inicializaciones
+		//cargarGrafo();
+		
+		mapa = InicializacionesGrafo.inicializarLugares();
+		
+		inicializarArbol(null);
+		
 
 	}
 
@@ -333,6 +341,8 @@ public class Universidad {
 		boolean ok = false;
 
 		try {
+			File data = new File("data");
+			data.mkdir();
 			OutputStream out = new FileOutputStream(datGrafo);
 
 			if(!mapa.isEmpty()){
@@ -344,7 +354,7 @@ public class Universidad {
 					Vertex v = iter.next();
 					int[] conexiones = devolverConexiones(v);
 					ConexionesVertex aux = new ConexionesVertex(v.getInfo(), conexiones);
-
+					
 					byte[] arr = Convert.toBytes(aux);
 					out.write(Convert.intToBytes(arr.length));
 					out.write(arr);
@@ -365,6 +375,12 @@ public class Universidad {
 	public boolean cargarGrafo(){
 
 		boolean ok = false;
+		mapa = new LinkedGraph();
+		File data = new File("data");
+		data.mkdir();
+		
+		if(!datGrafo.exists())
+			extraerDatGrafo();
 
 		try {
 			InputStream in = new FileInputStream(datGrafo);
@@ -376,6 +392,7 @@ public class Universidad {
 				while(in.available() > 0){
 
 					byte[] arrTam = new byte[4];
+					in.read(arrTam);
 					int tam = Convert.toInt(arrTam);
 
 					byte[] arrCV = new byte[tam];
@@ -404,7 +421,29 @@ public class Universidad {
 
 		return ok;
 	}
+	
+	
+	public void extraerDatGrafo(){
 
+		try {
+			InputStream inputStream = getClass().getClassLoader().getResourceAsStream("grafo.dat");
+			OutputStream outputStream = new FileOutputStream("data/grafo.dat");
+
+			byte[] arr = new byte[1024];
+			int bytesLeidos;
+			
+			while ((bytesLeidos = inputStream.read(arr)) != -1) {
+				outputStream.write(arr, 0, bytesLeidos);
+			}
+			inputStream.close();
+			outputStream.close();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	
 	private void conectarVertice(int indexVertex, int[] conexiones){
 
 		for(int i = 0; i < conexiones.length; i++){
