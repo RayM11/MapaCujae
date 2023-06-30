@@ -22,7 +22,7 @@ public class LabelDeLugar extends Label {
 		setStyle("-fx-background-color: white;");
 		setPrefSize(2, 2);
 		
-		setOnMouseClicked(new EventHandler<MouseEvent>(){
+/*		setOnMouseClicked(new EventHandler<MouseEvent>(){
 
 			public void handle (MouseEvent event){
 				
@@ -30,14 +30,23 @@ public class LabelDeLugar extends Label {
 					((MapPanelFX) getParent()).devolverVertexAlFormulario(vLugar);
 			
 			}
-		});
+		});*/
 	}
 	
+	public Vertex getVertice(){
+		return vLugar;
+	}
 	
+	public void seleccionar(){
+		setStyle("-fx-background-color: red;");
+	}
+	public void deseleccionar(){
+		setStyle("-fx-background-color: white;");
+	}
 	
 	private double getXreal(double x){
 
-		return x * this.getParent().getLayoutX() / 12;
+		return x * this.getParent().getLayoutX() / 15;
 
 	}
 	private double getYreal(double y){
