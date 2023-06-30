@@ -64,6 +64,7 @@ public class PantallaMapa extends JFrame {
 	private JMenuItem mntmEliminarCamino;
 	private JMenuItem mntmEliminarLugar;
 	private JMenuItem mntmModificarLugar;
+	private JMenuItem mntmDecisionAsistida;
 
 	public void llenarPanelInfo(LugarDeInteres lugar){
 
@@ -243,6 +244,9 @@ public class PantallaMapa extends JFrame {
 
 		mntmRutaMsCorta = new JMenuItem("Ruta m\u00E1s corta");
 		mnAcciones.add(mntmRutaMsCorta);
+		
+		mntmDecisionAsistida = new JMenuItem("Decisi\u00F3n Asistida");
+		mnAcciones.add(mntmDecisionAsistida);
 		mnAcciones.add(mntmCrearLugar);
 
 		mntmModificarLugar = new JMenuItem("Modificar Lugar");
@@ -303,6 +307,7 @@ public class PantallaMapa extends JFrame {
 		mntmRutaMsCorta.setFont(new Font("Tahoma", Font.PLAIN, configActual.getTamanoFuente()));
 		mntmCrearCamino.setFont(new Font("Tahoma", Font.PLAIN, configActual.getTamanoFuente()));
 		mntmEliminarCamino.setFont(new Font("Tahoma", Font.PLAIN, configActual.getTamanoFuente()));
+		mntmDecisionAsistida.setFont(new Font("Tahoma", Font.PLAIN, configActual.getTamanoFuente()));
 		
 		mnMisc.setFont(new Font("Tahoma", Font.PLAIN, configActual.getTamanoFuente()));
 		mntmAjustes.setFont(new Font("Tahoma", Font.PLAIN, configActual.getTamanoFuente()));
