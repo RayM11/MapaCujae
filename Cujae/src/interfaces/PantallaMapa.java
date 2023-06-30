@@ -3,6 +3,7 @@ package interfaces;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import java.awt.Font;
 
 import javax.swing.JLabel;
@@ -13,14 +14,24 @@ import java.awt.Color;
 import javax.swing.ImageIcon;
 
 import auxiliar.Configuracion;
+import auxiliar.Convert;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
+import javax.swing.DefaultListModel;
 import javax.swing.JTextArea;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.SwingConstants;
+import javax.swing.JList;
+import javax.swing.JButton;
+import javax.swing.SwingUtilities;
+
+import logica.Cafeteria;
+import logica.Facultad;
+import logica.LugarDeInteres;
 
 public class PantallaMapa extends JFrame {
 
@@ -42,18 +53,80 @@ public class PantallaMapa extends JFrame {
 	private JMenuItem mntmVolver;
 	private JMenu mnMenu;
 	private JMenuBar menuBar;
+	private JTextArea textAreaAnotaciones;
+	private JLabel labelEspecifico;
+	private JLabel labelAnotaciones;
+	private JButton btnModificar;
+	private JButton btnEliminar;
+	private JTextArea textAreaDecano;
+	private JList<String> listCafeteria;
+	private JPanel panelEspecifico;
+
+	public void llenarPanelInfo(LugarDeInteres lugar){
+		
+		panelEspecifico.removeAll();
+		
+		if(lugar!=null){
+			lblFotoLugar.setIcon(Convert.rezizarImagen(lugar.getFoto(), 207, 143));
+			labelNombreLugar.setText(lugar.getNombre());
+			txtAreaDescripcion.setText(lugar.getDescripcion());
+			textAreaAnotaciones.setText(lugar.getAnotaciones());
+
+			if(lugar instanceof Facultad){
+				labelEspecifico = new JLabel("");
+				labelEspecifico.setBounds(0, 0, 217, 23);
+				panelEspecifico.add(labelEspecifico);
+				labelEspecifico.setText("Decano/s");
+				
+				textAreaDecano = new JTextArea();
+				textAreaDecano.setBounds(0, 25, 217, 70);
+				textAreaDecano.setWrapStyleWord(true);
+				textAreaDecano.setText("");
+				textAreaDecano.setLineWrap(true);
+				textAreaDecano.setFont(new Font("Tahoma", Font.PLAIN, 0));
+				textAreaDecano.setEditable(false);
+				textAreaDecano.setText(((Facultad) lugar).getDecano());
+				panelEspecifico.add(textAreaDecano);
+
+			}
+			else if(lugar instanceof Cafeteria){
+				labelEspecifico = new JLabel("");
+				labelEspecifico.setBounds(0, 0, 217, 23);
+				panelEspecifico.add(labelEspecifico);
+				labelEspecifico.setText("Productos");
+				
+				DefaultListModel<String> model = new DefaultListModel<String>();
+				for(String string:((Cafeteria) lugar).getProductos())
+					model.addElement(string);
+				listCafeteria = new JList<String>(model);
+				listCafeteria.setBounds(0, 25, 217, 70);
+				panelEspecifico.add(listCafeteria);
+			}
+		}else{
+			lblFotoLugar.setIcon(Convert.rezizarImagen("", 207, 143));
+			labelNombreLugar.setText("Nombre del lugar");
+			txtAreaDescripcion.setText("");
+			textAreaAnotaciones.setText("");
+			
+			
+		}
+		
+		panelEspecifico.revalidate();
+		SwingUtilities.updateComponentTreeUI(panelEspecifico);
+	}
+
 
 	public PantallaMapa(final JFrame pantallaAnterior, final Configuracion configActual) {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 900, 700);
+		setBounds(100, 100, 978, 703);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		panelContenedorOpciones = new JPanel();
-		panelContenedorOpciones.setBounds(10, 63, 237, 597);
+		panelContenedorOpciones.setBounds(10, 32, 237, 633);
 		panelContenedorOpciones.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
 		contentPane.add(panelContenedorOpciones);
 		panelContenedorOpciones.setLayout(null);
@@ -64,7 +137,7 @@ public class PantallaMapa extends JFrame {
 		txtAreaDescripcion.setLineWrap(true);
 		txtAreaDescripcion.setFont(new Font("Tahoma", Font.PLAIN, configActual.getTamanoFuente()));
 		txtAreaDescripcion.setEditable(false);
-		txtAreaDescripcion.setBounds(10, 241, 217, 345);
+		txtAreaDescripcion.setBounds(10, 239, 217, 133);
 		panelContenedorOpciones.add(txtAreaDescripcion);
 
 		lblFotoLugar = new JLabel("");
@@ -74,18 +147,47 @@ public class PantallaMapa extends JFrame {
 		labelNombreLugar = new JLabel("Nombre de lugar");
 		labelNombreLugar.setFont(new Font("Tahoma", Font.PLAIN, configActual.getTamanoFuente()));
 		labelNombreLugar.setHorizontalAlignment(SwingConstants.CENTER);
-		labelNombreLugar.setBounds(10, 203, 217, 32);
+		labelNombreLugar.setBounds(10, 196, 217, 32);
 		panelContenedorOpciones.add(labelNombreLugar);
 
+		textAreaAnotaciones = new JTextArea();
+		textAreaAnotaciones.setWrapStyleWord(true);
+		textAreaAnotaciones.setText("Aqui va una breve descripci\u00F3n del lugar");
+		textAreaAnotaciones.setLineWrap(true);
+		textAreaAnotaciones.setFont(new Font("Tahoma", Font.PLAIN, 0));
+		textAreaAnotaciones.setEditable(false);
+		textAreaAnotaciones.setBounds(10, 405, 217, 66);
+		panelContenedorOpciones.add(textAreaAnotaciones);
+
+		btnModificar = new JButton("Modificar");
+		btnModificar.setBounds(10, 599, 89, 23);
+		panelContenedorOpciones.add(btnModificar);
+
+		btnEliminar = new JButton("Eliminar");
+		btnEliminar.setBounds(138, 599, 89, 23);
+		panelContenedorOpciones.add(btnEliminar);
+
+		labelAnotaciones = new JLabel("Anotaciones");
+		labelAnotaciones.setFont(new Font("Arial", Font.PLAIN, 14));
+		labelAnotaciones.setBounds(10, 380, 217, 23);
+		panelContenedorOpciones.add(labelAnotaciones);
+		
+		panelEspecifico = new JPanel();
+		panelEspecifico.setBorder(null);
+		panelEspecifico.setBounds(10, 482, 217, 106);
+		panelContenedorOpciones.add(panelEspecifico);
+		panelEspecifico.setLayout(null);
+		
+		
 		panelContenedorMapa = new JPanel();
-		panelContenedorMapa.setBounds(257, 63, 627, 597);
+		panelContenedorMapa.setBounds(257, 32, 707, 633);
 		panelContenedorMapa.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
 		contentPane.add(panelContenedorMapa);
 		panelContenedorMapa.setLayout(null);
 
 		menuBar = new JMenuBar();
 		menuBar.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-		menuBar.setBounds(0, 0, 884, 21);
+		menuBar.setBounds(0, 0, 964, 21);
 		contentPane.add(menuBar);
 
 		mnMenu = new JMenu("Men\u00FA");
@@ -109,7 +211,7 @@ public class PantallaMapa extends JFrame {
 		mnAcciones = new JMenu("Acciones");
 		mnAcciones.setFont(new Font("Tahoma", Font.PLAIN, configActual.getTamanoFuente()));
 		menuBar.add(mnAcciones);
-		
+
 		mntmCrearLugar = new JMenuItem("Crear Nuevo Lugar");
 		mntmCrearLugar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -124,6 +226,9 @@ public class PantallaMapa extends JFrame {
 			mntmCrearLugar.setEnabled(false);
 		}
 		mnAcciones.add(mntmCrearLugar);
+
+		JMenuItem mntmNewMenuItem = new JMenuItem("New menu item");
+		mnAcciones.add(mntmNewMenuItem);
 
 		mntmMostrarInformacion = new JMenuItem("Mostrar Informaci\u00F3n");
 		mnAcciones.add(mntmMostrarInformacion);
@@ -172,11 +277,11 @@ public class PantallaMapa extends JFrame {
 			}
 		});
 		mnMisc.add(mntmAyuda);
-		
+
 	}
-	
+
 	public void ajustarFuentes(Configuracion configActual){
-		
+
 		menuBar.setFont(new Font("Tahoma", Font.PLAIN, configActual.getTamanoFuente()));
 		mnMenu.setFont(new Font("Tahoma", Font.PLAIN, configActual.getTamanoFuente()));
 		mntmVolver.setFont(new Font("Tahoma", Font.PLAIN, configActual.getTamanoFuente()));
@@ -188,10 +293,9 @@ public class PantallaMapa extends JFrame {
 		mnMisc.setFont(new Font("Tahoma", Font.PLAIN, configActual.getTamanoFuente()));
 		mntmAjustes.setFont(new Font("Tahoma", Font.PLAIN, configActual.getTamanoFuente()));
 		mntmAyuda.setFont(new Font("Tahoma", Font.PLAIN, configActual.getTamanoFuente()));
-		
+
 		labelNombreLugar.setFont(new Font("Tahoma", Font.PLAIN, configActual.getTamanoFuente()));
 		txtAreaDescripcion.setFont(new Font("Tahoma", Font.PLAIN, configActual.getTamanoFuente()));
-		
+
 	}
-	
 }

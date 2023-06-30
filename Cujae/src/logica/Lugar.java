@@ -25,12 +25,12 @@ public class Lugar implements Serializable{
 	
 	public String getFoto(){
 		
-		return id + "D";
+		return "fotos/portadas/"+id + "D.jpg";
 	}
 	
 	public String getFotoDir(Direccion dir){
 		
-		return id + dir.toString();
+		return "fotos/visita/"+id + dir.toString()+".jpg";
 	}
 
 	public double calcularDistanciaA(double x2, double y2){
