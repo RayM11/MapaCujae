@@ -1,12 +1,18 @@
 package auxiliar;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 public class Convert
 {
@@ -48,6 +54,24 @@ public class Convert
 		bais.close();
 		return integer;
 			}
+
+	public static ImageIcon rezizarImagen(String imagen, int ancho, int alto){
+
+		ImageIcon icono = null;
+		
+		try {
+			
+			File file = new File(imagen);
+			BufferedImage bi = ImageIO.read(file);
+			Image resizedImage = bi.getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
+			icono = new ImageIcon(resizedImage);
+
+			
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return icono;
+
+	}
 }
-
-
