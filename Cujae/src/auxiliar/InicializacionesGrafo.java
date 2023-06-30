@@ -575,7 +575,7 @@ public class InicializacionesGrafo {
 		//---------------------------------- ARISTAS --------------------------------
 
 		// 1 y 2
-		agregarCamino(grafo, luI0119A, luI0116A);
+		agregarCamino(grafo, luI0116A ,luI0119A );
 		
 		// 2 y 3
 		agregarCamino(grafo, luI0119A, lu0619A);
