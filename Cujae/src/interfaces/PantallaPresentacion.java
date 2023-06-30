@@ -18,7 +18,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 
-public class PantallaPresentación extends JFrame {
+public class PantallaPresentacion extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -49,7 +49,7 @@ public class PantallaPresentación extends JFrame {
 		x.start();
 	}
 
-	public PantallaPresentación(final Configuracion configActual) {
+	public PantallaPresentacion(final Configuracion configActual) {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 550, 454);
@@ -88,7 +88,7 @@ public class PantallaPresentación extends JFrame {
 		contentPane.add(barraCargaPantallaPresentacion);
 
 		JLabel papelTapuis = new JLabel("");
-		papelTapuis.setIcon(new ImageIcon(PantallaPresentación.class.getResource("/texturas/tapiz.jpg")));
+		papelTapuis.setIcon(new ImageIcon(PantallaPresentacion.class.getResource("/texturas/tapiz.jpg")));
 		papelTapuis.setBounds(0, 55, 544, 221);
 		contentPane.add(papelTapuis);
 		

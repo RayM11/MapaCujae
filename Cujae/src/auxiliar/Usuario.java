@@ -1,8 +1,11 @@
 package auxiliar;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.RandomAccessFile;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -16,33 +19,43 @@ public class Usuario {
 	public Usuario(){
 		nombre = new ArrayList<byte[]>();
 		pass = new ArrayList<byte[]>();
-		admin = new File("Res/admin.dat");
+		admin = new File("data/admin.dat");
 	}
 
 	public void leerCredencialesEncriptados(){
 
 		try {
 
-			RandomAccessFile raf = new RandomAccessFile(admin, "r");
 
-			int tamNombre = raf.readInt();
-			int tamPass = raf.readInt();
+			InputStream in = new FileInputStream(admin);
+
+			byte[] arrTamNombre = new byte[4];
+			in.read(arrTamNombre);
+			int tamNombre = Convert.toInt(arrTamNombre);
+
+			byte[] arrTamPass = new byte[4];
+			in.read(arrTamPass);
+			int tamPass = Convert.toInt(arrTamPass);
 
 			for(int i = 0; i < tamNombre || i < tamPass;i++){
-				
+
 				if(i < tamNombre)
 					nombre.add(null);
 				if(i < tamPass)
 					pass.add(null);
-				
+
 			}
 
 			int cont = 0;
 
 			while(cont < tamNombre){
 
-				byte[] arrFC = new byte[raf.readInt()];
-				raf.read(arrFC);
+				byte[] tamArr = new byte[4];
+				in.read(tamArr);
+				int tam = Convert.toInt(tamArr);
+
+				byte[] arrFC = new byte[tam];
+				in.read(arrFC);
 				FragmentoCredencial fC = (FragmentoCredencial) Convert.toObject(arrFC);
 				nombre.set(fC.getPos(), fC.getFragmento());
 				cont++;
@@ -50,14 +63,18 @@ public class Usuario {
 			cont = 0;
 			while(cont < tamPass){
 
-				byte[] arrFC = new byte[raf.readInt()];
-				raf.read(arrFC);
+				byte[] tamArr = new byte[4];
+				in.read(tamArr);
+				int tam = Convert.toInt(tamArr);
+
+				byte[] arrFC = new byte[tam];
+				in.read(arrFC);
 				FragmentoCredencial fC = (FragmentoCredencial) Convert.toObject(arrFC);
 				pass.set(fC.getPos(), fC.getFragmento());
 				cont++;
 			}
 
-			raf.close();
+			in.close();
 
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
@@ -94,61 +111,66 @@ public class Usuario {
 	}
 
 	// Metodo para cambiar el Admin (usar en la clase Iniciadora)//
-	
+
 	public void crearAdmin(String nombre, String pass){
+
+		File carpetaData = new File("data");
+		carpetaData.mkdirs();
 
 		ArrayList<FragmentoCredencial> n = new ArrayList<FragmentoCredencial>();
 		ArrayList<FragmentoCredencial> p = new ArrayList<FragmentoCredencial>();
 		String subString = null;
 
 		try {
-			RandomAccessFile raf = new RandomAccessFile(admin, "rw");
-			raf.setLength(0);
 
-			int posNombre = 0;
-			int posPass = 0;
+			OutputStream out = new FileOutputStream(admin);
 
-			raf.writeInt(0);
-			raf.writeInt(0);
+			int contNombre = 0;
+			int contPass = 0;
+
 
 			for(int i = 0; i < nombre.length(); i += 2){
 
 				subString = nombre.substring(i, Math.min(i+2,nombre.length()));
-				n.add(new FragmentoCredencial(Convert.toBytes(subString), posNombre));
-				posNombre++;
+				n.add(new FragmentoCredencial(Convert.toBytes(subString), contNombre));
+				contNombre++;
 			}
 			Collections.shuffle(n);
-
-			for(FragmentoCredencial fragmentoCredencial:n){
-
-				byte[] arr = Convert.toBytes(fragmentoCredencial);
-				raf.writeInt(arr.length);
-				raf.write(arr);
-
-			}
-
+			
 			for(int i = 0; i < pass.length(); i += 2){
 
 				subString = pass.substring(i, Math.min(i+2,pass.length()));
-				p.add(new FragmentoCredencial(Convert.toBytes(subString), posPass));
-				posPass++;
+				p.add(new FragmentoCredencial(Convert.toBytes(subString), contPass));
+				contPass++;
 			}
 			Collections.shuffle(p);
+			
+			byte[] arrAux = Convert.intToBytes(contNombre);
+			out.write(arrAux);
+			arrAux = Convert.intToBytes(contPass);
+			out.write(arrAux);
+			
+			for(FragmentoCredencial fragmentoCredencial:n){
+
+				byte[] arr = Convert.toBytes(fragmentoCredencial);
+				byte[] tam = Convert.intToBytes(arr.length);
+				out.write(tam);
+				out.write(arr);
+
+			}
 
 			for(FragmentoCredencial fragmentoCredencial:p){
 
 				byte[] arr = Convert.toBytes(fragmentoCredencial);
-				raf.writeInt(arr.length);
-				raf.write(arr);
+				byte[] tam = Convert.intToBytes(arr.length);
+				out.write(tam);
+				out.write(arr);
 
 			}
 			
-			raf.seek(0);
-			raf.writeInt(posNombre);
-			raf.writeInt(posPass);
-
-			raf.close();
+			out.close();
 			
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

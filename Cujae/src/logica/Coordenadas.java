@@ -1,9 +1,20 @@
 package logica;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+
 import auxiliar.Direccion;
 
-public class Coordenadas {
+public class Coordenadas implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5L;
 	private double x;
 	private double y;
 
@@ -19,38 +30,55 @@ public class Coordenadas {
 		return y;
 	}
 
-	
-	public Direccion direccionHacia(Coordenadas cor2) throws IllegalArgumentException{
+	/**
+	 *	Recibe una coordenada destino y devuelve una lista de direcciones ordenada según el mayor movimiento 
+	 * 	en cada dirección. Es para tener un orden de prioridad al elegir en qué dirección colocar el movimiento
+	 * 	a la coordenada objetivo
+	 */
+	public ArrayList<Direccion> direccionHacia(Coordenadas cor2){
 		
-		Direccion dir;
+		// Direccion dir;
 		
-		double difY = y - cor2.getY();
-		double difX = x - cor2.getX();
+		double movY = cor2.getY() - y;
+		double movX = cor2.getX() - x; 
 		
-		if (abs(difY) > abs(difX))
+		double movNorte = movY;
+		double movSur = -1*movY;
+		double movEste = movX;
+		double movOeste = -1*movX;
 		
-			if (difY > 0)
-				dir = Direccion.S;
-			else
-				dir = Direccion.N;
-			
-		else if (abs(difY) < abs(difX))
-			if (difX > 0)
-				dir = Direccion.O;
-			else
-				dir = Direccion.E;
-		else
-			throw new IllegalArgumentException("Movimiento diagonal intentado, situaciï¿½n no contemplada todavï¿½a");
-				
-		return dir;
-	}
-	
-	private double abs(double num){
+		final Map<Direccion, Double> desplazamientos = new HashMap<>();
+	    desplazamientos.put(Direccion.N, movNorte);
+	    desplazamientos.put(Direccion.S, movSur);
+	    desplazamientos.put(Direccion.E, movEste);
+	    desplazamientos.put(Direccion.O, movOeste);
 		
-		if (num < 0)
-			num *= -1;
-		
-		return num;
-	}
+	    ArrayList<Direccion> direcciones = new ArrayList<>(desplazamientos.keySet());
+	    Collections.sort(direcciones, new Comparator<Direccion>(){
 
+			@Override
+			public int compare(Direccion d1, Direccion d2) {
+				
+				return Double.compare(desplazamientos.get(d1), desplazamientos.get(d2));
+			}
+	    });
+	    
+	/*	if (abs(movY) > abs(movX))
+		
+			if (movY > 0)
+				dir = Direccion.N;
+			else
+				dir = Direccion.S;
+			
+		else if (abs(movY) < abs(movX))
+			if (movX > 0)
+				dir = Direccion.E;
+			else
+				dir = Direccion.O;
+		else
+			throw new IllegalArgumentException("Movimiento diagonal intentado, situación no contemplada todavía");
+		*/		
+		return direcciones;
+	}
+	
 }

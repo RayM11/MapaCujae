@@ -1,36 +1,31 @@
 package logica;
 
+import java.io.Serializable;
+
 import auxiliar.Validacion;
 
-public class LugarDeInteres extends Lugar{
+public class LugarDeInteres extends Lugar implements Serializable{
 
 	private static final long serialVersionUID = 2L;
 	protected String nombre;
 	protected String descripcion;
 	protected String anotaciones;
-	protected String fotoPortada;
 	
-	
-	public LugarDeInteres(String id, double x, double y, String fotoNorte,
-			String fotoSur, String fotoEste, String fotoOeste, String nombre,
-			String descripcion, String anotaciones, String fotoPortada) {
-		super(id, x, y, fotoNorte, fotoSur, fotoEste, fotoOeste);
+	public LugarDeInteres(String id, double x, double y, String nombre, String descripcion, String anotaciones) {
+		super(id, x, y);
 		setAnotaciones(anotaciones);
 		setDescripcion(descripcion);
-		setFotoPortada(fotoPortada);
 		setNombre(nombre);
 	}
+	
 	public String getAnotaciones() {
 		return anotaciones;
 	}
 	public void setAnotaciones(String anotaciones) {
 		
-		if(Validacion.cadenaNoVacia(anotaciones)){  
 		this.anotaciones = anotaciones;
-		}
-		else{
-			throw new IllegalArgumentException ("La cadena de anotaciones estï¿½ vacï¿½a");
-		}
+		
+		
 	}
 	public String getNombre() {
 		return nombre;
@@ -44,11 +39,8 @@ public class LugarDeInteres extends Lugar{
 		this.descripcion = descripcion;
 		}
 		else{
-			throw new IllegalArgumentException ("La cadena de descripcion estï¿½ vacï¿½a");
+			throw new IllegalArgumentException ("La cadena de descripcion está vacía");
 		}
-	}
-	public String getFotoPortada() {
-		return fotoPortada;
 	}
 	public void setNombre(String nombre) {
 		
@@ -56,20 +48,7 @@ public class LugarDeInteres extends Lugar{
 		this.nombre = nombre;
 		}
 		else{
-			throw new IllegalArgumentException ("La cadena de anotaciones estï¿½ vacï¿½a");
+			throw new IllegalArgumentException ("La cadena de anotaciones está vacía");
 		}
 	}
-
-	public void setFotoPortada(String fotoPortada) {
-	
-		if(Validacion.cadenaNoVacia(fotoPortada)){ 
-		this.fotoPortada = fotoPortada;
-		}
-		else{
-			throw new IllegalArgumentException ("La cadena de fotoPortada estï¿½ vacï¿½a");
-		}
-	}
-	
-	
-	
 }
