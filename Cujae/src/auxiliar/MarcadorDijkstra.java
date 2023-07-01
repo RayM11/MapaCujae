@@ -3,7 +3,7 @@ package auxiliar;
 import cu.edu.cujae.ceis.graph.edge.Edge;
 import cu.edu.cujae.ceis.graph.vertex.Vertex;
 
-public class MarcadorDijkstra {
+public class MarcadorDijkstra implements Comparable<MarcadorDijkstra>{
 	
 	private Vertex verticeAnterior;
 	private Edge menorArco;
@@ -24,6 +24,9 @@ public class MarcadorDijkstra {
 		this.distancia = distancia;
 	}
 	
-	
+	@Override
+    public int compareTo(MarcadorDijkstra otro) {
+        return Double.compare(this.distancia, otro.distancia);
+    }
 	
 }
