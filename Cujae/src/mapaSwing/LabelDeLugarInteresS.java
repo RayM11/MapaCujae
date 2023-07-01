@@ -12,8 +12,8 @@ public class LabelDeLugarInteresS extends LabelDeLugarS {
 	 */
 	private static final long serialVersionUID = 3412194173818906627L;
 
-	private static String foto = "texturas/marcadorLI.png";
-	private static String fotoSelect = "texturas/marcadorSelectLI.png";
+	private static String foto = "src/texturas/marcadorLI.png";
+	private static String fotoSelect = "src/texturas/marcadorSelectLI.png";
 	private static int tamano = 6;
 
 
@@ -21,7 +21,7 @@ public class LabelDeLugarInteresS extends LabelDeLugarS {
 		
 		super(vLugar);
 
-	//	setIcon(Convert.rezizarImagen(foto, tamano, tamano));				
+		setIcon(Convert.rezizarImagen(foto, tamano, tamano));				
 
 	}
 

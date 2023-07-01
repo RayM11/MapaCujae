@@ -15,8 +15,8 @@ public class LabelDeLugarS extends JLabel {
 	private static final long serialVersionUID = 4357320233692323197L;
 
 	protected Vertex vLugar;
-	private static String foto = "texturas/marcadorL.png";
-	private static String fotoSelect = "texturas/marcadorSelectL.png";
+	private static String foto = "src/texturas/marcadorL.png";
+	private static String fotoSelect = "src/texturas/marcadorSelectL.png";
 	private static int tamano = 2;
 	
 	
@@ -25,7 +25,7 @@ public class LabelDeLugarS extends JLabel {
 		
 		this.vLugar = vLugar;
 		
-	//	setIcon(Convert.rezizarImagen(foto, tamano, tamano));				
+		setIcon(Convert.rezizarImagen(foto, tamano, tamano));				
 		
 	}
 	
