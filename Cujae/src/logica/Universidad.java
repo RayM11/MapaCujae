@@ -31,7 +31,7 @@ public class Universidad {
 	private Universidad(){
 
 		datGrafo = new File("data/grafo.dat");
-		arbolDecision = new GeneralTree<Object>();
+		arbolDecision = new GeneralTree<Object>(new BinaryTreeNode<Object>());
 		
 		//Esto va a ser lo que se ponga al final, pero por ahora se trabajara con las inicializaciones
 		//cargarGrafo();
@@ -42,14 +42,20 @@ public class Universidad {
 		
 
 	}
+	
+	
+	public ILinkedWeightedEdgeNotDirectedGraph getMapa(){
+		return mapa;
+	}
+	
 
 	public void inicializarArbol(Lugar lugar) {
 
 		if(!(lugar instanceof Facultad) && !(lugar instanceof Cafeteria)) {
 
 			((BinaryTreeNode<Object>) arbolDecision.getRoot()).setInfo(lugar);
-			((BinaryTreeNode<Object>)arbolDecision.getRoot()).getLeft().setInfo("Facultad");
-			((BinaryTreeNode<Object>)arbolDecision.getRoot()).getLeft().getRight().setInfo("Cafeteria");;
+			((BinaryTreeNode<Object>)arbolDecision.getRoot()).setLeft(new BinaryTreeNode<Object>("Facultad"));
+			((BinaryTreeNode<Object>)arbolDecision.getRoot()).getLeft().setRight(new BinaryTreeNode<Object>("Cafeteria"));
 
 			agregarFacultadesAlArbol(((BinaryTreeNode<Object>)arbolDecision.getRoot()).getLeft());
 			agregarCafeteriasAlArbol(((BinaryTreeNode<Object>)arbolDecision.getRoot()).getLeft().getRight());
@@ -66,8 +72,11 @@ public class Universidad {
 		Iterator<Vertex> iterador = mapa.getVerticesList().iterator();
 
 		while(iterador.hasNext()) {
-			if(iterador.next().getInfo() instanceof Facultad) {
-				facultades.add((Facultad)iterador.next().getInfo());
+
+			Lugar lugar = (Lugar) iterador.next().getInfo(); 
+			
+			if(lugar instanceof Facultad) {
+				facultades.add((Facultad)lugar);
 			}
 		}
 
@@ -204,8 +213,11 @@ public class Universidad {
 		Iterator<Vertex> iterador = mapa.getVerticesList().iterator();
 
 		while(iterador.hasNext()) {
-			if(iterador.next().getInfo() instanceof Cafeteria) {
-				transferirProductos(listaProductos,((Cafeteria)iterador.next().getInfo()).getProductos());		
+
+			Lugar lugar = (Lugar) iterador.next().getInfo();
+			
+			if(lugar instanceof Cafeteria) {
+				transferirProductos(listaProductos,((Cafeteria)lugar).getProductos());			
 			}
 		}
 
@@ -556,6 +568,8 @@ public class Universidad {
 
 
 	}
+
+
 
 
 

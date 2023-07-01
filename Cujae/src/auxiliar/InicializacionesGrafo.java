@@ -247,11 +247,11 @@ public class InicializacionesGrafo {
 		grafo.insertVertex(luIC0416C);
 
 		//35
-		Lugar lu0216A = new Lugar("lu0216A", 1.20, 15.45);
+		Lugar lu0216A = new Lugar("lu0216A", 1.65, 15.45);
 		grafo.insertVertex(lu0216A);
 
 		//36
-		Lugar lu0215A = new Lugar("lu0215A", 1.20, 15.00);
+		Lugar lu0215A = new Lugar("lu0215A", 1.65, 15.00);
 		grafo.insertVertex(lu0215A);
 
 		//37
@@ -715,8 +715,8 @@ public class InicializacionesGrafo {
 		// 35 y 37
 		agregarCamino(grafo, lu0216A, lu0316B);
 		
-		// 8 y 37
-		agregarCamino(grafo, lu0214B, lu0316B);
+		// 8 y 36
+		agregarCamino(grafo, lu0214B, lu0215A);
 		
 		// 36 y 38
 		agregarCamino(grafo, lu0215A, lu0315A);
@@ -869,13 +869,13 @@ public class InicializacionesGrafo {
 		agregarCamino(grafo, lu0906A, lu1006A);
 		
 		// 79 y 80
-		agregarCamino(grafo, lu0906A, luIC1006B);
+		agregarCamino(grafo, lu1006A, luIC1006B);
 		
 		// 80 y 81
 		agregarCamino(grafo, luIC1006B, luI1105A);
 		
 		// 79 y 82
-		agregarCamino(grafo, lu0906A, lu1001A);
+		agregarCamino(grafo, lu1006A, lu1001A);
 		
 		// 82 y 83
 		agregarCamino(grafo, lu1001A, lu1101A);
