@@ -1,6 +1,8 @@
 package mapaFX;
+import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
@@ -25,55 +27,113 @@ import logica.LugarDeInteres;
 public class MapPanelFX extends Pane {
 
 	private Canvas canvas;
+	private ILinkedWeightedEdgeNotDirectedGraph grafoMapa;
 	private ArrayList<LabelDeLugar> puntos;
-	private Vertex verticeSeleccionado;
-	private boolean destinoDeRuta;
-	private boolean nuevoPunto;
-	private boolean nuevaArista;
+	private boolean modoRuta;
+	private boolean modoArista;
+	private boolean modoEliminarArista;
+	private boolean modoNuevoPunto;
+	private boolean modoEliminarPunto;
+	private boolean seleccionLugaresNormales;
 
+	ArrayList<Vertex> verticesSeleccionados;
+	LabelDeLugarInteres ultimoLabelSelec;
+	private Coordenadas coordNueva;
 
-	public MapPanelFX(ILinkedWeightedEdgeNotDirectedGraph grafoMapa, int x, int y) {
+	int cantSeleccionesMax;
 
-		destinoDeRuta = false;
-		nuevoPunto = false;
-		nuevaArista = false;
-		verticeSeleccionado = null;
-		setWidth(x);
-		setHeight(y);
+	public MapPanelFX(ILinkedWeightedEdgeNotDirectedGraph grafoMapa) {
+
+		modoRuta = false;
+		modoNuevoPunto = false;
+		modoArista = false;
+
+		seleccionLugaresNormales = false;
+		cantSeleccionesMax = 1;
+		ultimoLabelSelec = null;
+
+		this.grafoMapa = grafoMapa;
+		puntos = new ArrayList<LabelDeLugar>();
+
+		setWidth(450);
+		setMaxWidth(450);
+		setMinHeight(450);
+		setHeight(570);
+		setMaxHeight(570);
+		setMinHeight(570);
 
 		// Crea un nuevo objeto Canvas, establece su tamaño y obtiene el contexto gráfico
-		canvas = new Canvas(x, y);
+		canvas = new Canvas();
+		canvas.setHeight(570);
+		canvas.setWidth(450);
 		canvas.setStyle("-fx-background-color: green;");
-		GraphicsContext gc = canvas.getGraphicsContext2D();
-		gc.setFill(Color.GREEN); //para q haya un fondo provisional
-
-		// "Carga el mapa"
-		actualizarMapa(grafoMapa);
 
 		setOnMouseClicked(new EventHandler<MouseEvent>() {
 
 			public void handle(MouseEvent event) {
 
-				if (nuevoPunto){
+				if (modoNuevoPunto){
 					double x = event.getX() * 19 / getHeight();
-					double y = event.getY() * 12 / getWidth(); 
+					double y = event.getY() * 15 / getWidth(); 
 
-					Coordenadas coord = new Coordenadas(x, y);
-					//llamar a formulario pasandole las coordenadas
-					desactivarNuevoPunto();
+					coordNueva = new Coordenadas(x, y);
 
+					actualizarMapa();
+					reseleccionarVertices();
+
+					canvas.getGraphicsContext2D().setFill(Color.RED);
+					canvas.getGraphicsContext2D().fillOval(event.getX()-2, event.getY()-2, 4, 4);
 				}
 			}
 		});
 
 	}
 
-	public void setVerticeSeleccionado(Vertex vLugar){
-		verticeSeleccionado = vLugar;
+
+	public void inicializarGC(){
+
+		GraphicsContext gc = canvas.getGraphicsContext2D();
+		gc.setFill(Color.GREEN); //para q haya un fondo provisional
+		
+		// "Carga el mapa"
+		actualizarMapa();	
+
 	}
-	public Vertex getVerticeSeleccionado(){
-		return verticeSeleccionado;
+
+	public ArrayList<Vertex> getSeleccion(){
+		return verticesSeleccionados;
 	}
+	public boolean hayCaminoA(Vertex vert){
+
+		boolean hayCamino = false;
+
+		int cantVert = grafoMapa.getVerticesList().size();
+
+		for(int i = 1; i < cantVert && !hayCamino; i++){
+
+			if(grafoMapa.pathWithLength(((LinkedGraph)grafoMapa).getVertexIndex(verticesSeleccionados.get(0)) ,
+					((LinkedGraph)grafoMapa).getVertexIndex(vert), i))
+				hayCamino = true;
+		}
+		return hayCamino;
+	}
+
+	public LabelDeLugarInteres getLabel(int pos){
+		return getLabel(verticesSeleccionados.get(pos));
+	}
+
+	public void agregarSeleccion(Vertex vert){
+		if (!verticesSeleccionados.contains(vert))
+			verticesSeleccionados.add(vert);
+	}
+	public void removerSeleccion(Vertex vert){
+		if (verticesSeleccionados.contains(vert))
+			verticesSeleccionados.remove(vert);
+	}
+	public boolean puedeAgregarSeleccion(){
+		return (verticesSeleccionados.size() < cantSeleccionesMax);
+	}
+
 
 	public void devolverVertexAlFormulario(Vertex verticeAUnir){
 
@@ -98,33 +158,78 @@ public class MapPanelFX extends Pane {
 
 		}
 	}
-	public void actualizarMapa(ILinkedWeightedEdgeNotDirectedGraph mapa){
-		
-		LinkedList<Vertex> lugares = mapa.getVerticesList();
-		Iterator<Vertex> iter = lugares.iterator();
+	public void actualizarMapa(){
 
-		while (iter.hasNext()){
+		Platform.runLater(actualizarMapaRunnable);
+	}
+	
+	private final Runnable actualizarMapaRunnable = new Runnable() {
+	    @Override
+	    public void run() {
+	    	
+	    	vaciarPanel();
+			LinkedList<Vertex> lugares = grafoMapa.getVerticesList();
+			Iterator<Vertex> iter = lugares.iterator();
 
-			Vertex verticeActual = (Vertex) iter.next();
-			dibujarAristas(verticeActual);
+			while (iter.hasNext()){
 
-			LabelDeLugar labelActual;
-			
-			if (verticeActual.getInfo() instanceof LugarDeInteres){
-				labelActual = new LabelDeLugarInteres( verticeActual);
-				// agrega el lugarDeInteres a la lista
-				puntos.add(labelActual);
-				
-			}else{
-				// agrega el lugar a la lista
-				labelActual = new LabelDeLugar(verticeActual);
-				puntos.add(labelActual);
+				Vertex verticeActual = (Vertex) iter.next();
+				dibujarAristas(verticeActual);
+
+				LabelDeLugar labelActual;
+
+				if (verticeActual.getInfo() instanceof LugarDeInteres){	
+					labelActual = new LabelDeLugarInteres(verticeActual);
+					// agrega el lugarDeInteres a la lista
+					puntos.add(labelActual);
+
+				}else{
+					// agrega el lugar a la lista
+					labelActual = new LabelDeLugar(verticeActual);
+					puntos.add(labelActual);
+				}
+				// agrega el lugar (de interes o no) al canvas
+				/*		if (!getChildren().contains(canvas)) {
+				    getChildren().add(canvas);
+				}*/
+				if (!getChildren().contains(labelActual)) {
+					getChildren().add(labelActual);
+				}
+				labelActual.inicializar();
+
 			}
-			// agrega el lugar (de interes o no) al canvas
-			getChildren().addAll(canvas, labelActual);
+			if (!getChildren().contains(canvas))
+				getChildren().add(canvas);
+	    }
+	};
 
+	public LabelDeLugarInteres getLabel(Vertex vert){
+
+		LabelDeLugarInteres label = null;
+		int cant = getChildrenUnmodifiable().size();
+
+		for (int i = 0; i < cant; i++){
+
+			Node nodo = getChildrenUnmodifiable().get(i);
+
+			if (nodo instanceof LabelDeLugarInteres)
+				if (((LabelDeLugarInteres)nodo).getVertice().equals(vert)){
+					label = ((LabelDeLugarInteres)nodo);
+					i = cant;
+				}
 		}
-		
+		return label;
+	}
+
+	private void vaciarPanel() {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				
+				getChildren().clear();
+				canvas.getGraphicsContext2D().clearRect(0, 0, getWidth(), getHeight());
+			}
+		});
 	}
 
 	private void dibujarAristas(Vertex vertice) {
@@ -143,37 +248,109 @@ public class MapPanelFX extends Pane {
 			gc.strokeLine(inicio.getX(), inicio.getY(), fin.getX(), fin.getY());
 		}   
 	}
-	
-	
 
-	public void activarSeleccionDestino(){
-		destinoDeRuta = true;
-	}
-	public void desactivarSeleccionDestino(){
-		destinoDeRuta = false;
-	}
-	public boolean esperandoDestino(){
-		return destinoDeRuta;
-	}
-	public void activarNuevoPunto(){
-		nuevoPunto = true;
-	}
-	public void desactivarNuevoPunto(){
-		nuevoPunto = false;
-	}
-	public boolean esperandoNuevoPunto(){
-		return nuevoPunto;
-	}
-	public void activarNuevaArista(){
-		nuevaArista = true;
-	}
-	public void desactivarNuevaArista(){
-		nuevaArista = false;
-	}
-	public boolean esperandoNuevaArista(){
-		return nuevaArista;
+	public void reseleccionarVertices(){
+
+		int cant = puntos.size();
+		int cantEncontrada = 0;
+
+		for (int i = 0; i < cant; i ++){
+
+			if (verticesSeleccionados.contains(puntos.get(i).getVertice())){
+				cantEncontrada ++;
+				puntos.get(i).seleccionar();
+				if (cantEncontrada == verticesSeleccionados.size())
+					i = cant; // salida del bucle
+			}
+		}
+
 	}
 
+
+	// Modo Nuevo Punto
+	public void activarModoNuevoPunto(){
+		modoNuevoPunto = true;
+		seleccionLugaresNormales = true;
+		cantSeleccionesMax = 4;	
+	}
+	public void desactivarModoNuevoPunto(){
+		modoNuevoPunto = false;
+		seleccionLugaresNormales = false;
+		cantSeleccionesMax = 1;
+		coordNueva = null;
+	}
+	public boolean getModoNuevoPunto(){
+		return modoNuevoPunto;
+	}
+	public Coordenadas getCoordNueva(){
+		return coordNueva;
+	}
+
+	// Modo Eliminar Punto
+	public void activarModoEliminarPunto(){
+		modoEliminarPunto = true;
+		seleccionLugaresNormales = true;
+	}
+	public void desactivarModoEliminarPunto(){
+		modoEliminarPunto = false;
+		seleccionLugaresNormales = false;
+	}
+	public boolean getModoEliminarPunto(){
+		return modoEliminarPunto;
+	}
+
+
+
+	// Modo Arista
+	public void activarModoArista(){
+
+		seleccionLugaresNormales = true;
+		cantSeleccionesMax = 2;
+	}
+	public void desactivarModoArista(){
+
+		seleccionLugaresNormales = false;
+		cantSeleccionesMax = 1;
+		actualizarMapa();
+	}
+	public boolean getModoArista(){
+		return modoArista;
+	}
+	// SubModo Eliminar Arista
+	public void activarModoEliminarArista(){
+		modoEliminarArista = true;
+		activarModoArista();
+	}
+	public void desactivarModoEliminarArista(){
+		modoEliminarArista = false;
+		desactivarModoArista();
+	}
+	public boolean getModoEliminarArista(){
+		return modoEliminarArista;
+	}
+	public boolean esAdyacenteA(Vertex vert){
+
+		return (grafoMapa.areAdjacents(((LinkedGraph)grafoMapa).getVertexIndex(verticesSeleccionados.get(0)),
+				((LinkedGraph)grafoMapa).getVertexIndex(vert)));
+	}
+
+
+
+	// Modo Ruta
+	public void activarModoRuta(){	
+
+		modoRuta = true;;
+		cantSeleccionesMax = 2;
+	}
+	public void desactivarModoRuta(){
+
+		modoRuta = false;
+		cantSeleccionesMax = 1;
+		actualizarMapa();
+	}
+	public boolean getModoRuta(){
+		return modoRuta;
+	}
 
 	// Método para obtener el componente compatible con swing
 	public JComponent getComponenteDeSwing() {
@@ -186,7 +363,7 @@ public class MapPanelFX extends Pane {
 	/*		COMO AÑADIR ESTE PANEL A UN PANEL DE SWING
 	 * 
 	 * 		JPanel panelMapa = new JPanel();
-	 *		MapPanel mapPanel = new MapPanel(¨el grafo del mapa¨, tamaño x, tamaño y);
+	 *		MapPanelFX mapPanel = new MapPanelFX(¨el grafo del mapa¨, tamaño x, tamaño y);
 	 *		swingPanel.add(mapPanel.getComponenteDeSwing());
 	 *		
 	 * */

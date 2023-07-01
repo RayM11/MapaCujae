@@ -12,17 +12,15 @@ public class LabelDeLugar extends Label {
 
 	protected Vertex vLugar;
 	
-	public LabelDeLugar(final Vertex vLugar){
+	public LabelDeLugar(Vertex vLugar){
 
 		this.vLugar = vLugar;
-		setLayoutX(getXreal(((Lugar) vLugar.getInfo()).getCoordenadas().getX()) - 1);
-		setLayoutY(getYreal(((Lugar) vLugar.getInfo()).getCoordenadas().getY()) - 1);
 		
 		setShape(new Circle(1));
 		setStyle("-fx-background-color: white;");
 		setPrefSize(2, 2);
 		
-		setOnMouseClicked(new EventHandler<MouseEvent>(){
+/*		setOnMouseClicked(new EventHandler<MouseEvent>(){
 
 			public void handle (MouseEvent event){
 				
@@ -30,19 +28,35 @@ public class LabelDeLugar extends Label {
 					((MapPanelFX) getParent()).devolverVertexAlFormulario(vLugar);
 			
 			}
-		});
+		});*/
 	}
 	
+	public void inicializar (){
+		
+		setLayoutX(getXreal(((Lugar) vLugar.getInfo()).getCoordenadas().getX()) - 1);
+		setLayoutY(getYreal(((Lugar) vLugar.getInfo()).getCoordenadas().getY()) - 1);
+		
+	}
+
+	public Vertex getVertice(){
+		return vLugar;
+	}
 	
+	public void seleccionar(){
+		setStyle("-fx-background-color: red;");
+	}
+	public void deseleccionar(){
+		setStyle("-fx-background-color: white;");
+	}
 	
 	private double getXreal(double x){
 
-		return x * this.getParent().getLayoutX() / 12;
+		return x * ((MapPanelFX)getParent()).getWidth() / 15;
 
 	}
 	private double getYreal(double y){
 
-		return y * this.getParent().getLayoutY() / 19;
+		return y * ((MapPanelFX)getParent()).getHeight() / 19;
 
 	}
 	
