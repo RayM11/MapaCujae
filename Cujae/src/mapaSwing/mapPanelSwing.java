@@ -3,6 +3,7 @@ package mapaSwing;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.LayoutManager;
@@ -287,13 +288,12 @@ public class mapPanelSwing extends JPanel {
 
 	private int getXreal(Vertex vert){
 
-		return (int) Math.round(((Lugar)vert.getInfo()).getCoordenadas().getX() * getParent().getWidth() / 15);
+		return (int) Math.round(((Lugar)vert.getInfo()).getCoordenadas().getX() / 13 * 660);
 
 	}
 	private int getYreal(Vertex vert){
 
-		return (int) (getParent().getWidth()/1.5 - Math.round(((Lugar)vert.getInfo()).getCoordenadas().getY() * getParent().getHeight() / 19));
+		return (int) Math.round(1045 - ((Lugar)vert.getInfo()).getCoordenadas().getY() / 19 * 1045);
 
 	}
-
 }

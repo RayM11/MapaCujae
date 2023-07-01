@@ -4,6 +4,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Font;
 
 import javax.swing.JLabel;
@@ -18,8 +20,13 @@ import auxiliar.Convert;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -33,6 +40,10 @@ import logica.Cafeteria;
 import logica.Facultad;
 import logica.LugarDeInteres;
 import mapaSwing.mapPanelSwing;
+
+import javax.swing.border.CompoundBorder;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.JScrollBar;
 
 public class PantallaMapa extends JFrame {
 
@@ -66,6 +77,7 @@ public class PantallaMapa extends JFrame {
 	private JMenuItem mntmEliminarLugar;
 	private JMenuItem mntmModificarLugar;
 	private JMenuItem mntmDecisionAsistida;
+	private JScrollBar scrollBar;
 
 	public void llenarPanelInfo(LugarDeInteres lugar){
 
@@ -186,18 +198,52 @@ public class PantallaMapa extends JFrame {
 
 
 
-
+		JPanel panelContenedorMapa = new JPanel();
+		panelContenedorMapa.setBounds(257, 32, 707, 631);
+		panelContenedorMapa.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
+		contentPane.add(panelContenedorMapa);
+		/*JScrollPane scrollMapa = new JScrollPane(panelMapa);
+		scrollMapa.setSize(707, 631);
+		scrollMapa.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		panelContenedorMapa.add(scrollMapa, BorderLayout.CENTER);*/
+		panelContenedorMapa.setLayout(null);
+		
 		panelMapa = new mapPanelSwing();
-		panelMapa.setBounds(257, 32, 707, 633);
-		panelMapa.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
+		panelMapa.setLocation(0, 7);
+		panelMapa.setPreferredSize(new Dimension(680, 1045));
+		panelMapa.setSize(680, 1045);
+		panelContenedorMapa.add(panelMapa);
+		panelMapa.repaint();
+		panelMapa.revalidate();
+		
+		scrollBar = new JScrollBar();
+		scrollBar.setBounds(682, 7, 17, 613);
+		scrollBar.addAdjustmentListener(new AdjustmentListener() {
+		    public void adjustmentValueChanged(AdjustmentEvent e) {
+		        panelMapa.setLocation(panelMapa.getX(), (int) (-e.getValue()*4.5));
+		    }
+		});
+		panelContenedorMapa.add(scrollBar);
+		panelContenedorMapa.addMouseWheelListener(new MouseWheelListener() {
+		    public void mouseWheelMoved(MouseWheelEvent e) {
+		        int scrollAmount = e.getScrollAmount();
+		        int scrollType = e.getScrollType();
+		        int currentValue;
+
+		        if (scrollType == MouseWheelEvent.WHEEL_UNIT_SCROLL) {
+		            currentValue = scrollBar.getValue();
+		            scrollBar.setValue(currentValue + (scrollAmount * e.getWheelRotation()*4));
+		        }
+		    }
+		});
+		
+		
 		/*Dimension preferredSize = new Dimension(450, 570);
 
 		MapPanelFX mapPanel = new MapPanelFX(Universidad.getCujae().getMapa());
 		panelContenedorMapa.add(mapPanel.getComponenteDeSwing(), BorderLayout.CENTER);
 		mapPanel.inicializarGC();
-*/		contentPane.add(panelMapa);
-		panelMapa.repaint();
-		panelMapa.revalidate();
+*/		
 
 
 

@@ -1,6 +1,7 @@
 package mapaSwing;
 
 import java.awt.HeadlessException;
+
 import javax.swing.JLabel;
 
 import auxiliar.Convert;
@@ -53,12 +54,11 @@ public class LabelDeLugarS extends JLabel {
 	
 	protected int getXreal(){
 
-		return (int) Math.round(((Lugar)vLugar.getInfo()).getCoordenadas().getX() * getParent().getWidth() / 15);
-
+		return (int) Math.round(((Lugar)vLugar.getInfo()).getCoordenadas().getX() / 13 * 660);
 	}
 	protected int getYreal(){
 
-		return (int) (getParent().getWidth() - Math.round(((Lugar)vLugar.getInfo()).getCoordenadas().getY() * getParent().getHeight() / 19));
+		return (int) Math.round(1045 - ((Lugar)vLugar.getInfo()).getCoordenadas().getY() / 19 * 1045);
 
 	}
 }
