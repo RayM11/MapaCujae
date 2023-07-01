@@ -16,6 +16,7 @@ import auxiliar.Dijkstra;
 import auxiliar.InicializacionesGrafo;
 import auxiliar.MarcadorDijkstra;
 import cu.edu.cujae.ceis.graph.LinkedGraph;
+import cu.edu.cujae.ceis.graph.interfaces.ILinkedNotDirectedGraph;
 import cu.edu.cujae.ceis.graph.interfaces.ILinkedWeightedEdgeNotDirectedGraph;
 import cu.edu.cujae.ceis.graph.vertex.Vertex;
 import cu.edu.cujae.ceis.tree.binary.BinaryTreeNode;
@@ -588,6 +589,5 @@ public class Universidad {
 
 
 	}
-
 
 }

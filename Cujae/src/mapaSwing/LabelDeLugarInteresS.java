@@ -2,21 +2,40 @@ package mapaSwing;
 
 import java.awt.HeadlessException;
 
+import auxiliar.Convert;
+import cu.edu.cujae.ceis.graph.vertex.Vertex;
+
 public class LabelDeLugarInteresS extends LabelDeLugarS {
 
-	public LabelDeLugarInteresS() throws HeadlessException {
-		// TODO Auto-generated constructor stub
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3412194173818906627L;
+
+	private static String foto = "texturas/marcadorLI.png";
+	private static String fotoSelect = "texturas/marcadorSelectLI.png";
+	private static int tamano = 6;
+
+
+	public LabelDeLugarInteresS(Vertex vLugar) throws HeadlessException {
+		
+		super(vLugar);
+
+	//	setIcon(Convert.rezizarImagen(foto, tamano, tamano));				
+
 	}
 
-	public LabelDeLugarInteresS(String text) throws HeadlessException {
-		super(text);
-		// TODO Auto-generated constructor stub
-	}
+	public void seleccionar (){
 
-	public LabelDeLugarInteresS(String text, int alignment)
-			throws HeadlessException {
-		super(text, alignment);
-		// TODO Auto-generated constructor stub
+		setIcon(Convert.rezizarImagen(foto, tamano, tamano));
+		((mapPanelSwing)getParent()).agregarSeleccion(vLugar);
+		// Llamar al llenado de la info
+	}
+	public void deseleccionar(){
+
+		setIcon(Convert.rezizarImagen(fotoSelect, tamano, tamano));
+		((mapPanelSwing)getParent()).removerSeleccion(vLugar);
+		//limpiar el panel de la info
 	}
 
 }

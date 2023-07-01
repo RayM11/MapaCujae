@@ -1,22 +1,64 @@
 package mapaSwing;
 
 import java.awt.HeadlessException;
-import java.awt.Label;
+import javax.swing.JLabel;
 
-public class LabelDeLugarS extends Label {
+import auxiliar.Convert;
+import cu.edu.cujae.ceis.graph.vertex.Vertex;
+import logica.Lugar;
 
-	public LabelDeLugarS() throws HeadlessException {
-		// TODO Auto-generated constructor stub
+public class LabelDeLugarS extends JLabel {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4357320233692323197L;
+
+	protected Vertex vLugar;
+	private static String foto = "texturas/marcadorL.png";
+	private static String fotoSelect = "texturas/marcadorSelectL.png";
+	private static int tamano = 2;
+	
+	
+	
+	public LabelDeLugarS(Vertex vLugar) throws HeadlessException {
+		
+		this.vLugar = vLugar;
+		
+	//	setIcon(Convert.rezizarImagen(foto, tamano, tamano));				
+		
 	}
-
-	public LabelDeLugarS(String text) throws HeadlessException {
-		super(text);
-		// TODO Auto-generated constructor stub
+	
+	
+	public Vertex getVertice(){
+		return vLugar;
 	}
-
-	public LabelDeLugarS(String text, int alignment) throws HeadlessException {
-		super(text, alignment);
-		// TODO Auto-generated constructor stub
+	
+	public void seleccionar (){
+		
+		setIcon(Convert.rezizarImagen(foto, tamano, tamano));
+		((mapPanelSwing)getParent()).agregarSeleccion(vLugar);
 	}
+	public void deseleccionar(){
+		
+		setIcon(Convert.rezizarImagen(fotoSelect, tamano, tamano));
+		((mapPanelSwing)getParent()).removerSeleccion(vLugar);
+	}
+	
+	
+	public void ubicar(){
+		
+		setBounds(getXreal(), getYreal(), tamano/2 , tamano/2);
+	}
+	
+	protected int getXreal(){
 
+		return (int) Math.round(((Lugar)vLugar.getInfo()).getCoordenadas().getX() * getParent().getWidth() / 15);
+
+	}
+	protected int getYreal(){
+
+		return (int) (getParent().getWidth() - Math.round(((Lugar)vLugar.getInfo()).getCoordenadas().getY() * getParent().getHeight() / 19));
+
+	}
 }
