@@ -17,6 +17,8 @@ import auxiliar.Configuracion;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 public class AcercaDe extends JDialog {
 
@@ -28,6 +30,47 @@ public class AcercaDe extends JDialog {
 		setTitle("Acerca de...");
 		setBounds(100, 100, 561, 420);
 		getContentPane().setLayout(new BorderLayout());
+		addWindowListener(new WindowListener() {
+			
+			@Override
+			public void windowOpened(WindowEvent e) {
+				
+			}
+			
+			@Override
+			public void windowIconified(WindowEvent e) {
+				
+			}
+			
+			@Override
+			public void windowDeiconified(WindowEvent e) {
+				
+			}
+			
+			@Override
+			public void windowDeactivated(WindowEvent e) {
+				
+			}
+			
+			@Override
+			public void windowClosing(WindowEvent e) {
+
+				ventanaAnterior.setEnabled(true);
+				ventanaAnterior.setVisible(true);
+				
+			}
+			
+			@Override
+			public void windowClosed(WindowEvent e) {
+				ventanaAnterior.setEnabled(true);
+				ventanaAnterior.setVisible(true);
+			}
+
+			@Override
+			public void windowActivated(WindowEvent e) {
+				
+			}
+		});
 		contentPanel.setOpaque(false);
 		contentPanel.setToolTipText("");
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -49,8 +92,6 @@ public class AcercaDe extends JDialog {
 				JButton okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						ventanaAnterior.setEnabled(true);
-						ventanaAnterior.setVisible(true);
 						dispose();
 					}
 				});

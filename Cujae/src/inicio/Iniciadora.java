@@ -31,13 +31,13 @@ public class Iniciadora {
 	}
 
 	public static void main(String[] args) {
-/*
+
 		try {
 			UIManager.setLookAndFeel("com.jtattoo.plaf.acryl.AcrylLookAndFeel"); 
 		} catch (Throwable e) {
 			e.printStackTrace();
 		} 
-*/
+
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
