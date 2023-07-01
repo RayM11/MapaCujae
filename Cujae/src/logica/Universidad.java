@@ -14,7 +14,6 @@ import auxiliar.ConexionesVertex;
 import auxiliar.Convert;
 import auxiliar.Dijkstra;
 import auxiliar.InicializacionesGrafo;
-import auxiliar.MarcadorDijkstra;
 import cu.edu.cujae.ceis.graph.LinkedGraph;
 import cu.edu.cujae.ceis.graph.interfaces.ILinkedWeightedEdgeNotDirectedGraph;
 import cu.edu.cujae.ceis.graph.vertex.Vertex;
@@ -512,26 +511,7 @@ public class Universidad {
 
 	public LinkedList<Vertex> buscarCaminoMasCorto(Vertex partida, Vertex objetivo) throws Exception{
 
-		LinkedList<Vertex> camino = new LinkedList<Vertex>();
-
-		LinkedList<MarcadorDijkstra> dijkstra = Dijkstra.dijkstra(mapa, partida);
-
-		Vertex actual = objetivo;
-		Iterator<MarcadorDijkstra> iter = dijkstra.iterator();
-
-		while(iter.hasNext()){
-			MarcadorDijkstra marcador = iter.next();
-			if(marcador.getMenorArco() != null){
-				if(marcador.getMenorArco().getVertex().equals(actual)){
-					camino.addFirst(marcador.getMenorArco().getVertex());
-					actual = marcador.getVerticeAnterior();
-				}
-			}else
-				camino.addFirst(partida);
-		}
-
-
-		return camino;
+		return Dijkstra.sacarOrdenDeLugares(mapa, partida, objetivo);
 	}
 
 	public boolean agregarCamino(Lugar lu1, Lugar lu2){
