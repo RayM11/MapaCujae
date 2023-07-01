@@ -1,4 +1,5 @@
 package mapaFX;
+import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -22,7 +23,6 @@ import java.util.LinkedList;
 import logica.Coordenadas;
 import logica.Lugar;
 import logica.LugarDeInteres;
-import logica.Universidad;
 
 public class MapPanelFX extends Pane {
 
@@ -35,36 +35,38 @@ public class MapPanelFX extends Pane {
 	private boolean modoNuevoPunto;
 	private boolean modoEliminarPunto;
 	private boolean seleccionLugaresNormales;
-	
-    ArrayList<Vertex> verticesSeleccionados;
-    LabelDeLugarInteres ultimoLabelSelec;
-    private Coordenadas coordNueva;
-    
-    int cantSeleccionesMax;
-    
-	public MapPanelFX(ILinkedWeightedEdgeNotDirectedGraph grafoMapa, int x, int y) {
+
+	ArrayList<Vertex> verticesSeleccionados;
+	LabelDeLugarInteres ultimoLabelSelec;
+	private Coordenadas coordNueva;
+
+	int cantSeleccionesMax;
+
+	public MapPanelFX(ILinkedWeightedEdgeNotDirectedGraph grafoMapa) {
 
 		modoRuta = false;
 		modoNuevoPunto = false;
 		modoArista = false;
-		
+
 		seleccionLugaresNormales = false;
 		cantSeleccionesMax = 1;
 		ultimoLabelSelec = null;
-		
+
 		this.grafoMapa = grafoMapa;
-		
-		setWidth(x);
-		setHeight(y);
+		puntos = new ArrayList<LabelDeLugar>();
+
+		setWidth(450);
+		setMaxWidth(450);
+		setMinHeight(450);
+		setHeight(570);
+		setMaxHeight(570);
+		setMinHeight(570);
 
 		// Crea un nuevo objeto Canvas, establece su tamaño y obtiene el contexto gráfico
-		canvas = new Canvas(x, y);
+		canvas = new Canvas();
+		canvas.setHeight(570);
+		canvas.setWidth(450);
 		canvas.setStyle("-fx-background-color: green;");
-		GraphicsContext gc = canvas.getGraphicsContext2D();
-		gc.setFill(Color.GREEN); //para q haya un fondo provisional
-
-		// "Carga el mapa"
-		actualizarMapa();
 
 		setOnMouseClicked(new EventHandler<MouseEvent>() {
 
@@ -73,12 +75,12 @@ public class MapPanelFX extends Pane {
 				if (modoNuevoPunto){
 					double x = event.getX() * 19 / getHeight();
 					double y = event.getY() * 15 / getWidth(); 
-					
+
 					coordNueva = new Coordenadas(x, y);
-					
+
 					actualizarMapa();
 					reseleccionarVertices();
-					
+
 					canvas.getGraphicsContext2D().setFill(Color.RED);
 					canvas.getGraphicsContext2D().fillOval(event.getX()-2, event.getY()-2, 4, 4);
 				}
@@ -87,23 +89,28 @@ public class MapPanelFX extends Pane {
 
 	}
 
-/*	public void setVerticeSeleccionado(Vertex vLugar){
-		verticeSeleccionado = vLugar;
+
+	public void inicializarGC(){
+
+		GraphicsContext gc = canvas.getGraphicsContext2D();
+		gc.setFill(Color.GREEN); //para q haya un fondo provisional
+		
+		// "Carga el mapa"
+		actualizarMapa();	
+
 	}
-	public Vertex getVerticeSeleccionado(){
-		return verticeSeleccionado;
-	}*/
+
 	public ArrayList<Vertex> getSeleccion(){
 		return verticesSeleccionados;
 	}
 	public boolean hayCaminoA(Vertex vert){
-		
+
 		boolean hayCamino = false;
-		
+
 		int cantVert = grafoMapa.getVerticesList().size();
-		
+
 		for(int i = 1; i < cantVert && !hayCamino; i++){
-			
+
 			if(grafoMapa.pathWithLength(((LinkedGraph)grafoMapa).getVertexIndex(verticesSeleccionados.get(0)) ,
 					((LinkedGraph)grafoMapa).getVertexIndex(vert), i))
 				hayCamino = true;
@@ -114,7 +121,7 @@ public class MapPanelFX extends Pane {
 	public LabelDeLugarInteres getLabel(int pos){
 		return getLabel(verticesSeleccionados.get(pos));
 	}
-	
+
 	public void agregarSeleccion(Vertex vert){
 		if (!verticesSeleccionados.contains(vert))
 			verticesSeleccionados.add(vert);
@@ -126,7 +133,7 @@ public class MapPanelFX extends Pane {
 	public boolean puedeAgregarSeleccion(){
 		return (verticesSeleccionados.size() < cantSeleccionesMax);
 	}
-	
+
 
 	public void devolverVertexAlFormulario(Vertex verticeAUnir){
 
@@ -152,44 +159,59 @@ public class MapPanelFX extends Pane {
 		}
 	}
 	public void actualizarMapa(){
-		
-		vaciarPanel();
-		
-		LinkedList<Vertex> lugares = grafoMapa.getVerticesList();
-		Iterator<Vertex> iter = lugares.iterator();
 
-		while (iter.hasNext()){
-
-			Vertex verticeActual = (Vertex) iter.next();
-			dibujarAristas(verticeActual);
-
-			LabelDeLugar labelActual;
-			
-			if (verticeActual.getInfo() instanceof LugarDeInteres){
-				labelActual = new LabelDeLugarInteres( verticeActual);
-				// agrega el lugarDeInteres a la lista
-				puntos.add(labelActual);
-				
-			}else{
-				// agrega el lugar a la lista
-				labelActual = new LabelDeLugar(verticeActual);
-				puntos.add(labelActual);
-			}
-			// agrega el lugar (de interes o no) al canvas
-			getChildren().addAll(canvas, labelActual);
-
-		}	
+		Platform.runLater(actualizarMapaRunnable);
 	}
 	
+	private final Runnable actualizarMapaRunnable = new Runnable() {
+	    @Override
+	    public void run() {
+	    	
+	    	vaciarPanel();
+			LinkedList<Vertex> lugares = grafoMapa.getVerticesList();
+			Iterator<Vertex> iter = lugares.iterator();
+
+			while (iter.hasNext()){
+
+				Vertex verticeActual = (Vertex) iter.next();
+				dibujarAristas(verticeActual);
+
+				LabelDeLugar labelActual;
+
+				if (verticeActual.getInfo() instanceof LugarDeInteres){	
+					labelActual = new LabelDeLugarInteres(verticeActual);
+					// agrega el lugarDeInteres a la lista
+					puntos.add(labelActual);
+
+				}else{
+					// agrega el lugar a la lista
+					labelActual = new LabelDeLugar(verticeActual);
+					puntos.add(labelActual);
+				}
+				// agrega el lugar (de interes o no) al canvas
+				/*		if (!getChildren().contains(canvas)) {
+				    getChildren().add(canvas);
+				}*/
+				if (!getChildren().contains(labelActual)) {
+					getChildren().add(labelActual);
+				}
+				labelActual.inicializar();
+
+			}
+			if (!getChildren().contains(canvas))
+				getChildren().add(canvas);
+	    }
+	};
+
 	public LabelDeLugarInteres getLabel(Vertex vert){
-		
+
 		LabelDeLugarInteres label = null;
 		int cant = getChildrenUnmodifiable().size();
-		
+
 		for (int i = 0; i < cant; i++){
-			
+
 			Node nodo = getChildrenUnmodifiable().get(i);
-			
+
 			if (nodo instanceof LabelDeLugarInteres)
 				if (((LabelDeLugarInteres)nodo).getVertice().equals(vert)){
 					label = ((LabelDeLugarInteres)nodo);
@@ -198,12 +220,16 @@ public class MapPanelFX extends Pane {
 		}
 		return label;
 	}
-	
-	private void vaciarPanel(){
-		
-		getChildren().clear();
-		canvas.getGraphicsContext2D().clearRect(0, 0, getWidth(), getHeight());
-		
+
+	private void vaciarPanel() {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				
+				getChildren().clear();
+				canvas.getGraphicsContext2D().clearRect(0, 0, getWidth(), getHeight());
+			}
+		});
 	}
 
 	private void dibujarAristas(Vertex vertice) {
@@ -222,14 +248,14 @@ public class MapPanelFX extends Pane {
 			gc.strokeLine(inicio.getX(), inicio.getY(), fin.getX(), fin.getY());
 		}   
 	}
-	
+
 	public void reseleccionarVertices(){
-		
+
 		int cant = puntos.size();
 		int cantEncontrada = 0;
-		
+
 		for (int i = 0; i < cant; i ++){
-			
+
 			if (verticesSeleccionados.contains(puntos.get(i).getVertice())){
 				cantEncontrada ++;
 				puntos.get(i).seleccionar();
@@ -237,10 +263,10 @@ public class MapPanelFX extends Pane {
 					i = cant; // salida del bucle
 			}
 		}
-			
+
 	}
-	
-	
+
+
 	// Modo Nuevo Punto
 	public void activarModoNuevoPunto(){
 		modoNuevoPunto = true;
@@ -259,28 +285,30 @@ public class MapPanelFX extends Pane {
 	public Coordenadas getCoordNueva(){
 		return coordNueva;
 	}
-	
+
 	// Modo Eliminar Punto
 	public void activarModoEliminarPunto(){
 		modoEliminarPunto = true;
 		seleccionLugaresNormales = true;
 	}
 	public void desactivarModoEliminarPunto(){
-		modoEliminarPunto = true;
-		seleccionLugaresNormales = true;
+		modoEliminarPunto = false;
+		seleccionLugaresNormales = false;
 	}
-	public boolean getModoEliminarPunto;
-	
-	
-	
+	public boolean getModoEliminarPunto(){
+		return modoEliminarPunto;
+	}
+
+
+
 	// Modo Arista
 	public void activarModoArista(){
-		
+
 		seleccionLugaresNormales = true;
 		cantSeleccionesMax = 2;
 	}
 	public void desactivarModoArista(){
-		
+
 		seleccionLugaresNormales = false;
 		cantSeleccionesMax = 1;
 		actualizarMapa();
@@ -301,21 +329,21 @@ public class MapPanelFX extends Pane {
 		return modoEliminarArista;
 	}
 	public boolean esAdyacenteA(Vertex vert){
-		
+
 		return (grafoMapa.areAdjacents(((LinkedGraph)grafoMapa).getVertexIndex(verticesSeleccionados.get(0)),
 				((LinkedGraph)grafoMapa).getVertexIndex(vert)));
 	}
-	
-	
-	
+
+
+
 	// Modo Ruta
 	public void activarModoRuta(){	
-		
+
 		modoRuta = true;;
 		cantSeleccionesMax = 2;
 	}
 	public void desactivarModoRuta(){
-		
+
 		modoRuta = false;
 		cantSeleccionesMax = 1;
 		actualizarMapa();
@@ -335,7 +363,7 @@ public class MapPanelFX extends Pane {
 	/*		COMO AÑADIR ESTE PANEL A UN PANEL DE SWING
 	 * 
 	 * 		JPanel panelMapa = new JPanel();
-	 *		MapPanel mapPanel = new MapPanel(¨el grafo del mapa¨, tamaño x, tamaño y);
+	 *		MapPanelFX mapPanel = new MapPanelFX(¨el grafo del mapa¨, tamaño x, tamaño y);
 	 *		swingPanel.add(mapPanel.getComponenteDeSwing());
 	 *		
 	 * */

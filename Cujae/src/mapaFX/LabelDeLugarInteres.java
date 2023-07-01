@@ -15,17 +15,14 @@ public class LabelDeLugarInteres extends LabelDeLugar {
 
 	private static ImageView iconoNormal = new ImagenResisableEstatic(new Image("texturas/marcador.png"), 5, 5);
 	private static ImageView iconoSelec = new ImagenResisableEstatic(new Image ("texturas/marcadorSelect.png"), 5, 5);
+	private static  double mitadDimension = iconoNormal.getImage().getHeight()/2;
 
 	public LabelDeLugarInteres (final Vertex vLugar){
 
 		super(vLugar);
 
-		double mitadDimension = iconoNormal.getImage().getHeight()/2;
-
 		this.vLugar = vLugar;
-		setLayoutX(getXreal(((Lugar) vLugar.getInfo()).getCoordenadas().getX()) - mitadDimension);
-		setLayoutY(getYreal(((Lugar) vLugar.getInfo()).getCoordenadas().getY()) - mitadDimension);
-
+		
 		setGraphic(iconoNormal);
 
 		Insets límites = new Insets(mitadDimension,mitadDimension,mitadDimension,mitadDimension);
@@ -188,6 +185,13 @@ public class LabelDeLugarInteres extends LabelDeLugar {
 			}
 		});	
 	}
+	
+	public void inicializar (){
+		
+		setLayoutX(getXreal(((Lugar) vLugar.getInfo()).getCoordenadas().getX()) - mitadDimension);
+		setLayoutY(getYreal(((Lugar) vLugar.getInfo()).getCoordenadas().getY()) - mitadDimension);
+		
+	}
 
 	public void seleccionar(){
 		setGraphic(iconoSelec);
@@ -207,12 +211,12 @@ public class LabelDeLugarInteres extends LabelDeLugar {
 
 	private double getXreal(double x){
 
-		return x * this.getParent().getLayoutX() / 15;
+		return x * ((MapPanelFX)getParent()).getWidth() / 15;
 
 	}
 	private double getYreal(double y){
 
-		return y * this.getParent().getLayoutY() / 19;
+		return y * ((MapPanelFX)getParent()).getHeight() / 19;
 
 	}
 

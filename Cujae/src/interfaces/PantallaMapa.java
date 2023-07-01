@@ -4,6 +4,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Font;
 
 import javax.swing.JLabel;
@@ -29,9 +31,13 @@ import javax.swing.JList;
 import javax.swing.JButton;
 import javax.swing.SwingUtilities;
 
+import com.sun.org.apache.xalan.internal.xsltc.dom.AbsoluteIterator;
+
 import logica.Cafeteria;
 import logica.Facultad;
 import logica.LugarDeInteres;
+import logica.Universidad;
+import mapaFX.MapPanelFX;
 
 public class PantallaMapa extends JFrame {
 
@@ -186,9 +192,15 @@ public class PantallaMapa extends JFrame {
 		panelContenedorMapa = new JPanel();
 		panelContenedorMapa.setBounds(257, 32, 707, 633);
 		panelContenedorMapa.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
-		contentPane.add(panelContenedorMapa);
-		panelContenedorMapa.setLayout(null);
+//		Dimension preferredSize = new Dimension(450, 570);
 
+		MapPanelFX mapPanel = new MapPanelFX(Universidad.getCujae().getMapa());
+		panelContenedorMapa.add(mapPanel.getComponenteDeSwing(), BorderLayout.CENTER);
+		mapPanel.inicializarGC();
+		contentPane.add(panelContenedorMapa, BorderLayout.CENTER);
+		panelContenedorMapa.repaint();
+		panelContenedorMapa.revalidate();
+		
 		menuBar = new JMenuBar();
 		menuBar.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		menuBar.setBounds(0, 0, 964, 21);
