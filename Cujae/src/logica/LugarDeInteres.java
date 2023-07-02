@@ -1,5 +1,6 @@
 package logica;
 
+import java.io.File;
 import java.io.Serializable;
 
 import auxiliar.Validacion;
@@ -24,8 +25,15 @@ public class LugarDeInteres extends Lugar implements Serializable{
 	public void setAnotaciones(String anotaciones) {
 		
 		this.anotaciones = anotaciones;
+	}
+	public String getFotoPortada(){
 		
+		String foto = "fotos/portadas/"+id + "D.jpg";
+		File file = new File(foto);
+		if(!file.exists())
+			foto = "/texturas/FotoNoEncontradaD.jpg";
 		
+		return foto;
 	}
 	public String getNombre() {
 		return nombre;
@@ -51,4 +59,6 @@ public class LugarDeInteres extends Lugar implements Serializable{
 			throw new IllegalArgumentException ("La cadena de anotaciones está vacía");
 		}
 	}
+
+	
 }

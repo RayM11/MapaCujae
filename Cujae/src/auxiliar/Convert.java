@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -74,4 +75,20 @@ public class Convert
 		return icono;
 
 	}
+	public static ImageIcon resizarURL(URL url, int ancho, int alto) {
+		
+		Image imagenRedimensionada = null;
+		try {
+        Image imagen = ImageIO.read(url);
+        imagenRedimensionada = imagen.getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
+		
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+        
+        
+        return new ImageIcon(imagenRedimensionada);
+        
+    }
+
 }

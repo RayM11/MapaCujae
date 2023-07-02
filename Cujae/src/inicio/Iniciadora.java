@@ -1,12 +1,15 @@
 package inicio;
 
 import interfaces.PantallaPresentacion;
+import interfaces.PantallaVisita;
 
 import java.awt.EventQueue;
 import java.io.File;
+
 import javax.swing.UIManager;
 
 import logica.Universidad;
+import logica.Visitante;
 import auxiliar.Configuracion;
 import auxiliar.Usuario;
 
@@ -46,7 +49,7 @@ public class Iniciadora {
 					Iniciadora.establecerDirectorios();
 
 					Configuracion configActual = new Configuracion();
-					PantallaPresentacion frame = new PantallaPresentacion(configActual);
+					PantallaVisita frame = new PantallaVisita(null, configActual, new Visitante(Universidad.getCujae().getMapa().getVerticesList().getFirst(), Universidad.getCujae().getMapa()));
 					frame.setVisible(true);
 
 				} catch (Exception e) {

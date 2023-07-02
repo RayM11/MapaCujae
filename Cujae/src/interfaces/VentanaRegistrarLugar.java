@@ -112,7 +112,7 @@ public class VentanaRegistrarLugar extends JFrame {
 				textAreaDescripcion.setText(((LugarDeInteres)lugarOriginal).getDescripcion());
 				textAreaAnotaciones.setText(((LugarDeInteres)lugarOriginal).getAnotaciones());
 				textFieldNombre.setText(((LugarDeInteres)lugarOriginal).getNombre());
-				textFieldFotoPortada.setText(((LugarDeInteres)lugarOriginal).getFoto() );
+				textFieldFotoPortada.setText(((LugarDeInteres)lugarOriginal).getFotoPortada() );
 
 				if(!comboBox.getSelectedItem().toString().equals("General"))
 					if( lugarOriginal instanceof Facultad)
@@ -480,4 +480,5 @@ public class VentanaRegistrarLugar extends JFrame {
 		});
 
 	}
+
 }

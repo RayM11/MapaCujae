@@ -82,7 +82,7 @@ public class PantallaMapa extends JFrame {
 		panelEspecifico.removeAll();
 
 		if(lugar!=null){
-			lblFotoLugar.setIcon(Convert.rezizarImagen(lugar.getFoto(), 207, 143));
+			lblFotoLugar.setIcon(Convert.rezizarImagen(lugar.getFotoPortada(), 207, 143));
 			labelNombreLugar.setText(lugar.getNombre());
 			txtAreaDescripcion.setText(lugar.getDescripcion());
 			textAreaAnotaciones.setText(lugar.getAnotaciones());
@@ -289,9 +289,9 @@ public class PantallaMapa extends JFrame {
 		 mntmVisitarLugar.addActionListener(new ActionListener() {
 			 public void actionPerformed(ActionEvent e) {
 
-				 PantallaVisita pV = new PantallaVisita(PantallaMapa.this, configActual);
+				/* PantallaVisita pV = new PantallaVisita(PantallaMapa.this, configActual);
 				 pV.setVisible(true);
-				 setEnabled(false);
+				 setEnabled(false);*/
 
 			 }
 		 });
