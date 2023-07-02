@@ -14,6 +14,8 @@ import javax.swing.JLabel;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
@@ -35,7 +37,7 @@ public class PantallaAjustes extends JFrame {
 	private JLabel lblTemaVisual;
 	private JLabel labelConfiguracion;
 
-	public PantallaAjustes(final JFrame pantallaAnterior, final Configuracion configActual) {
+	public PantallaAjustes(final JFrame ventanaAnterior, final Configuracion configActual) {
 
 		tema = configActual.getTemaLAF();
 		tamanoFuente = configActual.getTamanoFuente();
@@ -55,11 +57,11 @@ public class PantallaAjustes extends JFrame {
 				if (opcion == 0){
 					configActual.guardarConfiguracion(tema, (String)comBoxTemaVisual.getSelectedItem(),
 							tamanoFuente, (String)comBoxTamanoFuente.getSelectedItem());
-					SwingUtilities.updateComponentTreeUI(pantallaAnterior);
-					if(pantallaAnterior instanceof PantallaMapa)
-						((PantallaMapa) pantallaAnterior).ajustarFuentes(configActual);
-					pantallaAnterior.setVisible(true);
-					pantallaAnterior.setEnabled(true);
+					SwingUtilities.updateComponentTreeUI(ventanaAnterior);
+					if(ventanaAnterior instanceof PantallaMapa)
+						((PantallaMapa) ventanaAnterior).ajustarFuentes(configActual);
+					ventanaAnterior.setVisible(true);
+					ventanaAnterior.setEnabled(true);
 					dispose();
 				}
 			}
@@ -126,8 +128,8 @@ public class PantallaAjustes extends JFrame {
 					}catch(Throwable e1){
 						e1.printStackTrace();
 					}
-					pantallaAnterior.setVisible(true);
-					pantallaAnterior.setEnabled(true);
+					ventanaAnterior.setVisible(true);
+					ventanaAnterior.setEnabled(true);
 					dispose();
 				}
 			}
@@ -135,6 +137,49 @@ public class PantallaAjustes extends JFrame {
 		btnCancelar.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btnCancelar.setBounds(333, 356, 140, 23);
 		contentPane.add(btnCancelar);
+		
+addWindowListener(new WindowListener() {
+			
+			@Override
+			public void windowOpened(WindowEvent e) {
+				
+			}
+			
+			@Override
+			public void windowIconified(WindowEvent e) {
+				
+			}
+			
+			@Override
+			public void windowDeiconified(WindowEvent e) {
+				
+			}
+			
+			@Override
+			public void windowDeactivated(WindowEvent e) {
+				
+			}
+			
+			@Override
+			public void windowClosing(WindowEvent e) {
+
+				ventanaAnterior.setEnabled(true);
+				ventanaAnterior.setVisible(true);
+				
+			}
+			
+			@Override
+			public void windowClosed(WindowEvent e) {
+				ventanaAnterior.setEnabled(true);
+				ventanaAnterior.setVisible(true);
+			}
+
+			@Override
+			public void windowActivated(WindowEvent e) {
+				
+			}
+		});
+		
 	}
 
 	public void cambiarTema(int eleccion){
@@ -168,6 +213,8 @@ public class PantallaAjustes extends JFrame {
 		} catch (Throwable e1) {
 			e1.printStackTrace();
 		}
+		
+
 
 	}
 

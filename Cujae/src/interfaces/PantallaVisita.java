@@ -13,6 +13,9 @@ import auxiliar.Configuracion;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+
 import javax.swing.JLabel;
 
 public class PantallaVisita extends JFrame {
@@ -20,7 +23,7 @@ public class PantallaVisita extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
-	public PantallaVisita(final JFrame pantallaAnterior, Configuracion configActual) {
+	public PantallaVisita(final JFrame ventanaAnterior, Configuracion configActual) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 739, 523);
 		contentPane = new JPanel();
@@ -46,8 +49,6 @@ public class PantallaVisita extends JFrame {
 		salirBotonPantallaVisita.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				pantallaAnterior.setEnabled(true);
-				pantallaAnterior.setVisible(true);
 				dispose();
 				
 			}
@@ -84,6 +85,48 @@ public class PantallaVisita extends JFrame {
 		contentPane.add(lblNewLabel);
 		botonDireccionAtras.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		
+addWindowListener(new WindowListener() {
+			
+			@Override
+			public void windowOpened(WindowEvent e) {
+				
+			}
+			
+			@Override
+			public void windowIconified(WindowEvent e) {
+				
+			}
+			
+			@Override
+			public void windowDeiconified(WindowEvent e) {
+				
+			}
+			
+			@Override
+			public void windowDeactivated(WindowEvent e) {
+				
+			}
+			
+			@Override
+			public void windowClosing(WindowEvent e) {
+
+				ventanaAnterior.setEnabled(true);
+				ventanaAnterior.setVisible(true);
+				
+			}
+			
+			@Override
+			public void windowClosed(WindowEvent e) {
+				ventanaAnterior.setEnabled(true);
+				ventanaAnterior.setVisible(true);
+			}
+
+			@Override
+			public void windowActivated(WindowEvent e) {
+				
 			}
 		});
 	}
