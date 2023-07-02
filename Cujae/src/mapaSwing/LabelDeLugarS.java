@@ -1,7 +1,10 @@
 package mapaSwing;
 
+import interfaces.PantallaVisita;
+
 import java.awt.HeadlessException;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import auxiliar.Convert;
@@ -18,7 +21,7 @@ public class LabelDeLugarS extends JLabel {
 	protected Vertex vLugar;
 	private static String foto = "src/texturas/marcadorL.png";
 	private static String fotoSelect = "src/texturas/marcadorSelectL.png";
-	private static int tamano = 2;
+	private static int tamano = 30;
 	
 	
 	
@@ -27,6 +30,11 @@ public class LabelDeLugarS extends JLabel {
 		this.vLugar = vLugar;
 		
 		setIcon(Convert.rezizarImagen(foto, tamano, tamano));				
+		
+	//	setIcon(new ImageIcon(mapPanelSwing.class.getResource(foto)));
+		
+		
+		
 		
 	}
 	
@@ -37,28 +45,30 @@ public class LabelDeLugarS extends JLabel {
 	
 	public void seleccionar (){
 		
-		setIcon(Convert.rezizarImagen(foto, tamano, tamano));
+		setIcon(Convert.rezizarImagen(fotoSelect, tamano, tamano));
 		((mapPanelSwing)getParent()).agregarSeleccion(vLugar);
+		getParent().repaint();
 	}
 	public void deseleccionar(){
 		
-		setIcon(Convert.rezizarImagen(fotoSelect, tamano, tamano));
+		setIcon(Convert.rezizarImagen(foto, tamano, tamano));
 		((mapPanelSwing)getParent()).removerSeleccion(vLugar);
+		getParent().repaint();
 	}
 	
 	
-	public void ubicar(){
+/*	public void ubicar(){
 		
-		setBounds(getXreal(), getYreal(), tamano/2 , tamano/2);
+		setBounds(getXreal() - getIcon().getIconWidth()/2, getYreal() - getIcon().getIconHeight()/2, tamano/2 , tamano/2);
 	}
-	
-	protected int getXreal(){
+*/	
+	public int getXreal(){
 
-		return (int) Math.round(((Lugar)vLugar.getInfo()).getCoordenadas().getX() / 13 * 660);
+		return (int) Math.round((((Lugar)vLugar.getInfo()).getCoordenadas().getX() / 13 * 660)) - getIcon().getIconWidth()/2;
 	}
-	protected int getYreal(){
+	public int getYreal(){
 
-		return (int) Math.round(1045 - ((Lugar)vLugar.getInfo()).getCoordenadas().getY() / 19 * 1045);
+		return (int) Math.round((1045 - ((Lugar)vLugar.getInfo()).getCoordenadas().getY() / 19 * 1045) - getIcon().getIconHeight()/2);
 
 	}
 }
