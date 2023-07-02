@@ -241,7 +241,7 @@ public class InicializacionesGrafo {
 				"");
 		luIC0416C.anadirProducto("Cafe");
 		luIC0416C.anadirProducto("Pizza");
-		luIC0416C.anadirProducto("Sandiwch");
+		luIC0416C.anadirProducto("Sandwich");
 		luIC0416C.anadirProducto("Bisutería");
 		luIC0416C.anadirProducto("Refresco");
 		grafo.insertVertex(luIC0416C);

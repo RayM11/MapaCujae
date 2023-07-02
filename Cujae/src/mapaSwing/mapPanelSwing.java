@@ -19,6 +19,7 @@ import logica.Lugar;
 import logica.LugarDeInteres;
 import logica.Universidad;
 import mapaFX.LabelDeLugar;
+import cu.edu.cujae.ceis.graph.LinkedGraph;
 import cu.edu.cujae.ceis.graph.edge.Edge;
 import cu.edu.cujae.ceis.graph.vertex.Vertex;
 
@@ -61,6 +62,9 @@ public class mapPanelSwing extends JPanel {
 
 		setLayout(null);
 		setBackground(Color.GREEN);
+		
+		actualizarLugares();
+		repaint();
 
 	}
 	//------------------------------ Métodos de selección -----------------------------------
@@ -75,11 +79,12 @@ public class mapPanelSwing extends JPanel {
 		if (verticesSeleccionados.contains(vert))
 			verticesSeleccionados.remove(vert);
 	}
+
+	//------------------------------- Métodos de control -------------------------------------
+	
 	public boolean puedeAgregarSeleccion(){
 		return (verticesSeleccionados.size() < cantSeleccionesMax);
 	}
-
-	//------------------------------- Métodos de control -------------------------------------
 
 	// Modo Nuevo Punto
 	public void activarModoNuevoPunto(){
@@ -175,10 +180,6 @@ public class mapPanelSwing extends JPanel {
 		if (rutaADibujar.size() != 0)
 			dibujarRuta(g2d);
 
-		agregarLugares();
-		
-		reseleccionarVertices();
-
 	}
 
 	public void dibujarTodasLasAristas(Graphics g2d){
@@ -231,43 +232,18 @@ public class mapPanelSwing extends JPanel {
 
 		}
 	}
-
-	private void agregarLugares (){
-
+	
+	// ------------------------ Métodos de Actualización de componentes ----------------------
+	
+	public void actualizarLugares(){
+	
 		limpiarLugares();
-
-		LinkedList<Vertex> lugares = Universidad.getCujae().getMapa().getVerticesList();
-		Iterator<Vertex> iter = lugares.iterator();
-
-		while(iter. hasNext()){
-
-			Vertex vertAct = iter.next();
-
-			if (vertAct.getInfo() instanceof LugarDeInteres){
-				LabelDeLugarInteresS label = new LabelDeLugarInteresS(vertAct);
-				add(label);
-				puntos.add(label);
-				label.ubicar();
-			}else{
-				LabelDeLugarS label = new LabelDeLugarS(vertAct);
-				add(label);
-				puntos.add(label);
-				label.ubicar();
-			}			
-		}		
+		
+		agregarLugares();
+		
+		reseleccionarVertices();
 	}
-
-	private void limpiarLugares(){
-		Component[] componentes = getComponents();
-		for (Component c : componentes) 
-			if (c instanceof JLabel) {
-				remove(c);
-				puntos.remove(c);
-			}
-	}
-
-	// --------------------------------- Métodos auxiliares --------------------------------
-
+	
 	public void reseleccionarVertices(){
 
 		if (!verticesSeleccionados.isEmpty()){
@@ -284,6 +260,88 @@ public class mapPanelSwing extends JPanel {
 				}
 			}
 		}
+	}
+	
+	private void agregarLugares (){
+
+		LinkedList<Vertex> lugares = Universidad.getCujae().getMapa().getVerticesList();
+		Iterator<Vertex> iter = lugares.iterator();
+
+		while(iter. hasNext()){
+
+			Vertex vertAct = iter.next();
+
+			if (vertAct.getInfo() instanceof LugarDeInteres){
+				LabelDeLugarInteresS label = new LabelDeLugarInteresS(vertAct);
+				ubicarLugar(label);
+				add(label);
+				puntos.add(label);
+			}else{
+				LabelDeLugarS label = new LabelDeLugarS(vertAct);
+				ubicarLugar(label);
+				add(label);
+				puntos.add(label);
+			}			
+		}		
+	}
+
+	private void limpiarLugares(){
+		Component[] componentes = getComponents();
+		for (Component c : componentes) 
+			if (c instanceof JLabel) {
+				remove(c);
+				puntos.remove(c);
+			}
+	}
+	
+	private void ubicarLugar(LabelDeLugarS label){
+		
+		label.setBounds(label.getXreal(), label.getYreal(), label.getIcon().getIconWidth(), label.getIcon().getIconHeight());
+				
+	}
+	
+	// --------------------------------- Métodos auxiliares ----------------------------------
+
+	public boolean hayCaminoA(Vertex vert){
+
+		boolean hayCamino = false;
+
+		int cantVert = Universidad.getCujae().getMapa().getVerticesList().size();
+
+		for(int i = 1; i < cantVert && !hayCamino; i++){
+
+			if(Universidad.getCujae().getMapa().pathWithLength(((LinkedGraph)Universidad.getCujae().getMapa()).getVertexIndex(verticesSeleccionados.get(0)) ,
+					((LinkedGraph)Universidad.getCujae().getMapa()).getVertexIndex(vert), i))
+				hayCamino = true;
+		}
+		return hayCamino;
+	}
+	
+	public LabelDeLugarS getLabel(int pos){  ///Validaciones requeridas
+		return getLabel(getSeleccion().get(pos));
+	}
+	
+	public boolean esAdyacenteA(Vertex vert){
+
+		return (Universidad.getCujae().getMapa().areAdjacents(((LinkedGraph)Universidad.getCujae().getMapa()).getVertexIndex(verticesSeleccionados.get(0)),
+				((LinkedGraph)Universidad.getCujae().getMapa()).getVertexIndex(vert)));
+	}
+	
+	
+	public LabelDeLugarS getLabel(Vertex vert){
+		
+		Component[] components = getComponents();
+		int cant = components.length;
+		LabelDeLugarS label = null;
+		
+		for (int i = 0; i < cant; i++)
+			if (components[i] instanceof LabelDeLugarS)
+				if (((LabelDeLugarS)components[i]).getVertice().equals(vert)){
+					label = (LabelDeLugarS)components[i];
+					i = cant;
+				}
+		
+		return label;
 	}
 
 	private int getXreal(Vertex vert){
