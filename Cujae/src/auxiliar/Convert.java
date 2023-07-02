@@ -10,7 +10,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -58,37 +57,53 @@ public class Convert
 
 	public static ImageIcon rezizarImagen(String imagen, int ancho, int alto){
 
-		ImageIcon icono = null;
-		
-		try {
-			
-			File file = new File(imagen);
-			BufferedImage bi = ImageIO.read(file);
-			Image resizedImage = bi.getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
-			icono = new ImageIcon(resizedImage);
-
-			
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return icono;
+		return new ImageIcon(resizarImage(imagen, ancho, alto));
 
 	}
-	public static ImageIcon resizarURL(URL url, int ancho, int alto) {
+<<<<<<< Updated upstream
+=======
+
+	public static Image resizarImage(String imagen, int ancho, int alto){
+
+		Image resizedImage = null;
 		
-		Image imagenRedimensionada = null;
 		try {
-        Image imagen = ImageIO.read(url);
-        imagenRedimensionada = imagen.getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
-		
+
+			File file = new File(imagen);
+			BufferedImage bi = ImageIO.read(file);
+			resizedImage = bi.getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-        
-        
-        return new ImageIcon(imagenRedimensionada);
-        
-    }
+		
+		return resizedImage;	
+	}
 
+
+	public static ImageIcon resizarURL(URL url, int ancho, int alto) {
+
+		return new ImageIcon(resizarURLImage(url, ancho, alto));
+
+	}
+	
+	public static Image resizarURLImage(URL url, int ancho, int alto) {
+
+		Image imagenRedimensionada = null;
+		try {
+			Image imagen = ImageIO.read(url);
+			imagenRedimensionada = imagen.getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+
+		return imagenRedimensionada;
+
+	}
+	
+	
+
+>>>>>>> Stashed changes
 }
