@@ -89,13 +89,6 @@ public class Visitante {
 	public void rotarPOVSentidoHorario(){
 
 		for (Movimiento mov : movimientos){
-
-<<<<<<< Updated upstream
-			rotarDirSentidoHorario(mov.getDireccion());		
-		}
-
-		rotarDirSentidoHorario(pov);
-=======
 			rotarMovSentidoAntiHorario(mov);		
 		}
 
@@ -119,8 +112,6 @@ public class Visitante {
 			mov.setDireccion(Direccion.N);
 			break;		
 		}
-
->>>>>>> Stashed changes
 	}
 
 	/**
@@ -131,13 +122,6 @@ public class Visitante {
 	public void rotarPOVSentidoAntiHorario(){
 
 		for (Movimiento mov : movimientos){
-
-<<<<<<< Updated upstream
-			rotarDirSentidoAntiHorario(mov.getDireccion());		
-		}
-
-		rotarDirSentidoAntiHorario(pov);
-=======
 			rotarMovSentidoHorario(mov);		
 		}
 
@@ -162,7 +146,6 @@ public class Visitante {
 			break;		
 		}
 
->>>>>>> Stashed changes
 	}
 
 	/** Rota una dirección específica en sentido horario	*/
@@ -262,20 +245,10 @@ public class Visitante {
 				cantRotaciones = 3;
 			}
 			for (Movimiento mov : movimientos){
-				for (int i = 0; i < cantRotaciones; i++)
-<<<<<<< Updated upstream
-					rotarDirSentidoHorario(mov.getDireccion());
-			}
-		}
-	}
-	
-=======
+				for (int i = 0; i < cantRotaciones; i++)			
 					rotarMovSentidoAntiHorario(mov);
 			}
 		}
 	}
-
-
->>>>>>> Stashed changes
 }
 

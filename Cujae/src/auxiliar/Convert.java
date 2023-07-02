@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -60,8 +61,7 @@ public class Convert
 		return new ImageIcon(resizarImage(imagen, ancho, alto));
 
 	}
-<<<<<<< Updated upstream
-=======
+
 
 	public static Image resizarImage(String imagen, int ancho, int alto){
 
@@ -102,8 +102,4 @@ public class Convert
 		return imagenRedimensionada;
 
 	}
-	
-	
-
->>>>>>> Stashed changes
 }
