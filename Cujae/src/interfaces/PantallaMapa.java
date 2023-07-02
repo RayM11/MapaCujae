@@ -39,7 +39,7 @@ import javax.swing.SwingUtilities;
 import logica.Cafeteria;
 import logica.Facultad;
 import logica.LugarDeInteres;
-import mapaSwing.mapPanelSwing;
+import mapaSwing.MapPanelSwing;
 
 import javax.swing.border.CompoundBorder;
 import javax.swing.ScrollPaneConstants;
@@ -53,7 +53,7 @@ public class PantallaMapa extends JFrame {
 	private JTextArea txtAreaDescripcion;
 	private JLabel lblFotoLugar;
 	private JLabel labelNombreLugar;
-	private mapPanelSwing panelMapa;
+	private MapPanelSwing panelMapa;
 	private JMenuItem mntmAyuda;
 	private JMenuItem mntmAjustes;
 	private JMenu mnMisc;
@@ -208,7 +208,7 @@ public class PantallaMapa extends JFrame {
 		panelContenedorMapa.add(scrollMapa, BorderLayout.CENTER);*/
 		panelContenedorMapa.setLayout(null);
 		
-		panelMapa = new mapPanelSwing();
+		panelMapa = new MapPanelSwing();
 		panelMapa.setLocation(0, 7);
 		panelMapa.setPreferredSize(new Dimension(680, 1045));
 		panelMapa.setSize(680, 1045);

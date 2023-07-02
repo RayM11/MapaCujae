@@ -57,21 +57,53 @@ public class Convert
 
 	public static ImageIcon rezizarImagen(String imagen, int ancho, int alto){
 
-		ImageIcon icono = null;
+		return new ImageIcon(resizarImage(imagen, ancho, alto));
+
+	}
+<<<<<<< Updated upstream
+=======
+
+	public static Image resizarImage(String imagen, int ancho, int alto){
+
+		Image resizedImage = null;
 		
 		try {
-			
+
 			File file = new File(imagen);
 			BufferedImage bi = ImageIO.read(file);
-			Image resizedImage = bi.getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
-			icono = new ImageIcon(resizedImage);
+			resizedImage = bi.getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
 
-			
-			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return icono;
+		
+		return resizedImage;	
+	}
+
+
+	public static ImageIcon resizarURL(URL url, int ancho, int alto) {
+
+		return new ImageIcon(resizarURLImage(url, ancho, alto));
 
 	}
+	
+	public static Image resizarURLImage(URL url, int ancho, int alto) {
+
+		Image imagenRedimensionada = null;
+		try {
+			Image imagen = ImageIO.read(url);
+			imagenRedimensionada = imagen.getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+
+		return imagenRedimensionada;
+
+	}
+	
+	
+
+>>>>>>> Stashed changes
 }

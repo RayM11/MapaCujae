@@ -21,7 +21,7 @@ public class Visitante {
 
 	Visitante(Vertex verticeActual, ILinkedWeightedEdgeNotDirectedGraph mapa){
 
-		this.pov = Direccion.N;
+		this.pov = Direccion.E;
 		this.verticeActual = verticeActual;
 		this.mapa = mapa;
 		movimientos = new ArrayList<Movimiento>();
@@ -53,14 +53,14 @@ public class Visitante {
 	public Lugar getLugarActual (){
 		return (Lugar)verticeActual.getInfo();
 	}
-	
+
 	/**
 	 *	Devuelve el nombre de la foto del lugar actual en la dirección del punto de vista del visitante
 	 **/
 	public String getFotoPOV(){
-		
+
 		return((Lugar) verticeActual.getInfo()).getFotoDir(pov);
-		
+
 	}
 
 	/**
@@ -90,10 +90,37 @@ public class Visitante {
 
 		for (Movimiento mov : movimientos){
 
+<<<<<<< Updated upstream
 			rotarDirSentidoHorario(mov.getDireccion());		
 		}
 
 		rotarDirSentidoHorario(pov);
+=======
+			rotarMovSentidoAntiHorario(mov);		
+		}
+
+		rotarPOVSentidoHorario();
+	}
+
+	private void rotarMovSentidoHorario(Movimiento mov) {
+
+		switch (mov.getDireccion().ordinal()){
+
+		case 0:
+			mov.setDireccion(Direccion.E);
+			break;
+		case 1:
+			mov.setDireccion(Direccion.O);
+			break;
+		case 2:
+			mov.setDireccion(Direccion.S);
+			break;
+		case 3:
+			mov.setDireccion(Direccion.N);
+			break;		
+		}
+
+>>>>>>> Stashed changes
 	}
 
 	/**
@@ -105,10 +132,37 @@ public class Visitante {
 
 		for (Movimiento mov : movimientos){
 
+<<<<<<< Updated upstream
 			rotarDirSentidoAntiHorario(mov.getDireccion());		
 		}
 
 		rotarDirSentidoAntiHorario(pov);
+=======
+			rotarMovSentidoHorario(mov);		
+		}
+
+		rotarPOVSentidoAntiHorario();
+	}
+
+	private void rotarMovSentidoAntiHorario(Movimiento mov) {
+
+		switch (mov.getDireccion().ordinal()){
+
+		case 0:
+			mov.setDireccion(Direccion.O);
+			break;
+		case 1:
+			mov.setDireccion(Direccion.E);
+			break;
+		case 2:
+			mov.setDireccion(Direccion.N);
+			break;
+		case 3:
+			mov.setDireccion(Direccion.S);
+			break;		
+		}
+
+>>>>>>> Stashed changes
 	}
 
 	/** Rota una dirección específica en sentido horario	*/
@@ -173,7 +227,7 @@ public class Visitante {
 			movimientos.add(new Movimiento(dirs.get(movAct), vAnalizado));
 
 		}
-		
+
 		adaptarAlPOV();
 	}
 
@@ -197,6 +251,7 @@ public class Visitante {
 			int cantRotaciones = 0;
 
 			switch (pov.ordinal()){
+
 			case 1:
 				cantRotaciones = 2;
 				break;
@@ -207,12 +262,20 @@ public class Visitante {
 				cantRotaciones = 3;
 			}
 			for (Movimiento mov : movimientos){
-
 				for (int i = 0; i < cantRotaciones; i++)
+<<<<<<< Updated upstream
 					rotarDirSentidoHorario(mov.getDireccion());
 			}
 		}
 	}
 	
+=======
+					rotarMovSentidoAntiHorario(mov);
+			}
+		}
+	}
+
+
+>>>>>>> Stashed changes
 }
 
