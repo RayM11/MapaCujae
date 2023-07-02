@@ -77,9 +77,10 @@ public class AcercaDe extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		JTextArea txtrAcercaDeEsta = new JTextArea();
+		txtrAcercaDeEsta.setText("MapaCujae es una aplicaci\u00F3n dise\u00F1ada para facilitar la orientaci\u00F3n de los estudiantes y visitantes en la CUJAE, en la que se tuvieron en cuenta todas las facultades, cafeter\u00EDas y centros de inter\u00E9s, de las cuales se muestra una breve informaci\u00F3n. Se brindan funcionalidades como la ruta m\u00E1s corta entre dos lugares y la asistencia para llegar a una facultad deseada o una cafeter\u00EDa con un producto que busque el usuario. Para el que introduzca los credenciales pertinentes se habilitaran opciones de a\u00F1adir, modificar o eliminar caminos y lugares a su gusto.\r\n\r\nAutores:\r\nJavier de Jes\u00FAs Castro Heredia\r\nRay Maestre Pe\u00F1a\r\nAlejandro Estrada Su\u00E1rez\r\nDavid Hechavarr\u00EDa P\u00E9rez\r\nRa\u00FAl Alejandro de Jes\u00FAs Le\u00F3n");
 		txtrAcercaDeEsta.setEditable(false);
 		txtrAcercaDeEsta.setOpaque(false);
-		txtrAcercaDeEsta.setFont(new Font("Arial Black", Font.PLAIN, 12));
+		txtrAcercaDeEsta.setFont(new Font("Tahoma", Font.PLAIN, configActual.getTamanoFuente()));
 		txtrAcercaDeEsta.setLineWrap(true);
 		txtrAcercaDeEsta.setWrapStyleWord(true);
 		txtrAcercaDeEsta.setBounds(10, 11, 535, 336);
