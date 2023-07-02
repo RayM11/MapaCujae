@@ -48,10 +48,10 @@ public class Coordenadas implements Serializable{
 		double movOeste = -1*movX;
 		
 		final Map<Direccion, Double> desplazamientos = new HashMap<>();
-	    desplazamientos.put(Direccion.N, movEste);
-	    desplazamientos.put(Direccion.S, movOeste);
-	    desplazamientos.put(Direccion.E, movSur);
-	    desplazamientos.put(Direccion.O, movNorte);
+	    desplazamientos.put(Direccion.N, movNorte);
+	    desplazamientos.put(Direccion.S, movSur);
+	    desplazamientos.put(Direccion.E, movEste);
+	    desplazamientos.put(Direccion.O, movOeste);
 		
 	    ArrayList<Direccion> direcciones = new ArrayList<>(desplazamientos.keySet());
 	    Collections.sort(direcciones, new Comparator<Direccion>(){

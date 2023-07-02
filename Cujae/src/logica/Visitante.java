@@ -21,7 +21,7 @@ public class Visitante {
 
 	public Visitante(Vertex verticeActual, ILinkedWeightedEdgeNotDirectedGraph mapa){
 
-		this.pov = Direccion.N;
+		this.pov = Direccion.E;
 		this.verticeActual = verticeActual;
 		this.mapa = mapa;
 		movimientos = new ArrayList<Movimiento>();
@@ -90,7 +90,7 @@ public class Visitante {
 
 		for (Movimiento mov : movimientos){
 
-			rotarMovSentidoHorario(mov);		
+			rotarMovSentidoAntiHorario(mov);		
 		}
 
 		rotarPOVSentidoHorario();
@@ -125,7 +125,7 @@ public class Visitante {
 
 		for (Movimiento mov : movimientos){
 
-			rotarMovSentidoAntiHorario(mov);		
+			rotarMovSentidoHorario(mov);		
 		}
 
 		rotarPOVSentidoAntiHorario();
@@ -213,7 +213,6 @@ public class Visitante {
 			movimientos.add(new Movimiento(dirs.get(movAct), vAnalizado));
 
 		}
-		
 		adaptarAlPOV();
 	}
 
@@ -249,11 +248,10 @@ public class Visitante {
 			for (Movimiento mov : movimientos){
 
 				for (int i = 0; i < cantRotaciones; i++)
-					rotarMovSentidoHorario(mov);
+					rotarMovSentidoAntiHorario(mov);
 			}
 		}
 	}
-
 	
 }
 
