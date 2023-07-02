@@ -44,6 +44,10 @@ public class Universidad {
 	public ILinkedWeightedEdgeNotDirectedGraph getMapa(){
 		return mapa;
 	}
+	
+	public void setRaizArbolDecision(Object raiz){
+		((BinaryTreeNode<Object>) arbolDecision.getRoot()).setInfo(raiz);
+	}
 
 
 	public void inicializarArbol() {

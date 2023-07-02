@@ -15,8 +15,11 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 
 import logica.Universidad;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 public class PantallaDecision extends JDialog {
 
@@ -140,7 +143,8 @@ public class PantallaDecision extends JDialog {
 							okButton.setText("OK");
 						}
 						else{
-							
+							Universidad.getCujae().setRaizArbolDecision(list.getSelectedValue());
+							dispose();
 						}
 							
 
@@ -156,5 +160,52 @@ public class PantallaDecision extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+		
+		addWindowListener(new WindowListener() {
+			
+			@Override
+			public void windowOpened(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowIconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowDeiconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowDeactivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowClosing(WindowEvent e) {
+				ventanaAnterior.setEnabled(true);
+				ventanaAnterior.setVisible(true);
+				
+			}
+			
+			@Override
+			public void windowClosed(WindowEvent e) {
+				ventanaAnterior.setEnabled(true);
+				ventanaAnterior.setVisible(true);
+				
+			}
+			
+			@Override
+			public void windowActivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
 }
