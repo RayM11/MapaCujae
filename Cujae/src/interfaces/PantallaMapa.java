@@ -82,7 +82,7 @@ public class PantallaMapa extends JFrame {
 		panelEspecifico.removeAll();
 
 		if(lugar!=null){
-			lblFotoLugar.setIcon(Convert.rezizarImagen(lugar.getFoto(), 207, 143));
+			lblFotoLugar.setIcon(Convert.rezizarImagen(lugar.getFotoPortada(), 207, 143));
 			labelNombreLugar.setText(lugar.getNombre());
 			txtAreaDescripcion.setText(lugar.getDescripcion());
 			textAreaAnotaciones.setText(lugar.getAnotaciones());
@@ -272,6 +272,7 @@ public class PantallaMapa extends JFrame {
 		 menuBar.add(mnAcciones);
 
 		 mntmCrearLugar = new JMenuItem("Crear Nuevo Lugar");
+		 mntmCrearLugar.setEnabled(configActual.getEsAdmin());
 		 mntmCrearLugar.addActionListener(new ActionListener() {
 			 public void actionPerformed(ActionEvent e) {
 
@@ -281,17 +282,15 @@ public class PantallaMapa extends JFrame {
 
 			 }
 		 });
-		 if(!configActual.getEsAdmin()){
-			 mntmCrearLugar.setEnabled(false);
-		 }
+		 
 
 		 mntmVisitarLugar = new JMenuItem("Visitar Lugar");
 		 mntmVisitarLugar.addActionListener(new ActionListener() {
 			 public void actionPerformed(ActionEvent e) {
 
-				 PantallaVisita pV = new PantallaVisita(PantallaMapa.this, configActual);
+				/* PantallaVisita pV = new PantallaVisita(PantallaMapa.this, configActual);
 				 pV.setVisible(true);
-				 setEnabled(false);
+				 setEnabled(false);*/
 
 			 }
 		 });
@@ -305,15 +304,19 @@ public class PantallaMapa extends JFrame {
 		 mnAcciones.add(mntmCrearLugar);
 
 		 mntmModificarLugar = new JMenuItem("Modificar Lugar");
+		 mntmModificarLugar.setEnabled(configActual.getEsAdmin());
 		 mnAcciones.add(mntmModificarLugar);
 
 		 mntmEliminarLugar = new JMenuItem("Eliminar Lugar");
+		 mntmEliminarLugar.setEnabled(configActual.getEsAdmin());
 		 mnAcciones.add(mntmEliminarLugar);
 
 		 mntmCrearCamino = new JMenuItem("Crear Camino");
+		 mntmCrearCamino.setEnabled(configActual.getEsAdmin());
 		 mnAcciones.add(mntmCrearCamino);
 
 		 mntmEliminarCamino = new JMenuItem("Eliminar Camino");
+		 mntmEliminarCamino.setEnabled(configActual.getEsAdmin());
 		 mnAcciones.add(mntmEliminarCamino);
 
 		 mnMisc = new JMenu("Misc");

@@ -1,5 +1,6 @@
 package logica;
 
+import java.io.File;
 import java.io.Serializable;
 
 import auxiliar.Direccion;
@@ -18,21 +19,42 @@ public class Lugar implements Serializable{
 	public String getId(){
 		return id;
 	}
-	
+
 	public Coordenadas getCoordenadas() {
 		return coordenadas;
 	}
-	
-	public String getFoto(){
-		
-		return "fotos/portadas/"+id + "D.jpg";
-	}
-	
+
+
 	public String getFotoDir(Direccion dir){
-		
-		return "fotos/visita/"+id + dir.toString()+".jpg";
+
+		String foto = "fotos/visita/"+id + dir.toString()+".jpg";
+		File file = new File(foto);
+		if(!file.exists())
+			foto = elegirDirFotoFaltante(dir);
+
+		return foto;
 	}
 
+	private String elegirDirFotoFaltante(Direccion dir) {
+
+		String foto = "/texturas/FotoNoEncontrada";
+		switch (dir.ordinal()) {
+		case 0:
+			foto = foto+"N.jpg";
+			break;
+		case 1:
+			foto = foto+"S.jpg";
+			break;
+		case 2:
+			foto = foto+"E.jpg";
+			break;
+		case 3:
+			foto = foto+"O.jpg";
+			break;
+		}
+
+		return foto;
+	}
 	public double calcularDistanciaA(double x2, double y2){
 
 		return Math.sqrt(Math.pow(coordenadas.getX()-x2, 2) + Math.pow(coordenadas.getY()-y2, 2));

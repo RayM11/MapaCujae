@@ -29,7 +29,6 @@ public class Universidad {
 	private GeneralTree<Object> arbolDecision;
 
 	private Universidad(){
-
 		datGrafo = new File("data/grafo.dat");
 		arbolDecision = new GeneralTree<Object>(new BinaryTreeNode<Object>());
 		
