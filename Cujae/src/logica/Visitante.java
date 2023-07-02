@@ -19,7 +19,7 @@ public class Visitante {
 	private ILinkedWeightedEdgeNotDirectedGraph mapa;
 
 
-	Visitante(Vertex verticeActual, ILinkedWeightedEdgeNotDirectedGraph mapa){
+	public Visitante(Vertex verticeActual, ILinkedWeightedEdgeNotDirectedGraph mapa){
 
 		this.pov = Direccion.E;
 		this.verticeActual = verticeActual;
@@ -53,14 +53,14 @@ public class Visitante {
 	public Lugar getLugarActual (){
 		return (Lugar)verticeActual.getInfo();
 	}
-
+	
 	/**
 	 *	Devuelve el nombre de la foto del lugar actual en la dirección del punto de vista del visitante
 	 **/
 	public String getFotoPOV(){
-
+		
 		return((Lugar) verticeActual.getInfo()).getFotoDir(pov);
-
+		
 	}
 
 	/**
@@ -86,9 +86,10 @@ public class Visitante {
 	 * movimientos para adaptarse a la rotación.
 	 * 
 	 * */
-	public void rotarPOVSentidoHorario(){
+	public void rotarSentidoHorario(){
 
 		for (Movimiento mov : movimientos){
+
 			rotarMovSentidoAntiHorario(mov);		
 		}
 
@@ -96,7 +97,7 @@ public class Visitante {
 	}
 
 	private void rotarMovSentidoHorario(Movimiento mov) {
-
+		
 		switch (mov.getDireccion().ordinal()){
 
 		case 0:
@@ -112,6 +113,7 @@ public class Visitante {
 			mov.setDireccion(Direccion.N);
 			break;		
 		}
+		
 	}
 
 	/**
@@ -119,9 +121,10 @@ public class Visitante {
 	 * direcciones de los movimientos para adaptarse a la rotación.
 	 * 
 	 * */
-	public void rotarPOVSentidoAntiHorario(){
+	public void rotarSentidoAntiHorario(){
 
 		for (Movimiento mov : movimientos){
+
 			rotarMovSentidoHorario(mov);		
 		}
 
@@ -145,45 +148,45 @@ public class Visitante {
 			mov.setDireccion(Direccion.S);
 			break;		
 		}
-
+		
 	}
 
 	/** Rota una dirección específica en sentido horario	*/
-	private void rotarDirSentidoHorario(Direccion dir){
+	private void rotarPOVSentidoHorario(){
 
-		switch (dir.ordinal()){
+		switch (pov.ordinal()){
 
 		case 0:
-			dir = Direccion.E;
+			setPov(Direccion.E);
 			break;
 		case 1:
-			dir = Direccion.O;
+			setPov(Direccion.O);
 			break;
 		case 2:
-			dir = Direccion.S;
+			setPov(Direccion.S);
 			break;
 		case 3:
-			dir = Direccion.N;
+			setPov(Direccion.N);
 			break;		
 		}
 	}
 
 	/** Rota una dirección específica en sentido antihorario	*/
-	private void rotarDirSentidoAntiHorario(Direccion dir){
+	private void rotarPOVSentidoAntiHorario(){
 
-		switch (dir.ordinal()){
+		switch (pov.ordinal()){
 
 		case 0:
-			dir = Direccion.O;
+			setPov(Direccion.O);
 			break;
 		case 1:
-			dir = Direccion.E;
+			setPov(Direccion.E);
 			break;
 		case 2:
-			dir = Direccion.N;
+			setPov(Direccion.N);
 			break;
 		case 3:
-			dir = Direccion.S;
+			setPov(Direccion.S);
 			break;		
 		}
 	}
@@ -210,7 +213,6 @@ public class Visitante {
 			movimientos.add(new Movimiento(dirs.get(movAct), vAnalizado));
 
 		}
-
 		adaptarAlPOV();
 	}
 
@@ -234,7 +236,6 @@ public class Visitante {
 			int cantRotaciones = 0;
 
 			switch (pov.ordinal()){
-
 			case 1:
 				cantRotaciones = 2;
 				break;
@@ -245,10 +246,12 @@ public class Visitante {
 				cantRotaciones = 3;
 			}
 			for (Movimiento mov : movimientos){
-				for (int i = 0; i < cantRotaciones; i++)			
+
+				for (int i = 0; i < cantRotaciones; i++)
 					rotarMovSentidoAntiHorario(mov);
 			}
 		}
 	}
+	
 }
 
