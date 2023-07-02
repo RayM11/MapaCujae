@@ -4,7 +4,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 
@@ -24,9 +23,10 @@ import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.DefaultListModel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -41,8 +41,6 @@ import logica.Facultad;
 import logica.LugarDeInteres;
 import mapaSwing.mapPanelSwing;
 
-import javax.swing.border.CompoundBorder;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.JScrollBar;
 
 public class PantallaMapa extends JFrame {
@@ -133,7 +131,7 @@ public class PantallaMapa extends JFrame {
 	}
 
 
-	public PantallaMapa(final JFrame pantallaAnterior, final Configuracion configActual) {
+	public PantallaMapa(final JFrame ventanaAnterior, final Configuracion configActual) {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 978, 703);
@@ -261,8 +259,6 @@ public class PantallaMapa extends JFrame {
 		 mntmVolver.addActionListener(new ActionListener() {
 			 public void actionPerformed(ActionEvent e) {
 
-				 pantallaAnterior.setEnabled(true);
-				 pantallaAnterior.setVisible(true);
 				 configActual.setEsAdmin(false);
 				 dispose();
 
@@ -279,7 +275,7 @@ public class PantallaMapa extends JFrame {
 		 mntmCrearLugar.addActionListener(new ActionListener() {
 			 public void actionPerformed(ActionEvent e) {
 
-				 VentanaRegistrarLugar vRL = new VentanaRegistrarLugar(PantallaMapa.this, configActual);
+				 VentanaRegistrarLugar vRL = new VentanaRegistrarLugar(null ,PantallaMapa.this, configActual);
 				 vRL.setVisible(true);
 				 setEnabled(false);
 
@@ -349,6 +345,48 @@ public class PantallaMapa extends JFrame {
 			 }
 		 });
 		 mnMisc.add(mntmAyuda);
+		 
+		 addWindowListener(new WindowListener() {
+				
+				@Override
+				public void windowOpened(WindowEvent e) {
+					
+				}
+				
+				@Override
+				public void windowIconified(WindowEvent e) {
+					
+				}
+				
+				@Override
+				public void windowDeiconified(WindowEvent e) {
+					
+				}
+				
+				@Override
+				public void windowDeactivated(WindowEvent e) {
+					
+				}
+				
+				@Override
+				public void windowClosing(WindowEvent e) {
+
+					ventanaAnterior.setEnabled(true);
+					ventanaAnterior.setVisible(true);
+					
+				}
+				
+				@Override
+				public void windowClosed(WindowEvent e) {
+					ventanaAnterior.setEnabled(true);
+					ventanaAnterior.setVisible(true);
+				}
+
+				@Override
+				public void windowActivated(WindowEvent e) {
+					
+				}
+			});
 
 	}
 
