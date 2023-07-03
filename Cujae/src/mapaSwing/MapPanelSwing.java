@@ -3,22 +3,27 @@ package mapaSwing;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.LayoutManager;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import auxiliar.Convert;
 import logica.Coordenadas;
 import logica.Lugar;
 import logica.LugarDeInteres;
 import logica.Universidad;
-import mapaFX.LabelDeLugar;
 import cu.edu.cujae.ceis.graph.LinkedGraph;
 import cu.edu.cujae.ceis.graph.edge.Edge;
 import cu.edu.cujae.ceis.graph.vertex.Vertex;
@@ -38,7 +43,7 @@ public class MapPanelSwing extends JPanel {
 	private boolean seleccionLugaresNormales;
 	int cantSeleccionesMax;
 
-	private ArrayList<LabelDeLugarS> puntos;
+	private ArrayList<JLabel> puntos;
 	ArrayList<Vertex> verticesSeleccionados;
 	private LinkedList<Vertex> rutaADibujar;
 	private Coordenadas coordNueva;
@@ -55,16 +60,35 @@ public class MapPanelSwing extends JPanel {
 		seleccionLugaresNormales = false;
 		cantSeleccionesMax = 1;
 
-		puntos = new ArrayList<LabelDeLugarS>();
+		puntos = new ArrayList<JLabel>();
 		verticesSeleccionados = new ArrayList<Vertex>();
 		rutaADibujar = new LinkedList<Vertex>();
 		coordNueva = null;
 
 		setLayout(null);
 		setBackground(Color.GREEN);
-		
+
 		actualizarLugares();
 		repaint();
+
+		addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mousePressed(MouseEvent event) {
+
+				if (modoNuevoPunto){
+
+					Point click = event.getPoint();
+
+					coordNueva = new Coordenadas(getXcoord(click), getYcoord(click));
+
+					repaint();
+				}
+			}
+		});
+
+
+		activarModoRuta();
 
 	}
 	//------------------------------ Métodos de selección -----------------------------------
@@ -81,9 +105,12 @@ public class MapPanelSwing extends JPanel {
 	}
 
 	//------------------------------- Métodos de control -------------------------------------
-	
+
 	public boolean puedeAgregarSeleccion(){
 		return (verticesSeleccionados.size() < cantSeleccionesMax);
+	}
+	public boolean puedeSeleccionarNormales(){
+		return seleccionLugaresNormales;
 	}
 
 	// Modo Nuevo Punto
@@ -97,6 +124,7 @@ public class MapPanelSwing extends JPanel {
 		seleccionLugaresNormales = false;
 		cantSeleccionesMax = 1;
 		coordNueva = null;
+		repaint();
 	}
 	public boolean getModoNuevoPunto(){
 		return modoNuevoPunto;
@@ -113,6 +141,7 @@ public class MapPanelSwing extends JPanel {
 	public void desactivarModoEliminarPunto(){
 		modoEliminarPunto = false;
 		seleccionLugaresNormales = false;
+		repaint();
 	}
 	public boolean getModoEliminarPunto(){
 		return modoEliminarPunto;
@@ -129,7 +158,7 @@ public class MapPanelSwing extends JPanel {
 
 		seleccionLugaresNormales = false;
 		cantSeleccionesMax = 1;
-		//	repaint();						????????????????????????????
+		repaint();						
 	}
 	public boolean getModoArista(){
 		return modoArista;
@@ -142,6 +171,7 @@ public class MapPanelSwing extends JPanel {
 	public void desactivarModoEliminarArista(){
 		modoEliminarArista = false;
 		desactivarModoArista();
+		repaint();
 	}
 	public boolean getModoEliminarArista(){
 		return modoEliminarArista;
@@ -180,6 +210,8 @@ public class MapPanelSwing extends JPanel {
 		if (rutaADibujar.size() != 0)
 			dibujarRuta(g2d);
 
+		if (coordNueva != null)
+			dibujarPuntoNuevo(g2d);
 	}
 
 	public void dibujarTodasLasAristas(Graphics g2d){
@@ -232,18 +264,38 @@ public class MapPanelSwing extends JPanel {
 
 		}
 	}
-	
-	// ------------------------ Métodos de Actualización de componentes ----------------------
-	
-	public void actualizarLugares(){
-	
-		limpiarLugares();
+
+	public void dibujarPuntoNuevo(Graphics g){
+
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.setColor(Color.BLUE);
+
+		int xPunto = getXreal(coordNueva) -15;
+		int yPunto = getYreal(coordNueva) -15;
 		
-		agregarLugares();
+		g2d.drawImage(Convert.resizarURLImage(MapPanelSwing.class.getResource("/texturas/marcadorNuevo.png"), 30, 30), xPunto, yPunto, null);
+
 		
-		reseleccionarVertices();
+		for (Vertex vert : verticesSeleccionados){
+			
+			g2d.drawLine(getXreal(coordNueva), getYreal(coordNueva), getXreal(vert), getYreal(vert));
+					
+		}
+
 	}
-	
+
+
+	// ------------------------ Métodos de Actualización de componentes ----------------------
+
+	public void actualizarLugares(){
+
+		limpiarLugares();
+
+		agregarLugares();
+
+	//	reseleccionarVertices();
+	}
+
 	public void reseleccionarVertices(){
 
 		if (!verticesSeleccionados.isEmpty()){
@@ -252,16 +304,21 @@ public class MapPanelSwing extends JPanel {
 
 			for (int i = 0; i < cant; i ++){
 
-				if (verticesSeleccionados.contains(puntos.get(i).getVertice())){
-					cantEncontrada ++;
-					puntos.get(i).seleccionar();
-					if (cantEncontrada == verticesSeleccionados.size())
+				if(puntos.get(i) instanceof LabelDeLugarS)
+					if (verticesSeleccionados.contains(((LabelDeLugarS)(puntos.get(i))).getVertice())){
+						cantEncontrada ++;
+						((LabelDeLugarS)(puntos.get(i))).seleccionar();
+
+					}else if (verticesSeleccionados.contains(((LabelDeLugarInteresS)(puntos.get(i))).getVertice())){
+						cantEncontrada ++;
+						((LabelDeLugarInteresS)(puntos.get(i))).seleccionar();
+
+					}if (cantEncontrada == verticesSeleccionados.size())
 						i = cant; // salida del bucle
-				}
 			}
 		}
 	}
-	
+
 	private void agregarLugares (){
 
 		LinkedList<Vertex> lugares = Universidad.getCujae().getMapa().getVerticesList();
@@ -293,13 +350,18 @@ public class MapPanelSwing extends JPanel {
 				puntos.remove(c);
 			}
 	}
-	
+
 	private void ubicarLugar(LabelDeLugarS label){
-		
+
 		label.setBounds(label.getXreal(), label.getYreal(), label.getIcon().getIconWidth(), label.getIcon().getIconHeight());
-				
+
 	}
-	
+	private void ubicarLugar(LabelDeLugarInteresS label){
+
+		label.setBounds(label.getXreal(), label.getYreal(), label.getIcon().getIconWidth(), label.getIcon().getIconHeight());
+
+	}
+
 	// --------------------------------- Métodos auxiliares ----------------------------------
 
 	public boolean hayCaminoA(Vertex vert){
@@ -316,32 +378,36 @@ public class MapPanelSwing extends JPanel {
 		}
 		return hayCamino;
 	}
-	
-	public LabelDeLugarS getLabel(int pos){  ///Validaciones requeridas
-		return getLabel(getSeleccion().get(pos));
+
+	public void deseleccionarLabel(int pos){  ///Validaciones requeridas
+		deseleccionarLabel(getSeleccion().get(pos));
 	}
-	
+
 	public boolean esAdyacenteA(Vertex vert){
 
 		return (Universidad.getCujae().getMapa().areAdjacents(((LinkedGraph)Universidad.getCujae().getMapa()).getVertexIndex(verticesSeleccionados.get(0)),
 				((LinkedGraph)Universidad.getCujae().getMapa()).getVertexIndex(vert)));
 	}
-	
-	
-	public LabelDeLugarS getLabel(Vertex vert){
-		
+
+
+	public void deseleccionarLabel(Vertex vert){
+
 		Component[] components = getComponents();
 		int cant = components.length;
-		LabelDeLugarS label = null;
-		
+
 		for (int i = 0; i < cant; i++)
-			if (components[i] instanceof LabelDeLugarS)
+			if (components[i] instanceof LabelDeLugarS){
 				if (((LabelDeLugarS)components[i]).getVertice().equals(vert)){
-					label = (LabelDeLugarS)components[i];
+					((LabelDeLugarS)components[i]).deseleccionar();;
 					i = cant;
 				}
-		
-		return label;
+			}
+			else if (components[i] instanceof LabelDeLugarInteresS){
+				if (((LabelDeLugarInteresS)components[i]).getVertice().equals(vert)){
+				    ((LabelDeLugarInteresS)components[i]).deseleccionar();;
+					i = cant;
+				}
+			}
 	}
 
 	private int getXreal(Vertex vert){
@@ -349,10 +415,29 @@ public class MapPanelSwing extends JPanel {
 		return (int) Math.round(((Lugar)vert.getInfo()).getCoordenadas().getX() / 13 * 660);
 
 	}
+	private int getXreal(Coordenadas coord){
+
+		return (int) Math.round(coord.getX() / 13 * 660);
+
+	}
 	private int getYreal(Vertex vert){
 
 		return (int) Math.round(1045 - ((Lugar)vert.getInfo()).getCoordenadas().getY() / 19 * 1045);
 
 	}
-	
+	private int getYreal(Coordenadas coord){
+
+		return (int) Math.round(1045 - coord.getY() / 19 * 1045);
+
+	}
+	private double getXcoord(Point punto){
+
+		return  (double) 13 * (( 1.0 * punto.x)/ 660);
+	}
+
+	private double getYcoord(Point punto){
+
+		return  (double) 19 * (( 1.0 * 1045 - punto.y)/ 1045);
+	}
+
 }
