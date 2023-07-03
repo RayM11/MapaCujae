@@ -27,6 +27,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -39,6 +40,8 @@ import javax.swing.SwingUtilities;
 import logica.Cafeteria;
 import logica.Facultad;
 import logica.LugarDeInteres;
+import logica.Universidad;
+import logica.Visitante;
 import mapaSwing.MapPanelSwing;
 
 import javax.swing.JScrollBar;
@@ -65,8 +68,8 @@ public class PantallaMapa extends JFrame {
 	private JTextArea textAreaAnotaciones;
 	private JLabel labelEspecifico;
 	private JLabel labelAnotaciones;
-	private JButton btnModificar;
-	private JButton btnEliminar;
+	private JButton btnAceptar;
+	private JButton btnCancelar;
 	private JTextArea textAreaDecano;
 	private JList<String> listCafeteria;
 	private JPanel panelEspecifico;
@@ -173,13 +176,24 @@ public class PantallaMapa extends JFrame {
 		textAreaAnotaciones.setBounds(10, 405, 217, 66);
 		panelContenedorOpciones.add(textAreaAnotaciones);
 
-		btnModificar = new JButton("Modificar");
-		btnModificar.setBounds(10, 599, 89, 23);
-		panelContenedorOpciones.add(btnModificar);
+		btnAceptar = new JButton("Aceptar");
+		btnAceptar.setBounds(10, 599, 89, 23);
+		btnAceptar.setEnabled(false);
+		btnAceptar.setVisible(false);
+		
+		panelContenedorOpciones.add(btnAceptar);
 
-		btnEliminar = new JButton("Eliminar");
-		btnEliminar.setBounds(138, 599, 89, 23);
-		panelContenedorOpciones.add(btnEliminar);
+		btnCancelar = new JButton("Cancelar");
+		btnCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+						
+				panelMapa.reestablecerEstado();
+				btnCancelar.setVisible(false);
+			}
+		});
+		btnCancelar.setBounds(138, 599, 89, 23);
+		btnCancelar.setVisible(false);
+		panelContenedorOpciones.add(btnCancelar);
 
 		labelAnotaciones = new JLabel("Anotaciones");
 		labelAnotaciones.setHorizontalAlignment(SwingConstants.CENTER);
@@ -200,10 +214,6 @@ public class PantallaMapa extends JFrame {
 		panelContenedorMapa.setBounds(257, 32, 707, 631);
 		panelContenedorMapa.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
 		contentPane.add(panelContenedorMapa);
-		/*JScrollPane scrollMapa = new JScrollPane(panelMapa);
-		scrollMapa.setSize(707, 631);
-		scrollMapa.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		panelContenedorMapa.add(scrollMapa, BorderLayout.CENTER);*/
 		panelContenedorMapa.setLayout(null);
 		
 		panelMapa = new MapPanelSwing();
@@ -234,21 +244,11 @@ public class PantallaMapa extends JFrame {
 		        }
 		    }
 		});
-		
-		
-		/*Dimension preferredSize = new Dimension(450, 570);
-
-		MapPanelFX mapPanel = new MapPanelFX(Universidad.getCujae().getMapa());
-		panelContenedorMapa.add(mapPanel.getComponenteDeSwing(), BorderLayout.CENTER);
-		mapPanel.inicializarGC();
-*/		
-
-
 
 
 		 menuBar = new JMenuBar();
 		 menuBar.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-		 menuBar.setBounds(0, 0, 964, 21);
+		 menuBar.setBounds(0, 0, 972, 21);
 		 contentPane.add(menuBar);
 
 		 mnMenu = new JMenu("Men\u00FA");
@@ -286,17 +286,28 @@ public class PantallaMapa extends JFrame {
 
 		 mntmVisitarLugar = new JMenuItem("Visitar Lugar");
 		 mntmVisitarLugar.addActionListener(new ActionListener() {
-			 public void actionPerformed(ActionEvent e) {
-
-				/* PantallaVisita pV = new PantallaVisita(PantallaMapa.this, configActual);
+			 public void actionPerformed(ActionEvent e){
+				 
+				 if (panelMapa.getSeleccion().size() == 1){
+				 
+				 PantallaVisita pV = new PantallaVisita(PantallaMapa.this, configActual, new Visitante(panelMapa.getSeleccion().get(0), Universidad.getCujae().getMapa()));
 				 pV.setVisible(true);
-				 setEnabled(false);*/
-
+				 setEnabled(false);
+				 }
 			 }
 		 });
 		 mnAcciones.add(mntmVisitarLugar);
 
 		 mntmRutaMsCorta = new JMenuItem("Ruta m\u00E1s corta");
+		 mntmRutaMsCorta.addActionListener(new ActionListener() {
+			 public void actionPerformed(ActionEvent e){
+				 
+				 panelMapa.activarModoRuta();
+				 
+				 btnCancelar.setVisible(true);
+				 
+			 }
+		 });
 		 mnAcciones.add(mntmRutaMsCorta);
 
 		 mntmDecisionAsistida = new JMenuItem("Decisi\u00F3n Asistida");

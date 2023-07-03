@@ -65,6 +65,45 @@ public class LabelDeLugarS extends JLabel {
 						click.consume();
 
 						// El mapa está en modo Arista
+					}else if (((MapPanelSwing)getParent()).getModoArista()){
+
+						// El Lugar ya está seleccionado
+						if (((MapPanelSwing)getParent()).getSeleccion().contains(vLugar)){
+
+							deseleccionar();
+
+							// El lugar se puede agregar
+						}else if(((MapPanelSwing)getParent()).puedeAgregarSeleccion()){
+
+							if (((MapPanelSwing)getParent()).getSeleccion().isEmpty())
+								seleccionar();
+
+							// Si tiene que eliminar la arista primero comprueba que existe
+							else if (((MapPanelSwing)getParent()).getModoEliminarArista()){
+								if (((MapPanelSwing)getParent()).esAdyacenteA(vLugar)){
+									seleccionar();
+									getParent().repaint();
+								}else{
+									JOptionPane.showMessageDialog(null, "Debe seleccionar 2 puntos que estén unidos por un camino para poder eliminarlo");
+								}
+								// Si tiene que agregar primero comprueba que no existe
+							}else if (!((MapPanelSwing)getParent()).esAdyacenteA(vLugar))	{	 
+								// Este Lugar está lleno (tiene más de 3 conexiones)
+								if (vLugar.getAdjacents().size() > 3){
+									//Mensaje de error
+									JOptionPane.showMessageDialog(null, "No es posible unir el punto con un lugar que ya tiene 4 caminos (el máximo). Pruebe otro punto");
+								}else{
+									seleccionar();
+									getParent().repaint();	
+								}
+							}else{
+								JOptionPane.showMessageDialog(null, "Debe seleccionar 2 puntos que no estén unidos por un camino para poder agregarlo");
+							}			
+
+							// Ya no se puede agregar otro, así q deselecciona el anterior primero;	
+						}else{
+							JOptionPane.showMessageDialog(null, "No puede seleccionar más de 2 puntos. Desmarque otro primero si desea cambiar la arista");
+						}
 					}else{
 
 						if (((MapPanelSwing)getParent()).getSeleccion().contains(vLugar))

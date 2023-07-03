@@ -5,17 +5,13 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -86,10 +82,7 @@ public class MapPanelSwing extends JPanel {
 				}
 			}
 		});
-
-
-		activarModoRuta();
-
+		
 	}
 	//------------------------------ Métodos de selección -----------------------------------
 	public ArrayList<Vertex> getSeleccion(){
@@ -112,19 +105,31 @@ public class MapPanelSwing extends JPanel {
 	public boolean puedeSeleccionarNormales(){
 		return seleccionLugaresNormales;
 	}
+	
+	// Estado por defecto
+	public void reestablecerEstado(){
+		
+		modoRuta = false;
+		modoArista = false;
+		modoEliminarArista = false;
+		modoNuevoPunto = false;
+		modoEliminarPunto = false;
+		seleccionLugaresNormales = false;
+		cantSeleccionesMax = 1;
+		verticesSeleccionados = new ArrayList<Vertex>();
+		rutaADibujar = new LinkedList<Vertex>();
+		coordNueva = null;
+
+		actualizarLugares();
+		repaint();
+	}
+	
 
 	// Modo Nuevo Punto
 	public void activarModoNuevoPunto(){
 		modoNuevoPunto = true;
 		seleccionLugaresNormales = true;
 		cantSeleccionesMax = 4;	
-	}
-	public void desactivarModoNuevoPunto(){
-		modoNuevoPunto = false;
-		seleccionLugaresNormales = false;
-		cantSeleccionesMax = 1;
-		coordNueva = null;
-		repaint();
 	}
 	public boolean getModoNuevoPunto(){
 		return modoNuevoPunto;
@@ -133,15 +138,10 @@ public class MapPanelSwing extends JPanel {
 		return coordNueva;
 	}
 
-	// Modo Eliminar Punto
+	// Modo Eliminar/Modificar Punto
 	public void activarModoEliminarPunto(){
 		modoEliminarPunto = true;
 		seleccionLugaresNormales = true;
-	}
-	public void desactivarModoEliminarPunto(){
-		modoEliminarPunto = false;
-		seleccionLugaresNormales = false;
-		repaint();
 	}
 	public boolean getModoEliminarPunto(){
 		return modoEliminarPunto;
@@ -151,14 +151,9 @@ public class MapPanelSwing extends JPanel {
 	// Modo Arista
 	public void activarModoArista(){
 
+		modoArista = true;
 		seleccionLugaresNormales = true;
 		cantSeleccionesMax = 2;
-	}
-	public void desactivarModoArista(){
-
-		seleccionLugaresNormales = false;
-		cantSeleccionesMax = 1;
-		repaint();						
 	}
 	public boolean getModoArista(){
 		return modoArista;
@@ -167,11 +162,6 @@ public class MapPanelSwing extends JPanel {
 	public void activarModoEliminarArista(){
 		modoEliminarArista = true;
 		activarModoArista();
-	}
-	public void desactivarModoEliminarArista(){
-		modoEliminarArista = false;
-		desactivarModoArista();
-		repaint();
 	}
 	public boolean getModoEliminarArista(){
 		return modoEliminarArista;
@@ -182,11 +172,6 @@ public class MapPanelSwing extends JPanel {
 	public void activarModoRuta(){	
 		modoRuta = true;;
 		cantSeleccionesMax = 2;
-	}
-	public void desactivarModoRuta(){
-		modoRuta = false;
-		cantSeleccionesMax = 1;
-		repaint();
 	}
 	public boolean getModoRuta(){
 		return modoRuta;
@@ -210,6 +195,13 @@ public class MapPanelSwing extends JPanel {
 		if (rutaADibujar.size() != 0)
 			dibujarRuta(g2d);
 
+		if (modoArista && verticesSeleccionados.size() == 2)
+			if (modoEliminarArista)
+				dibujarArista(g2d, verticesSeleccionados.get(0), verticesSeleccionados.get(1), Color.RED);
+			else
+				dibujarArista(g2d, verticesSeleccionados.get(0), verticesSeleccionados.get(1), Color.BLUE);
+		
+		
 		if (coordNueva != null)
 			dibujarPuntoNuevo(g2d);
 	}
@@ -226,7 +218,7 @@ public class MapPanelSwing extends JPanel {
 	public void dibujarAristas(Vertex vert, Graphics g) {
 
 		Graphics2D g2d = (Graphics2D) g;
-		g2d.setColor(Color.BLACK);
+	//	g2d.setColor(Color.BLACK);
 		g2d.setStroke(new BasicStroke(2));
 
 		LinkedList<Edge> aristas = vert.getEdgeList();
@@ -235,34 +227,38 @@ public class MapPanelSwing extends JPanel {
 		while (iter.hasNext()){
 			Edge aristaActual = iter.next();
 
-			g2d.drawLine(getXreal(vert), getYreal(vert), getXreal(aristaActual.getVertex()), getYreal(aristaActual.getVertex()));
+			dibujarArista(g2d, vert, aristaActual.getVertex(), Color.BLACK);
 		}        
 	}
 
 	public void dibujarRuta(Graphics g){
 
 		Graphics2D g2d = (Graphics2D) g;
-		g2d.setColor(Color.RED);
+	//	g2d.setColor(Color.RED);
 		g2d.setStroke(new BasicStroke(2));
-
+		
 		Iterator<Vertex> iter = rutaADibujar.iterator();
 
-		Vertex vert = iter.next();
-
-		int iniX = getXreal(vert);
-		int iniY = getYreal(vert);
+		Vertex vertIni = iter.next();
 
 		while (iter.hasNext()){
 
-			vert = iter.next();
+			Vertex vertFin = iter.next();
 
-			int finX = getXreal(vert);
-			int finY = getYreal(vert);
-			g2d.drawLine(iniX, iniY, finX, finY);
-			iniX = finX;
-			iniY = finY;
+			dibujarArista(g2d, vertIni, vertFin, Color.RED);
+
+			vertIni = vertFin;
 
 		}
+	}
+
+	public void dibujarArista(Graphics g, Vertex vertIni, Vertex vertFin, Color color){
+		
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.setColor(color);
+
+		g2d.drawLine(getXreal(vertIni), getYreal(vertIni), getXreal(vertFin), getYreal(vertFin));
+
 	}
 
 	public void dibujarPuntoNuevo(Graphics g){
@@ -272,14 +268,14 @@ public class MapPanelSwing extends JPanel {
 
 		int xPunto = getXreal(coordNueva) -15;
 		int yPunto = getYreal(coordNueva) -15;
-		
+
 		g2d.drawImage(Convert.resizarURLImage(MapPanelSwing.class.getResource("/texturas/marcadorNuevo.png"), 30, 30), xPunto, yPunto, null);
 
-		
+
 		for (Vertex vert : verticesSeleccionados){
-			
+
 			g2d.drawLine(getXreal(coordNueva), getYreal(coordNueva), getXreal(vert), getYreal(vert));
-					
+
 		}
 
 	}
@@ -293,7 +289,7 @@ public class MapPanelSwing extends JPanel {
 
 		agregarLugares();
 
-	//	reseleccionarVertices();
+		//	reseleccionarVertices();
 	}
 
 	public void reseleccionarVertices(){
@@ -404,7 +400,7 @@ public class MapPanelSwing extends JPanel {
 			}
 			else if (components[i] instanceof LabelDeLugarInteresS){
 				if (((LabelDeLugarInteresS)components[i]).getVertice().equals(vert)){
-				    ((LabelDeLugarInteresS)components[i]).deseleccionar();;
+					((LabelDeLugarInteresS)components[i]).deseleccionar();;
 					i = cant;
 				}
 			}

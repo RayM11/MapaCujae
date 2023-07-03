@@ -46,8 +46,8 @@ public class Iniciadora {
 					Iniciadora.establecerDirectorios();
 
 					Configuracion configActual = new Configuracion();
-					PantallaVisita frame = new PantallaVisita( null, configActual, new Visitante(Universidad.getCujae().getMapa().getVerticesList().getFirst(), Universidad.getCujae().getMapa()));
-					//PantallaPresentacion frame = new PantallaPresentacion(configActual);
+					//PantallaVisita frame = new PantallaVisita( null, configActual, new Visitante(Universidad.getCujae().getMapa().getVerticesList().getFirst(), Universidad.getCujae().getMapa()));
+					PantallaPresentacion frame = new PantallaPresentacion(configActual);
 					frame.setVisible(true);
 
 				} catch (Exception e) {

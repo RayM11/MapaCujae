@@ -1,5 +1,6 @@
 package mapaSwing;
 
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.HeadlessException;
 import java.awt.event.MouseListener;
@@ -70,28 +71,37 @@ public class LabelDeLugarInteresS extends JLabel{
 						// El lugar se puede agregar
 					}else if(((MapPanelSwing)getParent()).puedeAgregarSeleccion()){
 
+						if (((MapPanelSwing)getParent()).getSeleccion().isEmpty())
+							seleccionar();
+
 						// Si tiene que eliminar la arista primero comprueba que existe
-						if (((MapPanelSwing)getParent()).getModoEliminarArista()){
-							if (((MapPanelSwing)getParent()).esAdyacenteA(vLugar))
+						else if (((MapPanelSwing)getParent()).getModoEliminarArista()){
+							if (((MapPanelSwing)getParent()).esAdyacenteA(vLugar)){
 								seleccionar();
-							else{
+								getParent().repaint();
+							}else{
 								JOptionPane.showMessageDialog(null, "Debe seleccionar 2 puntos que estén unidos por un camino para poder eliminarlo");
 							}
 							// Si tiene que agregar primero comprueba que no existe
-						}else if (!((MapPanelSwing)getParent()).esAdyacenteA(vLugar))		 
-							seleccionar();
-						else{
+						}else if (!((MapPanelSwing)getParent()).esAdyacenteA(vLugar)){
+							// Este Lugar está lleno (tiene más de 3 conexiones)
+							if (vLugar.getAdjacents().size() > 3){
+								//Mensaje de error
+								JOptionPane.showMessageDialog(null, "No es posible unir el punto con un lugar que ya tiene 4 caminos (el máximo). Pruebe otro punto");
+							}else{
+								seleccionar();
+								getParent().repaint();	
+							}
+						}else{
 							JOptionPane.showMessageDialog(null, "Debe seleccionar 2 puntos que no estén unidos por un camino para poder aagregarlo");
 						}			
 
-						// Ya no se puede agregar otro, así q deselecciona el anterior primero;	
+						// Ya no se puede agregar otro, así q devuelve un error;	
 					}else{
-
-						((MapPanelSwing)getParent()).deseleccionarLabel(0);;						
-						seleccionar();
+						JOptionPane.showMessageDialog(null, "No puede seleccionar más de 2 puntos. Desmarque otro primero si desea cambiar la arista");
 					}
 
-				// El mapa está en Modo Ruta	
+					// El mapa está en Modo Ruta	
 				}else if (((MapPanelSwing)getParent()).getModoRuta()){
 
 					// El lugar ya está seleccionado
@@ -103,14 +113,13 @@ public class LabelDeLugarInteresS extends JLabel{
 						if (((MapPanelSwing)getParent()).getSeleccion().size() == 1){
 							((MapPanelSwing)getParent()).removerRutaADibujar();
 							getParent().repaint();
-							//-------------	((mapPanelSwing)getParent()).reseleccionarVertices();
 						}
 
-					// Si no hay ningún otro lugar seleccionado lo selecciona simplemente
+						// Si no hay ningún otro lugar seleccionado lo selecciona simplemente
 					}else if (((MapPanelSwing)getParent()).getSeleccion().isEmpty()){
 						seleccionar();		
 
-					// Si es el 2do y hay camino desde el primero
+						// Si es el 2do y hay camino desde el primero
 					}else if (((MapPanelSwing)getParent()).hayCaminoA(vLugar)){
 						try {
 							LinkedList<Vertex> ruta = Universidad.getCujae().buscarCaminoMasCorto(((MapPanelSwing)getParent()).getSeleccion().get(0), vLugar);
@@ -131,9 +140,9 @@ public class LabelDeLugarInteresS extends JLabel{
 						JOptionPane.showMessageDialog(null, "No hay ningún posible camino entre esos 2 puntos");					
 					}
 
-				// Estado normal de seleccion única (eliminación, modificación, selección)
+					// Estado normal de seleccion única (eliminación, modificación, selección)
 				}else{
-					
+
 					if (((MapPanelSwing)getParent()).getSeleccion().contains(vLugar))
 						deseleccionar();
 
@@ -176,7 +185,7 @@ public class LabelDeLugarInteresS extends JLabel{
 	public Vertex getVertice(){
 		return vLugar;
 	}
-	
+
 	public void seleccionar (){
 
 		setIcon(Convert.rezizarImagen(fotoISelect, tamano, tamano));
@@ -193,7 +202,7 @@ public class LabelDeLugarInteresS extends JLabel{
 		repaint();
 		//limpiar el panel de la info
 	}
-	
+
 	public int getXreal(){
 
 		return (int) Math.round((((Lugar)vLugar.getInfo()).getCoordenadas().getX() / 13 * 660)) - getIcon().getIconWidth()/2;
