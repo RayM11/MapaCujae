@@ -25,8 +25,15 @@ public class MarcadorDijkstra implements Comparable<MarcadorDijkstra>{
 	}
 	
 	@Override
-    public int compareTo(MarcadorDijkstra otro) {
-        return Double.compare(this.distancia, otro.distancia);
-    }
+	public int compareTo(MarcadorDijkstra otro) {
+		int comp = 0;
+		if (this.distancia < otro.distancia) {
+			comp = -1;
+		} else if (this.distancia > otro.distancia) {
+			comp = 1;
+		}
+		return comp;
+
+	}
 	
 }
