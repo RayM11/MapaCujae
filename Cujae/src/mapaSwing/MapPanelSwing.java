@@ -23,7 +23,7 @@ import cu.edu.cujae.ceis.graph.LinkedGraph;
 import cu.edu.cujae.ceis.graph.edge.Edge;
 import cu.edu.cujae.ceis.graph.vertex.Vertex;
 
-public class mapPanelSwing extends JPanel {
+public class MapPanelSwing extends JPanel {
 
 	/**
 	 * 
@@ -45,7 +45,7 @@ public class mapPanelSwing extends JPanel {
 
 
 
-	public mapPanelSwing() {
+	public MapPanelSwing() {
 
 		modoRuta = false;
 		modoArista = false;
@@ -354,4 +354,5 @@ public class mapPanelSwing extends JPanel {
 		return (int) Math.round(1045 - ((Lugar)vert.getInfo()).getCoordenadas().getY() / 19 * 1045);
 
 	}
+	
 }
