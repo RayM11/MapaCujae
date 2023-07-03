@@ -218,6 +218,4 @@ public class PantallaVisita extends JFrame {
 	}
 
 
-
-
 }

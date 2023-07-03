@@ -61,4 +61,6 @@ public class LugarDeInteres extends Lugar implements Serializable{
 	}
 
 	
+
+	
 }
