@@ -44,7 +44,7 @@ public class Universidad {
 	public ILinkedWeightedEdgeNotDirectedGraph getMapa(){
 		return mapa;
 	}
-	
+
 	public void setRaizArbolDecision(Object raiz){
 		((BinaryTreeNode<Object>) arbolDecision.getRoot()).setInfo(raiz);
 	}
@@ -254,58 +254,100 @@ public class Universidad {
 	}
 
 
-	public void insertarFacultadEnArbol(Facultad facultad) {
+	private boolean insertarFacultadEnArbol(Facultad facultad) {
+
+		boolean ok = false;
 
 		if(((BinaryTreeNode<Object>)arbolDecision.getRoot()).getLeft()!= null){
 
 			BinaryTreeNode<Object> nodo = new BinaryTreeNode<Object>(facultad);
-			arbolDecision.insertNode(nodo, ((BinaryTreeNode<Object>)arbolDecision.getRoot()).getLeft());
+			ok = arbolDecision.insertNode(nodo, ((BinaryTreeNode<Object>)arbolDecision.getRoot()).getLeft());
 		}
 
+		return ok;
 	}
 
 
-	private void agregarProductosNuevosAlArbol(Cafeteria cafeteria,ArrayList<String> productos){
+	private boolean agregarProductosNuevosAlArbol(Cafeteria cafeteria,ArrayList<String> productos){
 
+		boolean ok = false;
 
-		for(int i = 0; i < cafeteria.getProductos().size(); i ++) {
-			if(!productos.contains(cafeteria.getProductos().get(i))) {
-				BinaryTreeNode<Object> nuevoProducto = new BinaryTreeNode<Object>(cafeteria.getProductos().get(i));
-				arbolDecision.insertNode(nuevoProducto,((BinaryTreeNode<Object>)arbolDecision.getRoot()).getLeft().getRight() );
+		if(!productos.isEmpty()){
+			for(int i = 0; i < cafeteria.getProductos().size(); i ++) {
+				if(!productos.contains(cafeteria.getProductos().get(i))) {
+					BinaryTreeNode<Object> nuevoProducto = new BinaryTreeNode<Object>(cafeteria.getProductos().get(i));
+					arbolDecision.insertNode(nuevoProducto,((BinaryTreeNode<Object>)arbolDecision.getRoot()).getLeft().getRight() );
+				}
+
 			}
+			ok = true;
 		}
 
+		return ok;
 
 	}
 
 
-	/** si la cafeteria contiene al producto actual, entonces se le agrega la cafeteria como nuevo hijo de ese producto**/
-	private void agregarCafeteriaNueva(Cafeteria cafeteria, ArrayList<BinaryTreeNode<Object>> productos) {
+	/** si la cafeteria contiene al producto actual, entonces se le agrega la cafeteria como nuevo hijo de ese producto
+	 *  **/
+	private boolean agregarCafeteriaNueva(Cafeteria cafeteria, ArrayList<BinaryTreeNode<Object>> productos) {
 
+		boolean ok = false;
+		if(!productos.isEmpty()){
+			for(int i = 0; i < productos.size(); i ++) {
 
-		for(int i = 0; i < productos.size(); i ++) {
+				BinaryTreeNode<Object> nodoActual = productos.get(i);
 
-			BinaryTreeNode<Object> nodoActual = productos.get(i);
-
-			if(cafeteria.getProductos().contains(((String) nodoActual.getInfo()))) { 
-				BinaryTreeNode<Object> nuevaCafeteria = new BinaryTreeNode<Object>(cafeteria);
-				arbolDecision.insertNode(nuevaCafeteria , nodoActual);
+				if(cafeteria.getProductos().contains(((String) nodoActual.getInfo()))) { 
+					BinaryTreeNode<Object> nuevaCafeteria = new BinaryTreeNode<Object>(cafeteria);
+					arbolDecision.insertNode(nuevaCafeteria , nodoActual);
+				}
 			}
+			ok = true;
+		}
+		return ok;
+	}
+
+
+	private boolean insertarCafeteriaEnElArbol(Cafeteria cafeteria) {
+
+		boolean ok = false;
+
+		ok = agregarProductosNuevosAlArbol(cafeteria, obtenerListaDeProductosDelArbol());
+		ok = agregarCafeteriaNueva(cafeteria, (ArrayList<BinaryTreeNode<Object>>) arbolDecision.getSons(((BinaryTreeNode<Object>)arbolDecision.getRoot()).getLeft().getRight()));
+
+		return ok;
+	}
+
+
+	public boolean actualizarArbol(LugarDeInteres lugar, String comando){
+
+		boolean ok = false;
+
+		if(comando.equalsIgnoreCase("Insertar")){
+
+			if(lugar instanceof Facultad)
+				ok = insertarFacultadEnArbol((Facultad) lugar);
+			else if(lugar instanceof Cafeteria)
+				ok = insertarCafeteriaEnElArbol((Cafeteria) lugar);
 		}
 
+		else if(comando.equalsIgnoreCase("Eliminar"))
+
+
+			if(lugar instanceof Facultad)
+				ok = eliminarFacultadEnElArbol(lugar.getId());
+			else if(lugar instanceof Cafeteria)
+				ok = eliminarCafeteriaEnElArbol(lugar.getId());
+
+
+
+		return ok;
+
 	}
 
 
-	public void insertarCafeteriaEnElArbol(Cafeteria cafeteria) {
-		agregarProductosNuevosAlArbol(cafeteria, obtenerListaDeProductosDelArbol());
-		agregarCafeteriaNueva(cafeteria, (ArrayList<BinaryTreeNode<Object>>) arbolDecision.getSons(((BinaryTreeNode<Object>)arbolDecision.getRoot()).getLeft().getRight()));
-
-	}
-
-
-
-
-	public boolean eliminarFacultadEnElArbol(String idFacultad) {
+	private boolean eliminarFacultadEnElArbol(String idFacultad) {
 		boolean eliminado = false;
 		boolean detener = false;
 		InDepthIterator<Object> iterador = arbolDecision.inDepthIterator();
@@ -332,9 +374,9 @@ public class Universidad {
 		}
 		return eliminado;
 	}
-	public void eliminarCafeteriaEnElArbol(String idCafeteria) {
-		// El primer parametro es el nodo con info String "Cafeteria"
-		eliminaCafeteriaEnTodosNodosProducto(((BinaryTreeNode<Object>)arbolDecision.getRoot()).getLeft().getRight(), idCafeteria);
+	private boolean eliminarCafeteriaEnElArbol(String idCafeteria) {
+
+		return eliminaCafeteriaEnTodosNodosProducto(((BinaryTreeNode<Object>)arbolDecision.getRoot()).getLeft().getRight(), idCafeteria);
 	}
 
 	//El siguiente metodo va a recibir un nodo producto (que la info es el String nombre de un producto) 
@@ -363,16 +405,23 @@ public class Universidad {
 
 	//El siguiente metodo recibira el nodo Cafeteria (la info es el String Cafeteria) y el id de la cafeteria a eliminar
 	//LLamara al metodo anterior en cada uno de los nodos productos (para eliminar en cada uno de ellos la cafeteria con dicho id)
-	private void eliminaCafeteriaEnTodosNodosProducto(BinaryTreeNode<Object> nodoCafeteria, String idCafeteria) {
+	private boolean eliminaCafeteriaEnTodosNodosProducto(BinaryTreeNode<Object> nodoCafeteria, String idCafeteria) {
+
+		boolean ok = false;
+
 		if(((String)nodoCafeteria.getInfo()).equalsIgnoreCase("Cafeteria")) {
-			GeneralTree<Object> arbolAuxiliar = new GeneralTree<Object>();
-			arbolAuxiliar.setRoot(nodoCafeteria);
+			GeneralTree<Object> arbolAuxiliar = new GeneralTree<Object>(nodoCafeteria);
+
 			LinkedList<BinaryTreeNode<Object>> productos = (LinkedList<BinaryTreeNode<Object>>) arbolAuxiliar.getSons(nodoCafeteria);
-			Iterator<BinaryTreeNode<Object>> iterador = productos.iterator();
-			while(iterador.hasNext()) {
-				eliminaCafeteriaDadoNodoProducto(iterador.next(), idCafeteria);
+			if(!productos.isEmpty()){
+				Iterator<BinaryTreeNode<Object>> iterador = productos.iterator();
+				while(iterador.hasNext()) {
+					eliminaCafeteriaDadoNodoProducto(iterador.next(), idCafeteria);
+				}
+				ok = true;
 			}
 		}
+		return ok;
 	}
 
 
